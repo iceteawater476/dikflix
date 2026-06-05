@@ -511,32 +511,74 @@ let currentSportStreams = [];
    Anime:     VidLink (MAL) → Videasy (AniList/TMDB) → VidSrc → AutoEmbed
    Sports:    WeStream embed → SportSRC detail embed
 ────────────────────────────────────────────────────────────────── */
+/* ─── ALL SOURCES ───────────────────────────────────────────────────
+   Confirmed working embed URL formats (researched June 2025):
+
+   VIDEASY   → player.videasy.net       (multi-server, TMDB native)
+   VIDKING   → vidking.net/embed        (TMDB, custom color, autoplay)
+   VIDFAST   → vidfast.pro              (TMDB, fast CDN)
+   VIDSYNC   → vidsync.xyz/embed        (TMDB, multi-source, auto-next)
+   1EMBED    → 1embed.cc/embed          (TMDB standard)
+   CINESRC   → cinesrc.st/embed         (TMDB, auto-next, auto-skip intro)
+   VIDAPI    → vaplayer.ru/embed        (TMDB + IMDB, progress events)
+   VIDCORE   → vidcore.cc/embed         (TMDB standard)
+   WATCHSURF → watchsurface.com/embed   (TMDB standard)
+   VIDLINK   → vidlink.pro              (TMDB + MAL anime)
+   AUTOEMBED → player.autoembed.cc      (TMDB standard)
+   VIDSRC    → vidsrc.to               (TMDB standard)
+   SMASHY    → embed.smashystream.com   (TMDB standard)
+   2EMBED    → 2embed.stream            (TMDB standard)
+────────────────────────────────────────────────────────────────── */
 function buildSources(item, type, s=1, e=1) {
   const id = item.id;
+
+  // ── ANIME (uses MAL ID for dedicated anime sources) ──────────────
   if (isAnime && malId) {
     const mode = dubMode ? 'dub' : 'sub';
     return [
-      {n:'VidLink',     url:`https://vidlink.pro/anime/${malId}/${e}/${mode}?fallback=true&primaryColor=e50914`},
-      {n:'Videasy',     url:`https://player.videasy.net/anime/${malId}/${e}?colour=e50914`},
-      {n:'AutoEmbed',   url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`},
-      {n:'VidSrc',      url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}`},
+      {n:'VidLink',   url:`https://vidlink.pro/anime/${malId}/${e}/${mode}?fallback=true&primaryColor=e50914`},
+      {n:'Videasy',   url:`https://player.videasy.net/anime/${malId}/${e}?colour=e50914`},
+      {n:'VidSync',   url:`https://vidsync.xyz/embed/tv/${id}/${s}/${e}?theme=e50914&autoPlay=true&autoNext=true`},
+      {n:'CineSrc',   url:`https://cinesrc.st/embed/tv/${id}?s=${s}&e=${e}&color=%23e50914&autonext=true`},
+      {n:'AutoEmbed', url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`},
+      {n:'VidSrc',    url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}`},
     ];
   }
+
+  // ── MOVIES ───────────────────────────────────────────────────────
   if (type==='movie') return [
-    {n:'VidLink',      url:`https://vidlink.pro/movie/${id}?autoplay=true&primaryColor=e50914`},
-    {n:'Videasy',      url:`https://player.videasy.net/movie/${id}?colour=e50914`},
-    {n:'AutoEmbed',    url:`https://player.autoembed.cc/embed/movie/${id}`},
-    {n:'VidSrc',       url:`https://vidsrc.to/embed/movie/${id}`},
-    {n:'SmashyStream', url:`https://embed.smashystream.com/playere.php?tmdb=${id}`},
-    {n:'2Embed',       url:`https://www.2embed.stream/embed/movie/${id}`},
+    {n:'Videasy',     url:`https://player.videasy.net/movie/${id}?colour=e50914`},
+    {n:'VidKing',     url:`https://www.vidking.net/embed/movie/${id}?color=e50914&autoPlay=true`},
+    {n:'VidFast',     url:`https://vidfast.pro/movie/${id}?autoPlay=true`},
+    {n:'VidSync',     url:`https://vidsync.xyz/embed/movie/${id}?theme=e50914&autoPlay=true`},
+    {n:'1Embed',      url:`https://www.1embed.cc/embed/movie/${id}`},
+    {n:'CineSrc',     url:`https://cinesrc.st/embed/movie/${id}?color=%23e50914`},
+    {n:'VidAPI',      url:`https://vaplayer.ru/embed/movie/${id}`},
+    {n:'VidCore',     url:`https://vidcore.cc/embed/movie/${id}`},
+    {n:'WatchSurface',url:`https://watchsurface.com/embed/movie/${id}`},
+    {n:'VidLink',     url:`https://vidlink.pro/movie/${id}?autoplay=true&primaryColor=e50914`},
+    {n:'AutoEmbed',   url:`https://player.autoembed.cc/embed/movie/${id}`},
+    {n:'VidSrc',      url:`https://vidsrc.to/embed/movie/${id}`},
+    {n:'SmashyStream',url:`https://embed.smashystream.com/playere.php?tmdb=${id}`},
+    {n:'2Embed',      url:`https://www.2embed.stream/embed/movie/${id}`},
   ];
+
+  // ── TV SHOWS ─────────────────────────────────────────────────────
   return [
-    {n:'VidLink',      url:`https://vidlink.pro/tv/${id}/${s}/${e}?autoplay=true&primaryColor=e50914`},
-    {n:'Videasy',      url:`https://player.videasy.net/tv/${id}/${s}/${e}?colour=e50914`},
-    {n:'AutoEmbed',    url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`},
-    {n:'VidSrc',       url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}`},
-    {n:'SmashyStream', url:`https://embed.smashystream.com/playere.php?tmdb=${id}&season=${s}&episode=${e}`},
-    {n:'2Embed',       url:`https://www.2embed.stream/embed/tv/${id}/${s}/${e}`},
+    {n:'Videasy',     url:`https://player.videasy.net/tv/${id}/${s}/${e}?colour=e50914`},
+    {n:'VidKing',     url:`https://www.vidking.net/embed/tv/${id}/${s}/${e}?color=e50914&autoPlay=true&nextEpisode=true&episodeSelector=true`},
+    {n:'VidFast',     url:`https://vidfast.pro/tv/${id}/${s}/${e}?autoPlay=true`},
+    {n:'VidSync',     url:`https://vidsync.xyz/embed/tv/${id}/${s}/${e}?theme=e50914&autoPlay=true&autoNext=true&nextButton=true`},
+    {n:'1Embed',      url:`https://www.1embed.cc/embed/tv/${id}/${s}/${e}`},
+    {n:'CineSrc',     url:`https://cinesrc.st/embed/tv/${id}?s=${s}&e=${e}&color=%23e50914&autonext=true&autoskip=false`},
+    {n:'VidAPI',      url:`https://vaplayer.ru/embed/tv/${id}/${s}/${e}`},
+    {n:'VidCore',     url:`https://vidcore.cc/embed/tv/${id}/${s}/${e}`},
+    {n:'WatchSurface',url:`https://watchsurface.com/embed/tv/${id}/${s}/${e}`},
+    {n:'VidLink',     url:`https://vidlink.pro/tv/${id}/${s}/${e}?autoplay=true&primaryColor=e50914`},
+    {n:'AutoEmbed',   url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`},
+    {n:'VidSrc',      url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}`},
+    {n:'SmashyStream',url:`https://embed.smashystream.com/playere.php?tmdb=${id}&season=${s}&episode=${e}`},
+    {n:'2Embed',      url:`https://www.2embed.stream/embed/tv/${id}/${s}/${e}`},
   ];
 }
 
@@ -1213,4 +1255,3 @@ initHome();
 </script>
 </body>
 </html>
-
