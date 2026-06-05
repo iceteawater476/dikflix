@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,88 +10,45 @@
 <style>
 :root{
   --bg:#08080f;--bg2:#101018;--bg3:#18181f;--bg4:#22222e;
-  --accent:#e50914;--accent2:#ff6b35;--gold:#f5c518;
+  --accent:#e50914;--accent2:#ff6b35;--gold:#f5c518;--green:#22c55e;
   --text:#f2f2f2;--muted:#7a7a8a;--border:rgba(255,255,255,0.07);
-  --radius:10px;--card-w:154px;
-  --header-h:60px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --radius:10px;--card-w:150px;--hh:60px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  min-height:100vh;overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* ═══ HEADER ═══ */
 header{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  padding:0 20px;height:var(--header-h);
-  display:flex;align-items:center;gap:16px;
-  background:rgba(8,8,15,0.97);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  padding-top: env(safe-area-inset-top, 0px);
+  position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);
+  padding:0 20px;display:flex;align-items:center;gap:12px;
+  background:rgba(8,8,15,0.97);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding-top:env(safe-area-inset-top,0px);
 }
-.logo{
-  font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  cursor:pointer;flex-shrink:0;user-select:none;
-}
-.nav-tabs{display:flex;gap:2px}
-.nav-tab{
-  background:none;border:none;color:var(--muted);
-  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
-  padding:6px 12px;border-radius:20px;cursor:pointer;transition:all .2s;
-  white-space:nowrap;
-}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;flex-shrink:0;user-select:none}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:6px 11px;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .nav-tab:hover{color:var(--text);background:rgba(255,255,255,0.06)}
 .nav-tab.active{color:#ff8080;background:rgba(229,9,20,0.15)}
+.nav-tab.sport-tab.active{color:#4ade80;background:rgba(34,197,94,0.15)}
 
 /* Search */
-.search-wrap{flex:1;max-width:380px;margin-left:auto;position:relative}
-.search-input{
-  width:100%;background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:8px;padding:8px 42px 8px 14px;
-  color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
-  outline:none;transition:all .2s;
-  -webkit-appearance:none;
-}
+.search-wrap{flex:1;max-width:360px;margin-left:auto;position:relative}
+.search-input{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 40px 8px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:all .2s;-webkit-appearance:none}
 .search-input::placeholder{color:var(--muted)}
 .search-input:focus{border-color:var(--accent);background:rgba(255,255,255,0.09)}
-.search-btn{
-  position:absolute;right:4px;top:50%;transform:translateY(-50%);
-  background:var(--accent);border:none;border-radius:6px;
-  width:32px;height:28px;color:white;cursor:pointer;font-size:14px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .2s;flex-shrink:0;
-}
+.search-btn{position:absolute;right:3px;top:50%;transform:translateY(-50%);background:var(--accent);border:none;border-radius:6px;width:30px;height:27px;color:white;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .search-btn:hover{background:#c40812}
 
 /* Suggestions */
-.suggestions-box{
-  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:300;
-  background:var(--bg3);border:1px solid rgba(255,255,255,0.12);
-  border-radius:10px;overflow:hidden;
-  box-shadow:0 16px 40px rgba(0,0,0,0.7);
-  display:none;max-height:70vh;overflow-y:auto;
-}
-.suggestions-box.open{display:block}
-.sug-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 12px;cursor:pointer;transition:background .15s;
-  border-bottom:1px solid var(--border);
-}
+.sug-box{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:300;background:var(--bg3);border:1px solid rgba(255,255,255,0.12);border-radius:10px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.7);display:none;max-height:65vh;overflow-y:auto}
+.sug-box.open{display:block}
+.sug-item{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
 .sug-item:last-child{border-bottom:none}
 .sug-item:hover,.sug-item.sel{background:var(--bg4)}
-.sug-poster{
-  width:30px;height:44px;object-fit:cover;border-radius:3px;
-  background:var(--bg4);flex-shrink:0;
-}
+.sug-poster{width:30px;height:44px;object-fit:cover;border-radius:3px;background:var(--bg4);flex-shrink:0}
 .sug-info{flex:1;min-width:0}
 .sug-title{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sug-meta{font-size:11px;color:var(--muted);margin-top:2px}
@@ -100,31 +56,30 @@ header{
 .st-movie{background:rgba(229,9,20,.2);color:#ff6b6b}
 .st-tv{background:rgba(37,99,235,.2);color:#60a5fa}
 .st-anime{background:rgba(139,92,246,.2);color:#c084fc}
+.st-sport{background:rgba(34,197,94,.2);color:#4ade80}
 
-/* ═══ AD SLOTS ═══ */
-/*
-  ─── HOW TO ADD ADS ───────────────────────────────────────────────────────
-  4 slots are in this page. Find them by ID and paste your ad code inside.
+/* ═══ AD SLOTS ═══
+   ─────────────────────────────────────────────────────────────────
+   HOW TO ADD YOUR OWN ADS — 4 slots:
 
-  #ad-banner-top     → top of page, 728×90 leaderboard
-  #ad-player-below   → below the video player, 728×90 or fluid
-  #ad-sidebar        → right of player controls, 300×250 box
-  AD_BETWEEN_ROWS_HTML (JS var) → in-feed native ad between home rows
+   #ad-banner-top    → top of page under header (728×90 leaderboard)
+   #ad-player-below  → below video player (728×90 or fluid)
+   #ad-sidebar       → beside player controls (300×250 box)
+   AD_BETWEEN_ROWS_HTML (JS const) → between home content rows
 
-  EXAMPLE (Google AdSense):
-    <ins class="adsbygoogle" style="display:block"
-      data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"
-      data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+   EXAMPLE Google AdSense:
+     <ins class="adsbygoogle" style="display:block"
+       data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXX"
+       data-ad-format="auto" data-full-width-responsive="true"></ins>
+     <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 
-  EXAMPLE (custom banner):
-    <a href="https://your-link.com" target="_blank">
-      <img src="your-banner.jpg" style="width:100%;height:auto">
-    </a>
-  ──────────────────────────────────────────────────────────────────────────
-*/
-.ad-slot{width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:all .3s}
-.ad-slot:empty{height:0!important;padding:0!important;margin:0!important;border:none!important}
+   EXAMPLE custom image:
+     <a href="https://your-link.com" target="_blank">
+       <img src="your-banner.jpg" style="width:100%;height:auto">
+     </a>
+   ────────────────────────────────────────────────────────────────── */
+.ad-slot{width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ad-slot:empty{height:0!important;padding:0!important;margin:0!important;border:none!important;display:none!important}
 .ad-slot:not(:empty){padding:6px 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 
 /* ═══ PAGES ═══ */
@@ -132,121 +87,56 @@ header{
 .page.active{display:block}
 
 /* ═══ HOME ═══ */
-#home-page{padding-top:var(--header-h)}
-.hero{
-  height:60vh;min-height:380px;position:relative;
-  display:flex;align-items:flex-end;padding:32px 20px;
-  overflow:hidden;
-}
-.hero-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 90% 70% at 65% 35%,rgba(229,9,20,.13) 0%,transparent 65%),
-    radial-gradient(ellipse 55% 55% at 15% 70%,rgba(80,40,180,.09) 0%,transparent 60%),
-    linear-gradient(160deg,#0d0d1a 0%,#0a0a10 60%,#0d0808 100%);
-}
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
-  background-size:40px 40px;
-  -webkit-mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.4) 40%,rgba(0,0,0,.4) 60%,transparent);
-  mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.4) 40%,rgba(0,0,0,.4) 60%,transparent);
-}
-.hero-content{position:relative;z-index:2;max-width:560px}
-.hero-eye{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.3);
-  color:#ff8080;font-size:11px;font-weight:600;letter-spacing:1.5px;
-  text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px;
-}
-.hero h1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(44px,7vw,78px);
-  line-height:.92;letter-spacing:1px;margin-bottom:14px;
-}
+#home-page{padding-top:var(--hh)}
+.hero{height:58vh;min-height:350px;position:relative;display:flex;align-items:flex-end;padding:30px 20px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 65% 35%,rgba(229,9,20,.13) 0%,transparent 65%),radial-gradient(ellipse 55% 55% at 15% 70%,rgba(80,40,180,.09) 0%,transparent 60%),linear-gradient(160deg,#0d0d1a 0%,#0a0a10 60%,#0d0808 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.4) 40%,rgba(0,0,0,.4) 60%,transparent);mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.4) 40%,rgba(0,0,0,.4) 60%,transparent)}
+.hero-content{position:relative;z-index:2;max-width:540px}
+.hero-eye{display:inline-flex;align-items:center;gap:6px;background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.3);color:#ff8080;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:13px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,76px);line-height:.92;letter-spacing:1px;margin-bottom:13px}
 .hero h1 em{color:var(--accent);font-style:normal}
-.hero p{font-size:14px;color:rgba(242,242,242,.6);max-width:400px;line-height:1.7;margin-bottom:22px}
+.hero p{font-size:14px;color:rgba(242,242,242,.6);max-width:400px;line-height:1.7;margin-bottom:20px}
 .hero-btns{display:flex;gap:8px;flex-wrap:wrap}
-.btn-red{
-  background:var(--accent);color:white;border:none;
-  padding:10px 22px;border-radius:8px;font-family:'DM Sans',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;
-  -webkit-appearance:none;
-}
+.btn-red{background:var(--accent);color:white;border:none;padding:10px 22px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;-webkit-appearance:none}
 .btn-red:hover{background:#c40812}
-.btn-outline{
-  background:rgba(255,255,255,.08);color:white;
-  border:1px solid rgba(255,255,255,.18);
-  padding:10px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;
-  font-size:14px;cursor:pointer;transition:all .2s;
-  -webkit-appearance:none;
-}
+.btn-outline{background:rgba(255,255,255,.08);color:white;border:1px solid rgba(255,255,255,.18);padding:10px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;-webkit-appearance:none}
+.btn-green{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3);padding:10px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;-webkit-appearance:none}
 
-/* Continue Watching */
-.cw-section{padding:20px 20px 0}
+/* Sections */
+.section{padding:18px 20px 0}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.sec-title{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';display:inline-block;width:3px;height:16px;background:var(--accent);border-radius:2px}
+.sec-title.sport-title::before{background:var(--green)}
+.sec-more{background:none;border:none;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+
+/* Scrollable rows */
 .cards-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(229,9,20,.3) transparent}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(229,9,20,.4);border-radius:2px}
 
-.cw-card{
-  flex-shrink:0;width:190px;border-radius:var(--radius);
-  background:var(--bg3);border:1px solid var(--border);
-  cursor:pointer;position:relative;overflow:hidden;
-  transition:transform .2s,border-color .2s;
-}
+/* Continue Watching */
+.cw-card{flex-shrink:0;width:190px;border-radius:var(--radius);background:var(--bg3);border:1px solid var(--border);cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
 .cw-card:hover{transform:scale(1.03);border-color:rgba(229,9,20,.4)}
 .cw-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--bg4)}
 .cw-prog{height:3px;background:var(--bg4)}
-.cw-bar{height:100%;background:var(--accent);border-radius:0 2px 2px 0}
+.cw-bar{height:100%;background:var(--accent);border-radius:0 2px 2px 0;transition:width .3s}
 .cw-info{padding:7px 9px 9px}
 .cw-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cw-sub{font-size:10px;color:var(--muted);margin-top:2px}
-.cw-remove{
-  position:absolute;top:5px;right:5px;background:rgba(0,0,0,.7);
-  border:none;color:white;width:20px;height:20px;border-radius:50%;
-  font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .2s;
-}
+.cw-remove{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.75);border:none;color:white;width:20px;height:20px;border-radius:50%;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
 .cw-card:hover .cw-remove{opacity:1}
-.cw-play{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
-  background:rgba(229,9,20,.85);border-radius:50%;
-  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .2s;font-size:13px;
-}
+.cw-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);background:rgba(229,9,20,.85);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:13px}
 .cw-card:hover .cw-play{opacity:1}
 
-/* Section */
-.section{padding:20px 20px 0}
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.sec-title{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
-.sec-title::before{content:'';display:inline-block;width:3px;height:16px;background:var(--accent);border-radius:2px}
-.sec-more{background:none;border:none;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
-
-/* Cards */
-.card{
-  flex-shrink:0;width:var(--card-w);border-radius:var(--radius);
-  overflow:hidden;cursor:pointer;background:var(--bg3);
-  transition:transform .2s;position:relative;
-}
+/* Media Cards */
+.card{flex-shrink:0;width:var(--card-w);border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--bg3);transition:transform .2s;position:relative}
 .card:hover{transform:scale(1.04)}
 .card-poster{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:var(--bg4)}
-.card-ph{
-  width:100%;aspect-ratio:2/3;
-  background:linear-gradient(135deg,var(--bg3),var(--bg4));
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--muted);font-size:10px;
-}
-.card-rat{
-  position:absolute;top:6px;right:6px;
-  background:rgba(0,0,0,.8);color:var(--gold);
-  font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;
-  backdrop-filter:blur(4px);
-}
-.card-typ{
-  position:absolute;top:6px;left:6px;
-  font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;
-}
+.card-ph{width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,var(--bg3),var(--bg4));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--muted);font-size:10px}
+.card-rat{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.8);color:var(--gold);font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;backdrop-filter:blur(4px)}
+.card-typ{position:absolute;top:6px;left:6px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase}
 .ct-movie{background:rgba(229,9,20,.85);color:white}
 .ct-tv{background:rgba(37,99,235,.85);color:white}
 .ct-anime{background:rgba(139,92,246,.85);color:white}
@@ -254,151 +144,140 @@ header{
 .card-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
 .card-year{font-size:10px;color:var(--muted)}
 
+/* ═══ SPORTS CARDS ═══ */
+.sport-card{
+  flex-shrink:0;width:240px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border);
+  cursor:pointer;overflow:hidden;transition:transform .2s,border-color .2s;
+  position:relative;
+}
+.sport-card:hover{transform:scale(1.03);border-color:rgba(34,197,94,.35)}
+.sport-thumb{
+  width:100%;height:130px;object-fit:cover;display:block;
+  background:linear-gradient(135deg,var(--bg3),var(--bg4));
+}
+.sport-thumb-ph{
+  width:100%;height:130px;
+  background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(34,197,94,.02));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;color:var(--green);font-size:11px;
+}
+.sport-live-badge{
+  position:absolute;top:8px;left:8px;
+  background:rgba(229,9,20,.9);color:white;
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;
+  display:flex;align-items:center;gap:4px;letter-spacing:.5px;
+}
+.sport-live-dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sport-cat-badge{
+  position:absolute;top:8px;right:8px;
+  background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.3);
+  color:#4ade80;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;
+}
+.sport-info{padding:10px 11px 12px}
+.sport-title{font-size:13px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.sport-time{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.sport-teams{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px}
+.sport-team{text-align:center;flex:1}
+.sport-team-name{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sport-vs{font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0}
+
+/* Sport categories filter */
+.sport-filters{display:flex;gap:7px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none}
+.sport-filters::-webkit-scrollbar{display:none}
+.sport-filter{background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--muted);padding:5px 13px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;flex-shrink:0;-webkit-appearance:none}
+.sport-filter:hover{color:var(--text);border-color:rgba(34,197,94,.3)}
+.sport-filter.active{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.4);color:#4ade80}
+
 /* ═══ SEARCH PAGE ═══ */
-#search-page{padding-top:calc(var(--header-h) + 16px)}
-.search-hdr{padding:0 20px 16px;border-bottom:1px solid var(--border);margin-bottom:20px}
+#search-page{padding-top:calc(var(--hh) + 14px)}
+.search-hdr{padding:0 20px 15px;border-bottom:1px solid var(--border);margin-bottom:18px}
 .search-lbl{font-size:13px;color:var(--muted);margin-bottom:10px}
 .search-lbl strong{color:var(--text)}
 .filter-row{display:flex;gap:6px;flex-wrap:wrap}
-.f-tab{
-  background:var(--bg3);border:1px solid rgba(255,255,255,.08);
-  color:var(--muted);padding:5px 12px;border-radius:20px;
-  font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;
-  -webkit-appearance:none;
-}
-.f-tab:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.f-tab{background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--muted);padding:5px 12px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;-webkit-appearance:none}
+.f-tab:hover{color:var(--text)}
 .f-tab.active{background:var(--accent);color:white;border-color:var(--accent)}
-.results-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:14px;padding:0 20px 20px;
-}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:13px;padding:0 20px 20px}
 .results-grid .card{width:100%}
+.sport-results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px;padding:0 20px 20px}
+.sport-results-grid .sport-card{width:100%}
 
 /* ═══ PLAYER PAGE ═══ */
-#player-page{padding-top:var(--header-h)}
-
-/* Responsive video wrapper — fills width, 16:9 */
-.player-shell{
-  position:relative;width:100%;background:#000;
-  /* padding-bottom trick for perfect 16:9 on all devices */
-}
-.player-shell::before{
-  content:'';display:block;padding-top:56.25%;
-}
-.player-shell iframe{
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  border:none;
-}
-
-.player-body{padding:16px 20px}
-.back-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  background:none;border:none;color:var(--muted);
-  font-family:'DM Sans',sans-serif;font-size:13px;
-  cursor:pointer;padding:6px 0;margin-bottom:12px;transition:color .2s;
-}
+#player-page{padding-top:var(--hh)}
+.player-shell{position:relative;width:100%;background:#000}
+.player-shell::before{content:'';display:block;padding-top:56.25%}
+.player-shell iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.player-body{padding:14px 20px}
+.back-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:5px 0;margin-bottom:11px;transition:color .2s}
 .back-btn:hover{color:var(--text)}
-
-.player-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(24px,5vw,42px);line-height:.95;letter-spacing:1px;margin-bottom:10px;
-}
-.info-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.player-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,5vw,40px);line-height:.95;letter-spacing:1px;margin-bottom:9px}
+.info-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;align-items:center}
 .pill{background:var(--bg3);border:1px solid rgba(255,255,255,.08);padding:3px 10px;border-radius:20px;font-size:11px;color:var(--muted)}
 .pill-red{background:rgba(229,9,20,.12);border-color:rgba(229,9,20,.25);color:#ff7070}
 .pill-gold{background:rgba(245,197,24,.1);border-color:rgba(245,197,24,.25);color:var(--gold)}
-.overview{font-size:13px;color:rgba(242,242,242,.6);line-height:1.75;max-width:680px;margin-bottom:16px}
-
-/* Dub/Sub */
-.dub-sub-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.pill-green{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.25);color:#4ade80}
+.overview{font-size:13px;color:rgba(242,242,242,.6);line-height:1.75;max-width:680px;margin-bottom:14px}
+.dub-sub-row{display:flex;align-items:center;gap:8px;margin-bottom:13px;flex-wrap:wrap}
 .ds-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-.toggle-btn{
-  background:var(--bg3);border:1px solid rgba(255,255,255,.08);
-  color:var(--muted);padding:5px 14px;border-radius:20px;
-  font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;
-  -webkit-appearance:none;
-}
+.toggle-btn{background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--muted);padding:5px 13px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;-webkit-appearance:none}
 .toggle-btn.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.5);color:#c084fc}
-
-/* TV Controls */
-.tv-ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.sel{
-  background:var(--bg3);border:1px solid rgba(255,255,255,.08);
-  color:var(--text);padding:7px 12px;border-radius:8px;
-  font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;outline:none;
-  min-width:120px;-webkit-appearance:none;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%237a7a8a'%3E%3Cpath d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 10px center;
-  padding-right:28px;
-}
+.tv-ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}
+.sel{background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--text);padding:7px 28px 7px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;outline:none;min-width:120px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%237a7a8a'%3E%3Cpath d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .sel:focus{border-color:var(--accent)}
-
-/* Sources */
-.src-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:8px}
-.src-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.src-btn{
-  background:var(--bg3);border:1px solid rgba(255,255,255,.08);
-  color:var(--muted);padding:6px 12px;border-radius:8px;
-  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
-  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px;
-  -webkit-appearance:none;
-}
+.src-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:7px}
+.src-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.src-btn{background:var(--bg3);border:1px solid rgba(255,255,255,.08);color:var(--muted);padding:6px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px;-webkit-appearance:none}
 .src-btn:hover{border-color:rgba(229,9,20,.4);color:var(--text)}
 .src-btn.active{background:rgba(229,9,20,.15);border-color:var(--accent);color:white}
-.src-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;flex-shrink:0}
-
-/* Two-col layout on wide screens */
-.player-cols{display:flex;gap:24px;align-items:flex-start}
+.src-btn.sport-btn.active{background:rgba(34,197,94,.15);border-color:var(--green);color:#4ade80}
+.src-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0}
+.player-cols{display:flex;gap:22px;align-items:flex-start}
 .player-main{flex:1;min-width:0}
 .player-sidebar{width:280px;flex-shrink:0}
 #ad-sidebar{border-radius:var(--radius);overflow:hidden;background:var(--bg3);border:1px solid var(--border)}
 #ad-sidebar:not(:empty){min-height:250px}
 
-/* ═══ LOADING ═══ */
+/* Sport stream quality btns */
+.quality-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.quality-btn{background:var(--bg4);border:1px solid rgba(255,255,255,.08);color:var(--muted);padding:4px 10px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all .2s}
+.quality-btn:hover{color:var(--text)}
+.quality-btn.active{background:rgba(34,197,94,.15);border-color:var(--green);color:#4ade80}
+
+/* ═══ LOADING / EMPTY ═══ */
 .spinner-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;gap:12px;color:var(--muted);font-size:13px}
 .spinner{width:34px;height:34px;border:3px solid rgba(229,9,20,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:60px 20px;color:var(--muted)}
-.empty .icon{font-size:44px;margin-bottom:10px}
+.sport-spinner{border-top-color:var(--green);border-color:rgba(34,197,94,.2)}
+.empty{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty .icon{font-size:42px;margin-bottom:10px}
 
 /* ═══ TOAST ═══ */
-.toast{
-  position:fixed;bottom:calc(24px + var(--safe-bottom));right:20px;z-index:999;
-  background:var(--bg3);border:1px solid rgba(255,255,255,.1);
-  color:var(--text);padding:10px 16px;border-radius:10px;
-  font-size:13px;opacity:0;transform:translateY(6px);
-  transition:all .25s;pointer-events:none;
-  box-shadow:0 8px 32px rgba(0,0,0,.55);max-width:calc(100vw - 40px);
-}
+.toast{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:18px;z-index:999;background:var(--bg3);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:10px 15px;border-radius:10px;font-size:13px;opacity:0;transform:translateY(6px);transition:all .25s;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.55);max-width:calc(100vw - 36px)}
 .toast.show{opacity:1;transform:translateY(0)}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:640px){
-  :root{--card-w:130px}
-  .nav-tabs{display:none}
-  header{gap:10px}
-  .hero{padding:24px 16px;height:auto;min-height:300px}
-  .section,.cw-section{padding:16px 16px 0}
-  .player-body{padding:12px 16px}
+  :root{--card-w:128px}
+  header{gap:8px}
+  .hero{padding:22px 16px;height:auto;min-height:280px}
+  .section{padding:14px 16px 0}
+  .player-body{padding:10px 16px}
   .player-cols{flex-direction:column}
   .player-sidebar{width:100%}
-  .results-grid{padding:0 16px 16px;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-  .search-hdr{padding:0 16px 14px}
-  .player-title{font-size:24px}
-  .tv-ctrl{gap:6px}
+  .results-grid{padding:0 16px 16px;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:10px}
+  .sport-results-grid{padding:0 16px 16px;grid-template-columns:1fr}
+  .search-hdr{padding:0 16px 13px}
+  .player-title{font-size:22px}
+  .tv-ctrl{gap:5px}
   .sel{min-width:100px;font-size:12px;padding:6px 28px 6px 10px}
+  .sport-filters{padding:0 16px 4px}
+  .sport-card{width:210px}
 }
 @media(max-width:380px){
   :root{--card-w:110px}
   .results-grid{grid-template-columns:repeat(3,1fr)}
-}
-/* iOS fullscreen fix */
-@supports(-webkit-touch-callout:none){
-  .player-shell iframe{
-    /* On iOS Safari, need webkit-playsinline */
-  }
 }
 </style>
 </head>
@@ -407,25 +286,23 @@ header{
 <!-- HEADER -->
 <header>
   <div class="logo" onclick="showHome()">DikFlix</div>
-  <nav class="nav-tabs">
-    <button class="nav-tab active" onclick="setTab('movies',this)">Movies</button>
-    <button class="nav-tab" onclick="setTab('tv',this)">TV Shows</button>
-    <button class="nav-tab" onclick="setTab('anime',this)">Anime</button>
+  <nav class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-tab="home" onclick="setTab('home',this)">Home</button>
+    <button class="nav-tab" data-tab="movies" onclick="setTab('movies',this)">Movies</button>
+    <button class="nav-tab" data-tab="tv" onclick="setTab('tv',this)">TV Shows</button>
+    <button class="nav-tab" data-tab="anime" onclick="setTab('anime',this)">Anime</button>
+    <button class="nav-tab sport-tab" data-tab="sports" onclick="setTab('sports',this)">🏟 Sports</button>
   </nav>
   <div class="search-wrap">
-    <input class="search-input" id="searchInput"
-      placeholder="Search…" autocomplete="off"
-      oninput="onSearchInput(this.value)"
-      onkeydown="handleSearchKey(event)"
-      onfocus="openSug()"
-    />
+    <input class="search-input" id="searchInput" placeholder="Search…" autocomplete="off"
+      oninput="onSearchInput(this.value)" onkeydown="handleSearchKey(event)" onfocus="openSug()"/>
     <button class="search-btn" onclick="doSearch()">⌕</button>
-    <div class="suggestions-box" id="sugBox"></div>
+    <div class="sug-box" id="sugBox"></div>
   </div>
 </header>
 
-<!-- TOP BANNER AD -->
-<div class="ad-slot" id="ad-banner-top" style="margin-top:var(--header-h)">
+<!-- TOP BANNER AD SLOT -->
+<div class="ad-slot" id="ad-banner-top" style="margin-top:var(--hh)">
   <!-- YOUR AD CODE HERE -->
 </div>
 
@@ -434,18 +311,19 @@ header{
   <div class="hero">
     <div class="hero-bg"></div><div class="hero-grid"></div>
     <div class="hero-content">
-      <div class="hero-eye">✦ Free · No Sign-up · HD</div>
+      <div class="hero-eye">✦ Movies · TV · Anime · Live Sports</div>
       <h1>Watch <em>Anything.</em><br>Stream Everything.</h1>
-      <p>Movies, TV, anime — all free. Multiple sources so something always works.</p>
+      <p>Movies, TV shows, anime & live sports — all free. Multiple sources for reliable playback.</p>
       <div class="hero-btns">
-        <button class="btn-red" onclick="document.getElementById('searchInput').focus()">▶ Start Watching</button>
-        <button class="btn-outline" onclick="setTab('movies',document.querySelector('.nav-tab'))">Browse</button>
+        <button class="btn-red" onclick="document.getElementById('searchInput').focus()">▶ Watch Now</button>
+        <button class="btn-outline" onclick="setTab('movies',document.querySelector('[data-tab=movies]'))">Browse</button>
+        <button class="btn-green" onclick="setTab('sports',document.querySelector('[data-tab=sports]'))">🏟 Live Sports</button>
       </div>
     </div>
   </div>
 
   <div id="cw-section" style="display:none">
-    <div class="cw-section">
+    <div class="section">
       <div class="sec-head">
         <div class="sec-title">▶ Continue Watching</div>
         <button class="sec-more" onclick="clearCW()">Clear all</button>
@@ -456,6 +334,33 @@ header{
 
   <div id="home-content">
     <div class="spinner-wrap"><div class="spinner"></div><span>Loading…</span></div>
+  </div>
+</div>
+
+<!-- SPORTS PAGE -->
+<div id="sports-page" class="page">
+  <div style="padding-top:var(--hh)"></div>
+  <div class="section" style="padding-bottom:12px">
+    <div class="sec-head">
+      <div class="sec-title sport-title">🏟 Live Sports</div>
+      <span id="live-count" style="font-size:12px;color:var(--green)"></span>
+    </div>
+  </div>
+  <!-- Sport category filters -->
+  <div class="sport-filters" id="sportFilters">
+    <button class="sport-filter active" onclick="filterSport('all',this)">All Sports</button>
+    <button class="sport-filter" onclick="filterSport('football',this)">⚽ Football</button>
+    <button class="sport-filter" onclick="filterSport('basketball',this)">🏀 Basketball</button>
+    <button class="sport-filter" onclick="filterSport('american-football',this)">🏈 NFL</button>
+    <button class="sport-filter" onclick="filterSport('hockey',this)">🏒 Hockey</button>
+    <button class="sport-filter" onclick="filterSport('baseball',this)">⚾ Baseball</button>
+    <button class="sport-filter" onclick="filterSport('tennis',this)">🎾 Tennis</button>
+    <button class="sport-filter" onclick="filterSport('mma',this)">🥊 MMA/UFC</button>
+    <button class="sport-filter" onclick="filterSport('motorsport',this)">🏎 Motorsport</button>
+    <button class="sport-filter" onclick="filterSport('cricket',this)">🏏 Cricket</button>
+  </div>
+  <div id="sports-content" style="padding:14px 0">
+    <div class="spinner-wrap"><div class="spinner sport-spinner"></div><span>Loading live matches…</span></div>
   </div>
 </div>
 
@@ -470,7 +375,7 @@ header{
       <button class="f-tab" onclick="applyFilter('anime',this)">Anime</button>
     </div>
   </div>
-  <div class="results-grid" id="searchResults"></div>
+  <div id="searchResults"></div>
 </div>
 
 <!-- PLAYER PAGE -->
@@ -478,49 +383,37 @@ header{
   <div class="player-body" style="padding-bottom:0">
     <button class="back-btn" onclick="goBack()">← Back</button>
   </div>
-
-  <!--
-    Fullscreen notes:
-    • allowfullscreen + webkit-allowfullscreen = Safari/iOS fullscreen
-    • allow="fullscreen" = modern Chrome/Firefox
-    • playsinline = prevents iOS from auto-going to native player
-  -->
   <div class="player-shell">
     <iframe id="pFrame"
-      allowfullscreen
-      webkitallowfullscreen
-      mozallowfullscreen
+      allowfullscreen webkitallowfullscreen mozallowfullscreen
       allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
-      playsinline
-      webkit-playsinline
+      playsinline webkit-playsinline
     ></iframe>
   </div>
-
-  <!-- BELOW PLAYER AD -->
-  <div class="ad-slot" id="ad-player-below">
-    <!-- YOUR AD CODE HERE -->
-  </div>
-
+  <!-- BELOW PLAYER AD SLOT -->
+  <div class="ad-slot" id="ad-player-below"><!-- YOUR AD CODE HERE --></div>
   <div class="player-body">
     <div class="player-cols">
       <div class="player-main">
         <div class="player-title" id="pTitle">—</div>
         <div class="info-pills" id="pPills"></div>
         <div class="overview" id="pOverview"></div>
-
-        <!-- Anime dub/sub -->
+        <!-- Anime Dub/Sub -->
         <div class="dub-sub-row" id="dubSubRow" style="display:none">
           <span class="ds-label">Audio:</span>
           <button class="toggle-btn active" id="subBtn" onclick="setDubSub('sub')">📜 Sub</button>
           <button class="toggle-btn" id="dubBtn" onclick="setDubSub('dub')">🎙 Dub</button>
         </div>
-
-        <!-- TV controls -->
+        <!-- TV Season/Episode -->
         <div class="tv-ctrl" id="tvCtrl" style="display:none">
           <select class="sel" id="seasonSel" onchange="onSeasonChange()"></select>
           <select class="sel" id="episodeSel" onchange="onEpisodeChange()"></select>
         </div>
-
+        <!-- Sport stream quality picker (shown for sports) -->
+        <div id="sportQualityRow" style="display:none">
+          <div class="src-label">Stream Quality</div>
+          <div class="quality-row" id="qualityBtns"></div>
+        </div>
         <div class="src-label">Video Source</div>
         <div class="src-btns" id="srcBtns"></div>
       </div>
@@ -535,67 +428,116 @@ header{
 <div class="toast" id="toast"></div>
 
 <script>
-/* ─── AD CONFIG ────────────────────────────────────────────────────
-   Paste your in-feed ad HTML as a string here to show it between
-   content rows on the home page. Leave '' to hide.
-   Example: const AD_BETWEEN_ROWS_HTML = `<ins class="adsbygoogle"...></ins>`;
-────────────────────────────────────────────────────────────────────*/
+/* ─── AD CONFIG ─────────────────────────────────────────────────────
+   Paste your in-feed ad HTML string here to inject between rows.
+   const AD_BETWEEN_ROWS_HTML = `<ins class="adsbygoogle"...></ins>`;
+──────────────────────────────────────────────────────────────────── */
 const AD_BETWEEN_ROWS_HTML = '';
 
 /* ─── TMDB ──────────────────────────────────────────────────────── */
-const KEY  = '4e44d9029b1270a757cddc766a1bcb63';
-const BASE = 'https://api.themoviedb.org/3';
-const P300 = 'https://image.tmdb.org/t/p/w300';
-const P500 = 'https://image.tmdb.org/t/p/w500';
-async function tmdb(path, params='') {
-  const r = await fetch(`${BASE}${path}?api_key=${KEY}&language=en-US&${params}`);
+const TKEY  = '4e44d9029b1270a757cddc766a1bcb63';
+const TBASE = 'https://api.themoviedb.org/3';
+const P300  = 'https://image.tmdb.org/t/p/w300';
+const P500  = 'https://image.tmdb.org/t/p/w500';
+async function tmdb(path, params=''){
+  const r = await fetch(`${TBASE}${path}?api_key=${TKEY}&language=en-US&${params}`);
   return r.json();
 }
 
+/* ─── SPORTS APIs ────────────────────────────────────────────────
+   Primary:  WeStream  — https://westream.su
+   Secondary: SportSRC — https://api.sportsrc.org
+   Both are free, CORS-enabled, no API key needed.
+────────────────────────────────────────────────────────────────── */
+const WESTREAM = 'https://westream.su';
+const SPORTSRC = 'https://api.sportsrc.org';
+
+async function fetchMatches(category='all') {
+  try {
+    const url = category === 'all'
+      ? `${WESTREAM}/matches/live`
+      : `${WESTREAM}/matches/${encodeURIComponent(category)}`;
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('WeStream failed');
+    return await r.json();
+  } catch(e) {
+    // Fallback to SportSRC
+    try {
+      const cat = mapToSportSRC(category);
+      const r = await fetch(`${SPORTSRC}/?data=matches&category=${cat}`);
+      const d = await r.json();
+      return Array.isArray(d) ? d.map(normalizeSportSRC) : [];
+    } catch(e2) { return []; }
+  }
+}
+
+async function fetchStreamSources(source, id) {
+  try {
+    const r = await fetch(`${WESTREAM}/stream/${source}/${id}`);
+    if (!r.ok) throw new Error();
+    return await r.json(); // array of {streamNo, hd, language, embedUrl}
+  } catch(e) { return []; }
+}
+
+function mapToSportSRC(cat) {
+  const m = {football:'football',basketball:'basketball',mma:'mma','american-football':'american-football',hockey:'hockey',baseball:'baseball',tennis:'tennis',cricket:'cricket',motorsport:'motorsport'};
+  return m[cat] || 'football';
+}
+
+function normalizeSportSRC(m) {
+  return {
+    id: m.id || m.title,
+    title: m.title || m.event,
+    category: m.category || 'sport',
+    date: m.date || Date.now(),
+    popular: m.popular || false,
+    teams: m.teams || {home:{name:''}, away:{name:''}},
+    sources: (m.sources||[]).map(s=>({source:s.source||'alpha', id:s.id||m.id})),
+    poster: m.poster || '',
+    isLive: true,
+  };
+}
+
 /* ─── STATE ─────────────────────────────────────────────────────── */
-let currentItem = null, currentType = null;
-let isAnime = false, dubMode = false;
-let malId = null; // MAL ID for anime
+let currentItem = null, currentType = null; // 'movie'|'tv'|'sport'
+let isAnime = false, dubMode = false, malId = null;
 let tvSeasons = [], allResults = [], prevPage = 'home-page';
 let sugTimeout = null, sugResults = [], selSugIdx = -1;
+let allMatches = [], currentSportItem = null;
+let currentSportStreams = [];
 
-/* ─── SOURCES ───────────────────────────────────────────────────────
-   Carefully selected working providers (June 2025):
-   Movies/TV  → VidLink, Videasy, AutoEmbed, VidSrc.to, SmashyStream, 2Embed.stream
-   Anime      → VidLink (MAL), Videasy (TMDB), AutoEmbed (TMDB fallback)
-────────────────────────────────────────────────────────────────────*/
+/* ─── EMBED SOURCES ─────────────────────────────────────────────
+   Movies/TV: VidLink → Videasy → AutoEmbed → VidSrc → SmashyStream → 2Embed
+   Anime:     VidLink (MAL) → Videasy (AniList/TMDB) → VidSrc → AutoEmbed
+   Sports:    WeStream embed → SportSRC detail embed
+────────────────────────────────────────────────────────────────── */
 function buildSources(item, type, s=1, e=1) {
   const id = item.id;
-
   if (isAnime && malId) {
     const mode = dubMode ? 'dub' : 'sub';
     return [
-      { n:'VidLink',     url:`https://vidlink.pro/anime/${malId}/${e}/${mode}?fallback=true&primaryColor=e50914` },
-      { n:'Videasy',     url:`https://player.videasy.net/anime/${malId}/${e}?colour=e50914` },
-      { n:'AutoEmbed',   url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}` },
-      { n:'VidSrc',      url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}` },
+      {n:'VidLink',     url:`https://vidlink.pro/anime/${malId}/${e}/${mode}?fallback=true&primaryColor=e50914`},
+      {n:'Videasy',     url:`https://player.videasy.net/anime/${malId}/${e}?colour=e50914`},
+      {n:'AutoEmbed',   url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`},
+      {n:'VidSrc',      url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}`},
     ];
   }
-
-  if (type === 'movie') {
-    return [
-      { n:'VidLink',      url:`https://vidlink.pro/movie/${id}?autoplay=true&primaryColor=e50914` },
-      { n:'Videasy',      url:`https://player.videasy.net/movie/${id}?colour=e50914` },
-      { n:'AutoEmbed',    url:`https://player.autoembed.cc/embed/movie/${id}` },
-      { n:'VidSrc',       url:`https://vidsrc.to/embed/movie/${id}` },
-      { n:'SmashyStream', url:`https://embed.smashystream.com/playere.php?tmdb=${id}` },
-      { n:'2Embed',       url:`https://www.2embed.stream/embed/movie/${id}` },
-    ];
-  } else {
-    return [
-      { n:'VidLink',      url:`https://vidlink.pro/tv/${id}/${s}/${e}?autoplay=true&primaryColor=e50914` },
-      { n:'Videasy',      url:`https://player.videasy.net/tv/${id}/${s}/${e}?colour=e50914` },
-      { n:'AutoEmbed',    url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}` },
-      { n:'VidSrc',       url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}` },
-      { n:'SmashyStream', url:`https://embed.smashystream.com/playere.php?tmdb=${id}&season=${s}&episode=${e}` },
-      { n:'2Embed',       url:`https://www.2embed.stream/embed/tv/${id}/${s}/${e}` },
-    ];
-  }
+  if (type==='movie') return [
+    {n:'VidLink',      url:`https://vidlink.pro/movie/${id}?autoplay=true&primaryColor=e50914`},
+    {n:'Videasy',      url:`https://player.videasy.net/movie/${id}?colour=e50914`},
+    {n:'AutoEmbed',    url:`https://player.autoembed.cc/embed/movie/${id}`},
+    {n:'VidSrc',       url:`https://vidsrc.to/embed/movie/${id}`},
+    {n:'SmashyStream', url:`https://embed.smashystream.com/playere.php?tmdb=${id}`},
+    {n:'2Embed',       url:`https://www.2embed.stream/embed/movie/${id}`},
+  ];
+  return [
+    {n:'VidLink',      url:`https://vidlink.pro/tv/${id}/${s}/${e}?autoplay=true&primaryColor=e50914`},
+    {n:'Videasy',      url:`https://player.videasy.net/tv/${id}/${s}/${e}?colour=e50914`},
+    {n:'AutoEmbed',    url:`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`},
+    {n:'VidSrc',       url:`https://vidsrc.to/embed/tv/${id}/${s}/${e}`},
+    {n:'SmashyStream', url:`https://embed.smashystream.com/playere.php?tmdb=${id}&season=${s}&episode=${e}`},
+    {n:'2Embed',       url:`https://www.2embed.stream/embed/tv/${id}/${s}/${e}`},
+  ];
 }
 
 /* ─── PAGES ─────────────────────────────────────────────────────── */
@@ -607,21 +549,35 @@ function showPage(id) {
 }
 function showHome() {
   document.getElementById('searchInput').value='';
+  setActiveNavTab('home');
   renderCW();
   showPage('home-page');
 }
 function goBack() { showPage(prevPage); }
 
+function setActiveNavTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const el = document.querySelector(`[data-tab="${tab}"]`);
+  if (el) el.classList.add('active');
+}
+
 /* ─── TABS ──────────────────────────────────────────────────────── */
 function setTab(tab, el) {
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   if (el) el.classList.add('active');
-  showPage('home-page');
   document.getElementById('searchInput').value='';
-  renderCW();
-  if (tab==='movies') loadMovies();
-  else if (tab==='tv') loadTV();
-  else loadAnime();
+  closeSug();
+  if (tab==='sports') {
+    showPage('sports-page');
+    loadSports('all');
+  } else {
+    showPage('home-page');
+    renderCW();
+    if (tab==='home') initHome();
+    else if (tab==='movies') loadMovies();
+    else if (tab==='tv') loadTV();
+    else if (tab==='anime') loadAnime();
+  }
 }
 
 /* ─── HOME LOADERS ──────────────────────────────────────────────── */
@@ -654,12 +610,12 @@ async function loadTV() {
     tmdb('/discover/tv','with_genres=10765&sort_by=popularity.desc'),
   ]);
   el.innerHTML='';
-  renderSection(el,'📺 Popular',pop.results,'tv',false);
+  renderSection(el,'📺 Popular Shows',pop.results,'tv',false);
   adRow(el);
   renderSection(el,'⭐ Top Rated',top.results,'tv',false);
   renderSection(el,'🎭 Drama',dr.results,'tv',false);
   renderSection(el,'🔫 Crime',cr.results,'tv',false);
-  renderSection(el,'🚀 Sci-Fi',sc.results,'tv',false);
+  renderSection(el,'🚀 Sci-Fi & Fantasy',sc.results,'tv',false);
 }
 async function loadAnime() {
   const el=document.getElementById('home-content');
@@ -690,14 +646,256 @@ async function initHome() {
   renderSection(el,'🎬 Popular Movies',pm.results,'movie',false);
   renderSection(el,'📡 Popular Shows',pt.results,'tv',false);
 }
+
 function spin(){return'<div class="spinner-wrap"><div class="spinner"></div></div>'}
 function adRow(el){
-  if(!AD_BETWEEN_ROWS_HTML) return;
-  const d=document.createElement('div');
-  d.className='ad-slot';d.innerHTML=AD_BETWEEN_ROWS_HTML;el.appendChild(d);
+  if(!AD_BETWEEN_ROWS_HTML)return;
+  const d=document.createElement('div');d.className='ad-slot';d.innerHTML=AD_BETWEEN_ROWS_HTML;el.appendChild(d);
 }
 
-/* ─── RENDER ────────────────────────────────────────────────────── */
+/* ─── SPORTS LOADER ─────────────────────────────────────────────── */
+let activeSportFilter = 'all';
+async function loadSports(category='all') {
+  activeSportFilter = category;
+  const el = document.getElementById('sports-content');
+  el.innerHTML = `<div class="spinner-wrap"><div class="spinner sport-spinner"></div><span>Loading matches…</span></div>`;
+  try {
+    const matches = await fetchMatches(category);
+    allMatches = Array.isArray(matches) ? matches : [];
+    renderSports(allMatches);
+  } catch(e) {
+    el.innerHTML = `<div class="empty"><div class="icon">📡</div><p>Could not load sports data.<br>Check your connection.</p></div>`;
+  }
+}
+
+function filterSport(cat, el) {
+  document.querySelectorAll('.sport-filter').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  loadSports(cat);
+}
+
+const SPORT_ICONS = {football:'⚽',basketball:'🏀','american-football':'🏈',hockey:'🏒',baseball:'⚾',tennis:'🎾',mma:'🥊',boxing:'🥊',motorsport:'🏎',cricket:'🏏',rugby:'🏉',golf:'⛳',darts:'🎯',afl:'🏉',volleyball:'🏐',default:'🏟'};
+function sportIcon(cat='') {
+  const k = cat.toLowerCase().replace(/\s+/g,'-');
+  return SPORT_ICONS[k] || SPORT_ICONS.default;
+}
+
+function formatMatchTime(ts) {
+  if (!ts) return '';
+  const d = new Date(typeof ts === 'string' ? ts : ts);
+  if (isNaN(d)) return '';
+  return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) + ' · ' + d.toLocaleDateString([],{month:'short',day:'numeric'});
+}
+
+function sportCardHTML(m) {
+  const icon = sportIcon(m.category||'');
+  const homeTeam = m.teams?.home?.name || '';
+  const awayTeam = m.teams?.away?.name || '';
+  const hasTeams = homeTeam || awayTeam;
+  const title = m.title || (hasTeams ? `${homeTeam} vs ${awayTeam}` : 'Live Match');
+  const time = formatMatchTime(m.date);
+  const isLive = m.popular || m.isLive || (m.date && Math.abs(Date.now() - m.date) < 4*3600000);
+  const poster = m.poster || m.thumbnail || '';
+
+  return `<div class="sport-card" data-match='${JSON.stringify({id:m.id,title,category:m.category,sources:m.sources,date:m.date,teams:m.teams,poster}).replace(/'/g,"&#39;")}'>
+    ${poster
+      ? `<img class="sport-thumb" src="${poster}" alt="${title}" onerror="this.style.display='none';this.nextSibling.style.removeProperty('display')">`
+      : ''}
+    <div class="sport-thumb-ph" style="${poster?'display:none':''}">
+      <span style="font-size:32px">${icon}</span>
+      <span>${(m.category||'Sport').toUpperCase()}</span>
+    </div>
+    ${isLive ? `<div class="sport-live-badge"><span class="sport-live-dot"></span>LIVE</div>` : ''}
+    <div class="sport-cat-badge">${icon} ${(m.category||'Sport')}</div>
+    <div class="sport-info">
+      <div class="sport-title">${title}</div>
+      ${time ? `<div class="sport-time">🕐 ${time}</div>` : ''}
+      ${hasTeams ? `
+        <div class="sport-teams">
+          <div class="sport-team"><div class="sport-team-name">${homeTeam}</div></div>
+          <div class="sport-vs">VS</div>
+          <div class="sport-team"><div class="sport-team-name">${awayTeam}</div></div>
+        </div>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderSports(matches) {
+  const el = document.getElementById('sports-content');
+  const liveEl = document.getElementById('live-count');
+  if (!matches.length) {
+    el.innerHTML = `<div class="empty"><div class="icon">📡</div><p>No live matches right now.<br>Check back soon!</p></div>`;
+    if (liveEl) liveEl.textContent = '';
+    return;
+  }
+  const liveCount = matches.filter(m=>m.popular||m.isLive).length;
+  if (liveEl) liveEl.textContent = liveCount > 0 ? `${liveCount} live now` : `${matches.length} matches`;
+
+  // Group by category
+  const groups = {};
+  matches.forEach(m=>{
+    const cat = m.category || 'Other';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(m);
+  });
+
+  el.innerHTML = Object.entries(groups).map(([cat, ms]) => `
+    <div class="section" style="padding-bottom:4px">
+      <div class="sec-head">
+        <div class="sec-title sport-title">${sportIcon(cat)} ${cat.charAt(0).toUpperCase()+cat.slice(1)}</div>
+        <span style="font-size:11px;color:var(--muted)">${ms.length} match${ms.length!==1?'es':''}</span>
+      </div>
+      <div class="cards-row">${ms.map(sportCardHTML).join('')}</div>
+    </div>
+  `).join('');
+
+  el.querySelectorAll('.sport-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      try { openSportItem(JSON.parse(card.dataset.match.replace(/&#39;/g,"'")));} catch(e){}
+    });
+  });
+}
+
+/* ─── OPEN SPORT ────────────────────────────────────────────────── */
+async function openSportItem(match) {
+  prevPage = 'sports-page';
+  currentType = 'sport';
+  currentSportItem = match;
+  showPage('player-page');
+
+  document.getElementById('pTitle').textContent = match.title || 'Live Match';
+  document.getElementById('pPills').innerHTML = '';
+  document.getElementById('pOverview').textContent = '';
+  document.getElementById('srcBtns').innerHTML = '<span style="color:var(--muted);font-size:12px">Loading streams…</span>';
+  document.getElementById('tvCtrl').style.display = 'none';
+  document.getElementById('dubSubRow').style.display = 'none';
+  document.getElementById('sportQualityRow').style.display = 'none';
+  document.getElementById('pFrame').src = '';
+
+  // Pills
+  const pills = document.getElementById('pPills');
+  const isLive = match.popular || match.isLive || (match.date && Math.abs(Date.now()-match.date)<4*3600000);
+  if (isLive) pills.innerHTML += `<span class="pill pill-green">🔴 LIVE</span>`;
+  if (match.category) pills.innerHTML += `<span class="pill">${sportIcon(match.category)} ${match.category}</span>`;
+  if (match.date) pills.innerHTML += `<span class="pill">${formatMatchTime(match.date)}</span>`;
+  if (match.teams?.home?.name && match.teams?.away?.name)
+    pills.innerHTML += `<span class="pill pill-red">${match.teams.home.name} vs ${match.teams.away.name}</span>`;
+
+  // Load streams from WeStream
+  if (match.sources && match.sources.length > 0) {
+    const allStreams = [];
+    for (const src of match.sources.slice(0,3)) {
+      try {
+        const streams = await fetchStreamSources(src.source, src.id);
+        if (Array.isArray(streams)) {
+          streams.forEach(s => allStreams.push({...s, _source: src.source, _id: src.id}));
+        }
+      } catch(e) {}
+    }
+    currentSportStreams = allStreams;
+    if (allStreams.length > 0) {
+      renderSportSources(allStreams, match);
+      return;
+    }
+  }
+
+  // Fallback: embed directly from WeStream if no streams fetched
+  renderSportFallback(match);
+}
+
+function renderSportSources(streams, match) {
+  // Build source buttons from actual embed URLs
+  const btns = document.getElementById('srcBtns');
+  const qualRow = document.getElementById('sportQualityRow');
+  const qualBtns = document.getElementById('qualityBtns');
+
+  // Group by HD/SD for quality row
+  const hdStreams = streams.filter(s=>s.hd!==false);
+  const sdStreams = streams.filter(s=>s.hd===false);
+
+  if (streams.length > 1) {
+    qualRow.style.display = 'block';
+    qualBtns.innerHTML = streams.map((s,i)=>`
+      <button class="quality-btn${i===0?' active':''}" data-idx="${i}">
+        ${s.hd!==false?'HD':'SD'} ${s.language||''}${s.streamNo?` #${s.streamNo}`:''}
+      </button>`).join('');
+    qualBtns.querySelectorAll('.quality-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        qualBtns.querySelectorAll('.quality-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        const st = streams[parseInt(b.dataset.idx)];
+        if (st.embedUrl) document.getElementById('pFrame').src = st.embedUrl;
+      });
+    });
+  }
+
+  // Also show WeStream embed as primary + direct match sources as fallbacks
+  btns.innerHTML = '';
+  const srcList = [];
+
+  // Primary: actual embed URLs from WeStream stream endpoint
+  streams.slice(0,4).forEach((s,i)=>{
+    if (s.embedUrl) srcList.push({n:`Stream ${i+1}${s.hd!==false?' HD':' SD'}${s.language?' · '+s.language:''}`, url:s.embedUrl, sport:true});
+  });
+
+  // Fallback: WeStream direct embed pattern
+  if (match.sources) {
+    match.sources.forEach((src,i)=>{
+      srcList.push({n:`WeStream ${i+1}`, url:`${WESTREAM}/embed/${src.source}/${src.id}/1`, sport:true});
+    });
+  }
+
+  if (!srcList.length) { renderSportFallback(match); return; }
+
+  btns.innerHTML = srcList.map((s,i)=>`
+    <button class="src-btn sport-btn${i===0?' active':''}" data-idx="${i}">
+      <span class="src-dot"></span>${s.n}
+    </button>`).join('');
+
+  btns.querySelectorAll('.src-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      btns.querySelectorAll('.src-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('pFrame').src = srcList[parseInt(b.dataset.idx)].url;
+    });
+  });
+
+  document.getElementById('pFrame').src = srcList[0].url;
+}
+
+function renderSportFallback(match) {
+  // Build all possible WeStream embed URLs from sources array
+  const btns = document.getElementById('srcBtns');
+  const srcList = [];
+
+  if (match.sources && match.sources.length > 0) {
+    match.sources.forEach((src,i)=>{
+      for (let sn=1; sn<=3; sn++) {
+        srcList.push({n:`Stream ${i*3+sn}`, url:`${WESTREAM}/embed/${src.source}/${src.id}/${sn}`, sport:true});
+      }
+    });
+  }
+
+  // Ultimate fallback: WeStream live page
+  srcList.push({n:'WeStream Live', url:`${WESTREAM}/matches/live`, sport:true});
+
+  btns.innerHTML = srcList.slice(0,6).map((s,i)=>`
+    <button class="src-btn sport-btn${i===0?' active':''}" data-idx="${i}">
+      <span class="src-dot"></span>${s.n}
+    </button>`).join('');
+
+  btns.querySelectorAll('.src-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      btns.querySelectorAll('.src-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('pFrame').src = srcList[parseInt(b.dataset.idx)].url;
+    });
+  });
+
+  if (srcList.length) document.getElementById('pFrame').src = srcList[0].url;
+}
+
+/* ─── RENDER MEDIA SECTIONS ─────────────────────────────────────── */
 function renderSection(container, title, items, type, anime) {
   if (!items?.length) return;
   const sec=document.createElement('div');
@@ -711,6 +909,7 @@ function renderSection(container, title, items, type, anime) {
     c.addEventListener('click',()=>openItem(item,c.dataset.type,c.dataset.anime==='1'));
   });
 }
+
 function cardHTML(item,type,anime){
   const title=item.title||item.name||'Unknown';
   const year=(item.release_date||item.first_air_date||'').split('-')[0];
@@ -719,7 +918,7 @@ function cardHTML(item,type,anime){
   const tl=anime?'Anime':type==='movie'?'Movie':'TV';
   const tc=anime?'ct-anime':type==='movie'?'ct-movie':'ct-tv';
   return `<div class="card" data-id="${item.id}" data-type="${type}" data-anime="${anime?1:0}">
-    ${poster?`<img class="card-poster" src="${poster}" alt="" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:``}
+    ${poster?`<img class="card-poster" src="${poster}" alt="" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.removeProperty('display')">`:''}
     <div class="card-ph" style="${poster?'display:none':''}">🎬<span>${title.slice(0,16)}</span></div>
     <div class="card-rat">★ ${rat}</div>
     <div class="card-typ ${tc}">${tl}</div>
@@ -735,8 +934,8 @@ async function doSearch(q) {
   prevPage='home-page';
   showPage('search-page');
   document.getElementById('searchQLabel').textContent=`"${q}"`;
-  const grid=document.getElementById('searchResults');
-  grid.innerHTML=`<div class="spinner-wrap" style="grid-column:1/-1">${spin()}</div>`;
+  const res=document.getElementById('searchResults');
+  res.innerHTML=`<div class="spinner-wrap" style="grid-column:1/-1">${spin()}</div>`;
   document.querySelectorAll('.f-tab').forEach(t=>t.classList.toggle('active',t.textContent==='All'));
   const animeKw=/anime|isekai|shonen|shojo|naruto|one piece|dragonball|demon slayer|jujutsu|bleach|fullmetal|attack on titan|my hero|haikyuu|chainsaw|mob psycho/i.test(q);
   const [mv,tv]=await Promise.all([
@@ -749,15 +948,18 @@ async function doSearch(q) {
   ].sort((a,b)=>b.popularity-a.popularity);
   renderResults(allResults);
 }
+
 function renderResults(items){
-  const grid=document.getElementById('searchResults');
-  if (!items.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="icon">🔍</div><p>No results found.</p></div>';return}
-  grid.innerHTML=items.slice(0,40).map(i=>cardHTML(i,i._type,i._anime)).join('');
-  grid.querySelectorAll('.card').forEach(c=>{
+  const res=document.getElementById('searchResults');
+  if (!items.length){res.className='';res.innerHTML='<div class="empty"><div class="icon">🔍</div><p>No results found.</p></div>';return}
+  res.className='results-grid';
+  res.innerHTML=items.slice(0,40).map(i=>cardHTML(i,i._type,i._anime)).join('');
+  res.querySelectorAll('.card').forEach(c=>{
     const item=items.find(x=>x.id===parseInt(c.dataset.id));
     c.addEventListener('click',()=>openItem(item,c.dataset.type,c.dataset.anime==='1'));
   });
 }
+
 function applyFilter(type,el){
   document.querySelectorAll('.f-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
@@ -768,7 +970,7 @@ function applyFilter(type,el){
 /* ─── SMART SUGGESTIONS ─────────────────────────────────────────── */
 function onSearchInput(v){
   clearTimeout(sugTimeout);
-  if (!v.trim()){closeSug();return}
+  if(!v.trim()){closeSug();return}
   sugTimeout=setTimeout(()=>fetchSug(v.trim()),260);
 }
 async function fetchSug(q){
@@ -781,13 +983,12 @@ async function fetchSug(q){
       ...mv.results.slice(0,4).map(r=>({...r,_type:'movie',_anime:false})),
       ...tv.results.slice(0,4).map(r=>({...r,_type:'tv',_anime:!!r.genre_ids?.includes(16)&&!!r.origin_country?.includes('JP')}))
     ].sort((a,b)=>b.popularity-a.popularity).slice(0,7);
-    selSugIdx=-1;
-    renderSug(sugResults);
+    selSugIdx=-1;renderSug(sugResults);
   }catch(e){}
 }
 function renderSug(items){
   const box=document.getElementById('sugBox');
-  if (!items.length){closeSug();return}
+  if(!items.length){closeSug();return}
   box.innerHTML=items.map((item,i)=>{
     const title=item.title||item.name||'Unknown';
     const year=(item.release_date||item.first_air_date||'').split('-')[0];
@@ -805,8 +1006,7 @@ function renderSug(items){
     el.addEventListener('click',()=>{
       const it=sugResults[i];
       document.getElementById('searchInput').value=it.title||it.name||'';
-      closeSug();
-      openItem(it,it._type,it._anime);
+      closeSug();openItem(it,it._type,it._anime);
     });
   });
   box.classList.add('open');
@@ -818,87 +1018,64 @@ function handleSearchKey(e){
   if(e.key==='ArrowDown'){e.preventDefault();selSugIdx=Math.min(selSugIdx+1,items.length-1);hilSug(items)}
   else if(e.key==='ArrowUp'){e.preventDefault();selSugIdx=Math.max(selSugIdx-1,-1);hilSug(items)}
   else if(e.key==='Enter'){
-    if(selSugIdx>=0&&sugResults[selSugIdx]){
-      const it=sugResults[selSugIdx];
-      document.getElementById('searchInput').value=it.title||it.name||'';
-      closeSug();openItem(it,it._type,it._anime);
-    } else doSearch();
-  } else if(e.key==='Escape') closeSug();
+    if(selSugIdx>=0&&sugResults[selSugIdx]){const it=sugResults[selSugIdx];document.getElementById('searchInput').value=it.title||it.name||'';closeSug();openItem(it,it._type,it._anime)}
+    else doSearch();
+  }else if(e.key==='Escape')closeSug();
 }
 function hilSug(items){
   items.forEach((el,i)=>el.classList.toggle('sel',i===selSugIdx));
-  if(selSugIdx>=0&&sugResults[selSugIdx]){
-    const it=sugResults[selSugIdx];
-    document.getElementById('searchInput').value=it.title||it.name||'';
-  }
+  if(selSugIdx>=0&&sugResults[selSugIdx]){const it=sugResults[selSugIdx];document.getElementById('searchInput').value=it.title||it.name||'';}
 }
 document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))closeSug()});
 
-/* ─── OPEN ITEM ──────────────────────────────────────────────────── */
+/* ─── OPEN MEDIA ITEM ────────────────────────────────────────────── */
 async function openItem(item, type, anime) {
   if (!item) return;
   prevPage=document.querySelector('.page.active').id;
-  isAnime=!!anime;
-  dubMode=false;
-  malId=null;
+  isAnime=!!anime;dubMode=false;malId=null;
   showPage('player-page');
   currentType=type;
-
   document.getElementById('pTitle').textContent='Loading…';
   document.getElementById('pPills').innerHTML='';
   document.getElementById('pOverview').textContent='';
   document.getElementById('srcBtns').innerHTML='<span style="color:var(--muted);font-size:12px">Loading…</span>';
   document.getElementById('tvCtrl').style.display='none';
   document.getElementById('dubSubRow').style.display='none';
-
-  try {
-    const [detail, extIds] = await Promise.all([
-      type==='movie' ? tmdb(`/movie/${item.id}`) : tmdb(`/tv/${item.id}`,'append_to_response=seasons'),
-      anime && type==='tv' ? tmdb(`/tv/${item.id}/external_ids`) : Promise.resolve(null),
+  document.getElementById('sportQualityRow').style.display='none';
+  document.getElementById('pFrame').src='';
+  try{
+    const [detail,extIds]=await Promise.all([
+      type==='movie'?tmdb(`/movie/${item.id}`):tmdb(`/tv/${item.id}`,'append_to_response=seasons'),
+      anime&&type==='tv'?tmdb(`/tv/${item.id}/external_ids`):Promise.resolve(null),
     ]);
     currentItem=detail;
-    if (extIds && extIds.tvdb_id) malId = extIds.tvdb_id; // fallback
-    if (extIds && extIds.mal_id)  malId = extIds.mal_id;
-    // also check if TMDB has external MAL ID directly
-    renderPlayerUI(detail, type, anime);
-  } catch(e) {
-    currentItem=item;
-    renderPlayerUI(item, type, anime);
-  }
+    if(extIds?.mal_id)malId=extIds.mal_id;
+    renderPlayerUI(detail,type,anime);
+  }catch(e){currentItem=item;renderPlayerUI(item,type,anime)}
 }
 
-function renderPlayerUI(item, type, anime) {
+function renderPlayerUI(item,type,anime){
   const title=item.title||item.name||'Unknown';
   const year=(item.release_date||item.first_air_date||'').split('-')[0];
   const rat=item.vote_average?item.vote_average.toFixed(1):null;
   const rt=item.runtime?`${item.runtime}m`:item.episode_run_time?.[0]?`~${item.episode_run_time[0]}m/ep`:null;
   const genres=(item.genres||[]).slice(0,3).map(g=>g.name).join(', ');
-
   document.getElementById('pTitle').textContent=title;
   const pills=document.getElementById('pPills');
   pills.innerHTML='';
-  if(year) pills.innerHTML+=`<span class="pill">${year}</span>`;
-  if(rat)  pills.innerHTML+=`<span class="pill pill-gold">★ ${rat}</span>`;
-  if(rt)   pills.innerHTML+=`<span class="pill">${rt}</span>`;
+  if(year)pills.innerHTML+=`<span class="pill">${year}</span>`;
+  if(rat) pills.innerHTML+=`<span class="pill pill-gold">★ ${rat}</span>`;
+  if(rt)  pills.innerHTML+=`<span class="pill">${rt}</span>`;
   if(genres)pills.innerHTML+=`<span class="pill pill-red">${genres}</span>`;
   pills.innerHTML+=`<span class="pill">${anime?'Anime':type==='movie'?'Movie':'TV Show'}</span>`;
   document.getElementById('pOverview').textContent=item.overview||'';
-
-  if (anime) {
-    document.getElementById('dubSubRow').style.display='flex';
-    document.getElementById('subBtn').classList.add('active');
-    document.getElementById('dubBtn').classList.remove('active');
-  } else {
-    document.getElementById('dubSubRow').style.display='none';
-  }
-
-  if (type==='tv') {
+  if(anime){document.getElementById('dubSubRow').style.display='flex';document.getElementById('subBtn').classList.add('active');document.getElementById('dubBtn').classList.remove('active')}
+  else document.getElementById('dubSubRow').style.display='none';
+  if(type==='tv'){
     tvSeasons=(item.seasons||[]).filter(s=>s.season_number>0);
-    if (tvSeasons.length) { populateSeasons(); document.getElementById('tvCtrl').style.display='flex'; }
+    if(tvSeasons.length){populateSeasons();document.getElementById('tvCtrl').style.display='flex'}
     else loadSources(1,1);
-  } else {
-    loadSources(1,1);
-  }
+  }else loadSources(1,1);
 }
 
 function populateSeasons(){
@@ -918,7 +1095,7 @@ function populateEpisodes(){
 function onEpisodeChange(){
   const s=parseInt(document.getElementById('seasonSel').value)||1;
   const e=parseInt(document.getElementById('episodeSel').value)||1;
-  loadSources(s,e); saveCW(s,e);
+  loadSources(s,e);saveCW(s,e);
 }
 function setDubSub(mode){
   dubMode=mode==='dub';
@@ -929,7 +1106,6 @@ function setDubSub(mode){
   loadSources(s,e);
   toast(dubMode?'🎙 English Dub':'📜 Subtitled (Sub)');
 }
-
 function loadSources(s,e){
   const sources=buildSources(currentItem,currentType,s,e);
   const btns=document.getElementById('srcBtns');
@@ -949,11 +1125,11 @@ function loadSources(s,e){
 }
 
 /* ─── CONTINUE WATCHING ─────────────────────────────────────────── */
-const CW_KEY='dikflix_cw';
+const CW_KEY='dikflix_cw_v2';
 function getCW(){try{return JSON.parse(localStorage.getItem(CW_KEY)||'[]')}catch{return[]}}
-function saveCWList(l){localStorage.setItem(CW_KEY,JSON.stringify(l.slice(0,20)))}
+function saveCWList(l){localStorage.setItem(CW_KEY,JSON.stringify(l.slice(0,24)))}
 function saveCW(s,e){
-  if (!currentItem) return;
+  if(!currentItem||currentType==='sport')return;
   const list=getCW().filter(x=>!(x.id===currentItem.id&&x.type===currentType));
   list.unshift({
     id:currentItem.id,type:currentType,anime:isAnime,
@@ -969,7 +1145,7 @@ function renderCW(){
   const list=getCW();
   const sec=document.getElementById('cw-section');
   const row=document.getElementById('cw-row');
-  if (!list.length){sec.style.display='none';return}
+  if(!list.length){sec.style.display='none';return}
   sec.style.display='block';
   row.innerHTML=list.map((item,i)=>{
     const sub=item.type==='movie'?(item.anime?'Anime Movie':'Movie'):`S${item.season} E${item.episode}`;
@@ -991,26 +1167,25 @@ function renderCW(){
   row.querySelectorAll('.cw-remove').forEach(btn=>{
     btn.addEventListener('click',e=>{
       e.stopPropagation();
-      const l=getCW(); l.splice(parseInt(btn.dataset.idx),1);
-      saveCWList(l); renderCW();
+      const l=getCW();l.splice(parseInt(btn.dataset.idx),1);saveCWList(l);renderCW();
     });
   });
 }
 async function resumeItem(cwItem){
-  prevPage='home-page';
-  isAnime=cwItem.anime||false;dubMode=false;malId=null;
+  prevPage='home-page';isAnime=cwItem.anime||false;dubMode=false;malId=null;
   showPage('player-page');currentType=cwItem.type;
   document.getElementById('pTitle').textContent='Resuming…';
   document.getElementById('pPills').innerHTML='';
   document.getElementById('pOverview').textContent='';
   document.getElementById('srcBtns').innerHTML='';
+  document.getElementById('sportQualityRow').style.display='none';
   try{
     const [detail,extIds]=await Promise.all([
       cwItem.type==='movie'?tmdb(`/movie/${cwItem.id}`):tmdb(`/tv/${cwItem.id}`,'append_to_response=seasons'),
       cwItem.anime&&cwItem.type==='tv'?tmdb(`/tv/${cwItem.id}/external_ids`):Promise.resolve(null),
     ]);
     currentItem=detail;
-    if(extIds?.mal_id) malId=extIds.mal_id;
+    if(extIds?.mal_id)malId=extIds.mal_id;
     renderPlayerUI(detail,cwItem.type,cwItem.anime);
     if(cwItem.type==='tv'&&cwItem.season){
       setTimeout(()=>{
@@ -1038,5 +1213,4 @@ initHome();
 </script>
 </body>
 </html>
-HTMLEOF
 
