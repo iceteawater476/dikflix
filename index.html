@@ -955,6 +955,9 @@ header::before{
 <!-- ══════════ SEARCH PAGE ══════════ -->
 <div id="search-page" class="page">
   <div style="padding-top:calc(var(--hh) + 12px)"></div>
+  <div style="padding:0 20px 4px">
+    <button class="back-btn" onclick="goBack()" style="display:none">◀ BACK</button>
+  </div>
   <div class="search-hdr">
     <div class="search-lbl">SEARCH RESULTS FOR <strong id="searchQLabel"></strong></div>
     <div class="filter-row">
@@ -970,7 +973,7 @@ header::before{
 <!-- ══════════ PLAYER PAGE ══════════ -->
 <div id="player-page" class="page">
   <div class="player-body" style="padding-bottom:0">
-    <button class="back-btn" onclick="goBack()">◀ REWIND / BACK</button>
+    <button class="back-btn" onclick="goBack()" style="display:none">◀ BACK</button>
   </div>
   <div class="player-shell">
     <iframe id="pFrame"
@@ -1109,7 +1112,32 @@ function normalizeSportSRC(m){
 /* ─── STATE ──────────────────────────────────────────────────── */
 let currentItem=null,currentType=null;
 let isAnime=false,dubMode=false,malId=null;
-let tvSeasons=[],allResults=[],prevPage='home-page';
+let tvSeasons=[],allResults=[];
+/* ─── HISTORY STACK ─── */
+let navHistory=[];
+function pushNav(pageId){
+  if(navHistory[navHistory.length-1]!==pageId) navHistory.push(pageId);
+  updateBackBtns();
+}
+function updateBackBtns(){
+  const canBack=navHistory.length>1;
+  document.querySelectorAll('.back-btn').forEach(b=>{b.style.display=canBack?'':'none'});
+}
+function goBack(){
+  if(navHistory.length>1){
+    navHistory.pop();
+    const prev=navHistory[navHistory.length-1];
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    closeSug();
+    // Sync tab highlight
+    const tabMap={'home-page':'home','sports-page':'sports','search-page':null,'player-page':null};
+    const tab=tabMap[prev];
+    if(tab) setActiveTab(tab); else document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+    updateBackBtns();
+  }
+}
 let sugTimeout=null,sugResults=[],selSugIdx=-1;
 let allMatches=[],currentSportItem=null,currentSportStreams=[];
 let currentSources=[],activeSourceIdx=0;
@@ -1168,12 +1196,17 @@ function showPage(id){
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   closeSug();
+  pushNav(id);
+});
+  closeSug();
 }
 function showHome(){
   document.getElementById('searchInput').value='';
-  setActiveTab('home');renderCW();showPage('home-page');
+  setActiveTab('home');renderCW();
+  navHistory=[];
+  showPage('home-page');
 }
-function goBack(){showPage(prevPage)}
+// goBack defined above in nav history block
 function setActiveTab(tab){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   const el=document.querySelector(`[data-tab="${tab}"]`);if(el)el.classList.add('active');
@@ -1186,7 +1219,8 @@ function setTab(tab,el){
   document.getElementById('searchInput').value='';closeSug();
   if(tab==='sports'){showPage('sports-page');loadSports('all')}
   else{showPage('home-page');renderCW();
-    if(tab==='home')initHome();
+    if(tab==='home')navHistory=['home-page'];
+initHome();
     else if(tab==='movies')loadMovies();
     else if(tab==='tv')loadTV();
     else if(tab==='anime')loadAnime();
@@ -1287,7 +1321,7 @@ function vhsCardHTML(item,type,anime){
         <div class="vhs-spine-text">${title.toUpperCase()} ${year?'· '+year:''}</div>
       </div>
       <div class="vhs-front">
-        ${poster?`<img class="vhs-poster" src="${poster}" alt="${title}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.removeProperty('display')">`:''}
+        ${poster?`<img class="vhs-poster" src="${poster}" alt="${title}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.querySelector('.vhs-poster-ph').style.removeProperty('display')">`:''}
         <div class="vhs-poster-ph" style="${poster?'display:none':''}">
           <span style="font-size:22px;color:var(--muted)">📼</span>
           <span style="font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:1px;color:var(--muted);text-align:center">${shortTitle}</span>
@@ -1309,7 +1343,7 @@ function vhsCardHTML(item,type,anime){
 async function doSearch(q){
   q=q||document.getElementById('searchInput').value.trim();
   if(!q)return;
-  closeSug();prevPage='home-page';showPage('search-page');
+  closeSug();showPage('search-page');
   document.getElementById('searchQLabel').textContent=`"${q}"`;
   const res=document.getElementById('searchResults');
   res.innerHTML='<div class="spinner-wrap" style="grid-column:1/-1">'+spin()+'</div>';
@@ -1656,7 +1690,7 @@ function sportCardHTML(m){
   const isLive=m.popular||m.isLive||(m.date&&Math.abs(Date.now()-m.date)<4*3600000);
   const poster=m.poster||m.thumbnail||'';
   return `<div class="sport-card" data-match='${JSON.stringify({id:m.id,title,category:m.category,sources:m.sources,date:m.date,teams:m.teams,poster}).replace(/'/g,"&#39;")}' style="position:relative">
-    ${poster?`<img class="sport-thumb" src="${poster}" alt="${title}" onerror="this.style.display='none';this.nextSibling.style.removeProperty('display')">`:''}
+    ${poster?`<img class="sport-thumb" src="${poster}" alt="${title}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.querySelector('.sport-thumb-ph').style.removeProperty('display')">`:''}
     <div class="sport-thumb-ph" style="${poster?'display:none':''}"><span style="font-size:28px">${icon}</span><span style="font-family:'VT323',monospace;font-size:12px;letter-spacing:1px">${(m.category||'SPORT').toUpperCase()}</span></div>
     ${isLive?`<div class="sport-live-badge"><span class="sport-live-dot"></span>LIVE</div>`:''}
     <div class="sport-cat-badge">${icon}</div>
@@ -1693,7 +1727,7 @@ function renderSports(matches){
   });
 }
 async function openSportItem(match){
-  prevPage='sports-page';currentType='sport';currentSportItem=match;
+  currentType='sport';currentSportItem=match;
   showPage('player-page');
   document.getElementById('pTitle').textContent=(match.title||'LIVE MATCH').toUpperCase();
   document.getElementById('pPills').innerHTML='';
@@ -1780,7 +1814,7 @@ function renderCW(){
   });
 }
 async function resumeItem(cwItem){
-  prevPage='home-page';isAnime=cwItem.anime||false;dubMode=false;malId=null;
+  isAnime=cwItem.anime||false;dubMode=false;malId=null;
   showPage('player-page');currentType=cwItem.type;
   document.getElementById('pTitle').textContent='REWINDING...';
   document.getElementById('pPills').innerHTML='';
