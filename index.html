@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -279,14 +278,14 @@ header::before{
    ══════════════════════════════════════════════ */
 .vhs-wrap{
   flex-shrink:0;
-  width:110px;
+  width:150px;
   cursor:pointer;
-  margin-right:6px;
+  margin-right:8px;
   position:relative;
 }
 .vhs-box{
-  width:110px;
-  height:158px;
+  width:150px;
+  height:215px;
   position:relative;
   transition:transform .2s ease,box-shadow .2s ease;
 }
@@ -300,7 +299,7 @@ header::before{
   border-radius:2px;overflow:hidden;
 }
 .vhs-front{
-  width:110px;height:158px;
+  width:150px;height:215px;
   left:0;top:0;
   background:var(--tape);
   box-shadow:3px 4px 12px rgba(0,0,0,0.8),inset 0 0 0 1px rgba(255,255,255,0.06);
@@ -337,20 +336,20 @@ header::before{
   border-top:1px solid rgba(255,255,255,0.15);
 }
 .vhs-label-title{
-  font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:1px;
+  font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;
   color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   text-transform:uppercase;
 }
 .vhs-badge-corner{
   position:absolute;top:6px;right:6px;
   background:rgba(0,0,0,0.8);color:var(--gold);
-  font-family:'VT323',monospace;font-size:12px;
-  padding:1px 5px;border:1px solid rgba(200,168,75,0.4);
+  font-family:'VT323',monospace;font-size:15px;
+  padding:2px 6px;border:1px solid rgba(200,168,75,0.4);
 }
 .vhs-type-strip{
   position:absolute;top:6px;left:6px;
-  font-family:'VT323',monospace;font-size:10px;letter-spacing:1px;
-  padding:1px 5px;border-radius:1px;text-transform:uppercase;
+  font-family:'VT323',monospace;font-size:13px;letter-spacing:1px;
+  padding:2px 6px;border-radius:1px;text-transform:uppercase;
 }
 .vt-movie{background:rgba(204,17,34,.9);color:white}
 .vt-tv{background:rgba(37,99,235,.9);color:white}
@@ -422,7 +421,7 @@ header::before{
 .f-tab.active{background:rgba(204,17,34,0.2);color:#ff8080;border-color:var(--vhs-red)}
 .results-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
   gap:18px 12px;padding:0 20px 20px;
   align-items:end;
 }
@@ -517,12 +516,12 @@ header::before{
 .poi-grid{
   position:relative;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
-  gap:3px;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:4px;
   background:#000;
   border:2px solid #1a1a1a;
   border-radius:2px;
-  max-height:280px;overflow-y:auto;
+  max-height:360px;overflow-y:auto;
   padding:3px;
   /* CRT curve */
   box-shadow:
@@ -560,10 +559,10 @@ header::before{
   font-family:'Share Tech Mono',monospace;font-size:9px;color:#2a2a2a;
 }
 .ep-cell-num{
-  position:absolute;bottom:2px;left:3px;
-  font-family:'Share Tech Mono',monospace;font-size:8px;
-  color:rgba(200,168,75,0.6);background:rgba(0,0,0,0.8);
-  padding:0 3px;letter-spacing:.5px;
+  position:absolute;bottom:4px;left:4px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:rgba(200,168,75,0.9);background:rgba(0,0,0,0.85);
+  padding:1px 5px;letter-spacing:.5px;
 }
 .ep-cell-overlay{
   position:absolute;inset:0;background:rgba(0,0,0,0);
@@ -841,17 +840,17 @@ header::before{
   .player-body{padding:10px 14px}
   .player-cols{flex-direction:column}
   .player-sidebar{width:100%}
-  .results-grid{padding:0 14px 14px;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:14px 10px}
+  .results-grid{padding:0 14px 14px;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:14px 10px}
   .search-hdr{padding:0 14px 12px}
   .player-title{font-size:22px}
-  .vhs-wrap{width:90px}
-  .vhs-box{width:90px;height:130px}
-  .vhs-front{width:90px;height:130px}
+  .vhs-wrap{width:120px}
+  .vhs-box{width:120px;height:172px}
+  .vhs-front{width:120px;height:172px}
   .sport-filters{padding:0 14px 4px}
   .dial-container{width:290px;height:290px}
   .dial-hole{width:32px;height:32px}
   .dial-center{width:80px;height:80px}
-  .poi-grid{grid-template-columns:repeat(auto-fill,minmax(75px,1fr))}
+  .poi-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
 }
 </style>
 </head>
@@ -1451,7 +1450,7 @@ function onSeasonChange(){
   buildPoiGrid(s,1);
 }
 
-function buildPoiGrid(s,selectedEp){
+async function buildPoiGrid(s,selectedEp){
   const season=tvSeasons.find(x=>x.season_number===s);
   const count=season?season.episode_count:24;
   const grid=document.getElementById('poiGrid');
@@ -1459,10 +1458,21 @@ function buildPoiGrid(s,selectedEp){
   const cursor=document.getElementById('poiCursor');
   const activeLabel=document.getElementById('activeEpLabel');
 
+  // Fetch episode stills from TMDB
+  let epStills={};
+  try{
+    const sd=await tmdb(`/tv/${currentItem.id}/season/${s}`);
+    if(sd.episodes) sd.episodes.forEach(ep=>{
+      epStills[ep.episode_number]=ep.still_path?`https://image.tmdb.org/t/p/w300${ep.still_path}`:'';
+    });
+  }catch(e){}
+
   grid.innerHTML=Array.from({length:count},(_,i)=>{
     const ep=i+1;
     const isActive=ep===selectedEp;
+    const still=epStills[ep]||'';
     return `<div class="ep-cell${isActive?' active':''}" data-ep="${ep}" data-s="${s}">
+      ${still?`<img class="ep-cell-img" src="${still}" alt="EP${ep}" referrerpolicy="no-referrer" onerror="this.style.display='none'">`:''}
       <div class="ep-cell-ph">EP${String(ep).padStart(2,'0')}</div>
       <div class="ep-cell-num">EP${String(ep).padStart(2,'0')}</div>
       <div class="ep-cell-overlay"><div class="ep-play-icon">▶</div></div>
