@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -279,44 +280,35 @@ header::before{
 .vhs-wrap{
   flex-shrink:0;
   width:110px;
-  perspective:600px;
   cursor:pointer;
-  margin-right:2px;
+  margin-right:6px;
   position:relative;
 }
 .vhs-box{
   width:110px;
   height:158px;
   position:relative;
-  transform-style:preserve-3d;
-  transform:rotateY(-12deg) rotateX(2deg);
-  transition:transform .35s cubic-bezier(.25,.46,.45,.94);
-  will-change:transform;
+  transition:transform .2s ease,box-shadow .2s ease;
 }
 .vhs-wrap:hover .vhs-box{
-  transform:rotateY(0deg) rotateX(0deg) scale(1.08) translateY(-8px);
+  transform:scale(1.06) translateY(-6px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.7),0 0 0 1px rgba(200,168,75,0.3);
 }
 /* FRONT face */
 .vhs-face{
-  position:absolute;backface-visibility:hidden;
+  position:absolute;
   border-radius:2px;overflow:hidden;
 }
 .vhs-front{
   width:110px;height:158px;
   left:0;top:0;
   background:var(--tape);
-  box-shadow:2px 2px 8px rgba(0,0,0,0.8),inset 0 0 0 1px rgba(255,255,255,0.06);
+  box-shadow:3px 4px 12px rgba(0,0,0,0.8),inset 0 0 0 1px rgba(255,255,255,0.06);
+  position:relative;
 }
 /* SPINE face — left side */
 .vhs-spine{
-  width:16px;height:158px;
-  left:-16px;top:0;
-  transform:rotateY(90deg);
-  transform-origin:right center;
-  background:var(--tape2);
-  box-shadow:inset 1px 0 2px rgba(0,0,0,0.8);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;
+  display:none;
 }
 .vhs-spine-text{
   font-family:'Bebas Neue',sans-serif;font-size:9px;letter-spacing:2px;
@@ -326,11 +318,7 @@ header::before{
 }
 /* TOP face */
 .vhs-top{
-  width:110px;height:16px;
-  left:0;top:-16px;
-  transform:rotateX(-90deg);
-  transform-origin:bottom center;
-  background:linear-gradient(to right,#222,#333,#222);
+  display:none;
 }
 
 .vhs-poster{width:100%;height:100%;object-fit:cover;display:block}
@@ -859,7 +847,6 @@ header::before{
   .vhs-wrap{width:90px}
   .vhs-box{width:90px;height:130px}
   .vhs-front{width:90px;height:130px}
-  .vhs-spine{width:13px;height:130px;left:-13px}
   .sport-filters{padding:0 14px 4px}
   .dial-container{width:290px;height:290px}
   .dial-hole{width:32px;height:32px}
@@ -955,9 +942,6 @@ header::before{
 <!-- ══════════ SEARCH PAGE ══════════ -->
 <div id="search-page" class="page">
   <div style="padding-top:calc(var(--hh) + 12px)"></div>
-  <div style="padding:0 20px 4px">
-    <button class="back-btn" onclick="goBack()" style="display:none">◀ BACK</button>
-  </div>
   <div class="search-hdr">
     <div class="search-lbl">SEARCH RESULTS FOR <strong id="searchQLabel"></strong></div>
     <div class="filter-row">
@@ -1113,31 +1097,8 @@ function normalizeSportSRC(m){
 let currentItem=null,currentType=null;
 let isAnime=false,dubMode=false,malId=null;
 let tvSeasons=[],allResults=[];
-/* ─── HISTORY STACK ─── */
-let navHistory=[];
-function pushNav(pageId){
-  if(navHistory[navHistory.length-1]!==pageId) navHistory.push(pageId);
-  updateBackBtns();
-}
-function updateBackBtns(){
-  const canBack=navHistory.length>1;
-  document.querySelectorAll('.back-btn').forEach(b=>{b.style.display=canBack?'':'none'});
-}
-function goBack(){
-  if(navHistory.length>1){
-    navHistory.pop();
-    const prev=navHistory[navHistory.length-1];
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(prev).classList.add('active');
-    window.scrollTo({top:0,behavior:'smooth'});
-    closeSug();
-    // Sync tab highlight
-    const tabMap={'home-page':'home','sports-page':'sports','search-page':null,'player-page':null};
-    const tab=tabMap[prev];
-    if(tab) setActiveTab(tab); else document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-    updateBackBtns();
-  }
-}
+let navHistory=['home-page'];
+function pushNav(id){if(navHistory[navHistory.length-1]!==id)navHistory.push(id);document.querySelectorAll('.back-btn').forEach(b=>b.style.display=navHistory.length>1?'inline-flex':'none');}
 let sugTimeout=null,sugResults=[],selSugIdx=-1;
 let allMatches=[],currentSportItem=null,currentSportStreams=[];
 let currentSources=[],activeSourceIdx=0;
@@ -1197,16 +1158,12 @@ function showPage(id){
   window.scrollTo({top:0,behavior:'smooth'});
   closeSug();
   pushNav(id);
-});
-  closeSug();
 }
 function showHome(){
   document.getElementById('searchInput').value='';
-  setActiveTab('home');renderCW();
-  navHistory=[];
-  showPage('home-page');
+  setActiveTab('home');renderCW();showPage('home-page');
 }
-// goBack defined above in nav history block
+function goBack(){if(navHistory.length>1){navHistory.pop();const p=navHistory[navHistory.length-1];document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});closeSug();document.querySelectorAll('.back-btn').forEach(b=>b.style.display=navHistory.length>1?'inline-flex':'none');}}
 function setActiveTab(tab){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   const el=document.querySelector(`[data-tab="${tab}"]`);if(el)el.classList.add('active');
@@ -1219,8 +1176,7 @@ function setTab(tab,el){
   document.getElementById('searchInput').value='';closeSug();
   if(tab==='sports'){showPage('sports-page');loadSports('all')}
   else{showPage('home-page');renderCW();
-    if(tab==='home')navHistory=['home-page'];
-initHome();
+    if(tab==='home')initHome();
     else if(tab==='movies')loadMovies();
     else if(tab==='tv')loadTV();
     else if(tab==='anime')loadAnime();
@@ -1321,7 +1277,7 @@ function vhsCardHTML(item,type,anime){
         <div class="vhs-spine-text">${title.toUpperCase()} ${year?'· '+year:''}</div>
       </div>
       <div class="vhs-front">
-        ${poster?`<img class="vhs-poster" src="${poster}" alt="${title}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.querySelector('.vhs-poster-ph').style.removeProperty('display')">`:''}
+        ${poster?`<img class="vhs-poster" src="${poster}" alt="${title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')">`:''}
         <div class="vhs-poster-ph" style="${poster?'display:none':''}">
           <span style="font-size:22px;color:var(--muted)">📼</span>
           <span style="font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:1px;color:var(--muted);text-align:center">${shortTitle}</span>
@@ -1690,7 +1646,7 @@ function sportCardHTML(m){
   const isLive=m.popular||m.isLive||(m.date&&Math.abs(Date.now()-m.date)<4*3600000);
   const poster=m.poster||m.thumbnail||'';
   return `<div class="sport-card" data-match='${JSON.stringify({id:m.id,title,category:m.category,sources:m.sources,date:m.date,teams:m.teams,poster}).replace(/'/g,"&#39;")}' style="position:relative">
-    ${poster?`<img class="sport-thumb" src="${poster}" alt="${title}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.querySelector('.sport-thumb-ph').style.removeProperty('display')">`:''}
+    ${poster?`<img class="sport-thumb" src="${poster}" alt="${title}" onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')">`:''}
     <div class="sport-thumb-ph" style="${poster?'display:none':''}"><span style="font-size:28px">${icon}</span><span style="font-family:'VT323',monospace;font-size:12px;letter-spacing:1px">${(m.category||'SPORT').toUpperCase()}</span></div>
     ${isLive?`<div class="sport-live-badge"><span class="sport-live-dot"></span>LIVE</div>`:''}
     <div class="sport-cat-badge">${icon}</div>
