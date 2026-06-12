@@ -705,137 +705,632 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);
   .tv-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-/* ══ MODERN OVERRIDES ══ */
-header{background:rgba(12,12,14,0.97);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+/* ══════════════════════════════════════════════
+   MODERN OVERRIDES — BIGGER, FLUID, POLISHED
+   ══════════════════════════════════════════════ */
+
+/* ── ROOT ── */
+:root{
+  --bg:#0c0c0e; --bg2:#121215; --bg3:#1a1a1f; --bg4:#242428;
+  --accent:#e50914; --accent2:#ff2d3b;
+  --gold:#f5c518; --green:#22c55e; --blue:#3b82f6;
+  --cream:#f0ece0; --muted:#7a7890; --dim:#333340;
+  --border:rgba(255,255,255,0.08);
+  --vhs-red:#e50914; --scanline:rgba(0,0,0,0.12); --hh:62px;
+  --radius:10px; --radius-sm:6px;
+  --shadow:0 6px 32px rgba(0,0,0,0.55);
+  --trans:all .22s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);-webkit-font-smoothing:antialiased;font-size:15px}
+
+/* ── HEADER ── */
+header{
+  height:var(--hh);background:rgba(12,12,14,0.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  padding:0 24px;gap:12px;
+}
+.logo{font-size:28px;letter-spacing:4px}
 .logo em{color:var(--accent)}
-.nav-tab{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1.5px;border-bottom:2px solid transparent;padding:6px 12px;border-radius:0;text-transform:uppercase}
-.nav-tab:hover{background:rgba(255,255,255,0.05);color:var(--cream)}
+.vhs-pill{
+  font-size:10px;letter-spacing:2px;
+  background:rgba(229,9,20,0.1);border:1px solid rgba(229,9,20,0.3);
+  color:var(--accent);padding:4px 10px;border-radius:4px;
+}
+.nav-tabs{gap:2px;margin-left:10px}
+.nav-tab{
+  font-family:'Share Tech Mono',monospace;font-size:12px;
+  letter-spacing:1.5px;padding:8px 16px;border-radius:0;
+  border-bottom:2px solid transparent;text-transform:uppercase;
+  transition:var(--trans);
+}
+.nav-tab:hover{color:var(--cream);background:rgba(255,255,255,0.05)}
 .nav-tab.active{color:#fff;border-bottom-color:var(--accent);background:none}
 .nav-tab.sport-tab.active{border-bottom-color:var(--green)}
-#searchInput,.search-input{border-radius:20px;font-size:11px;letter-spacing:1px;padding:7px 36px 7px 14px;width:180px;transition:width .3s,border-color .3s}
-#searchInput:focus,.search-input:focus{width:220px;border-color:rgba(255,255,255,0.2)}
+#searchInput,.search-input{
+  border-radius:24px;font-size:12px;letter-spacing:1px;
+  padding:9px 40px 9px 18px;width:200px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.1);
+  color:var(--cream);outline:none;
+  transition:var(--trans);
+}
+#searchInput:focus,.search-input:focus{
+  width:260px;background:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.22);
+}
+#searchInput::placeholder,.search-input::placeholder{color:var(--muted)}
+.search-btn{right:12px;font-size:16px}
+.sug-box{
+  border-radius:var(--radius);border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.sug-item{padding:10px 14px;gap:12px}
+.sug-item img{width:44px;height:60px;border-radius:4px}
+.sug-title{font-size:13px;line-height:1.4}
+.sug-meta{font-size:11px;margin-top:2px}
 
-/* ══ HAMBURGER ══ */
-.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;flex-shrink:0;margin-left:6px}
-.hamburger span{display:block;width:20px;height:2px;background:var(--cream);border-radius:1px;transition:all .3s}
-.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+/* ── HAMBURGER ── */
+.hamburger{
+  display:none;flex-direction:column;gap:6px;
+  background:none;border:none;cursor:pointer;
+  padding:8px;flex-shrink:0;margin-left:6px;
+}
+.hamburger span{
+  display:block;width:22px;height:2px;
+  background:var(--cream);border-radius:2px;transition:var(--trans);
+}
+.hamburger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.hamburger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 
-/* ══ MOBILE NAV PANEL ══ */
-.mobile-nav{display:none;position:fixed;top:var(--hh);left:0;right:0;z-index:190;
+/* ── MOBILE NAV ── */
+.mobile-nav{
+  display:none;position:fixed;top:var(--hh);left:0;right:0;z-index:190;
   background:rgba(12,12,14,0.98);border-bottom:1px solid var(--border);
-  backdrop-filter:blur(20px);flex-direction:column}
-.mobile-nav.open{display:flex}
-.mob-search{padding:12px 16px;border-bottom:1px solid var(--border)}
-.mob-search input{width:100%;background:rgba(255,255,255,0.07);border:1px solid var(--border);
-  border-radius:var(--radius);color:var(--cream);padding:10px 14px;
-  font-family:'Share Tech Mono',monospace;font-size:12px;outline:none;box-sizing:border-box}
-.mobile-nav .nav-tab{width:100%;text-align:left;padding:13px 20px;border-radius:0;font-size:12px;
-  border-bottom:1px solid var(--border);border-left:3px solid transparent;letter-spacing:1px}
-.mobile-nav .nav-tab:hover{background:rgba(255,255,255,0.04);border-left-color:var(--accent)}
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  flex-direction:column;
+  transform:translateY(-8px);opacity:0;
+  transition:transform .25s cubic-bezier(.4,0,.2,1), opacity .25s;
+  pointer-events:none;
+}
+.mobile-nav.open{
+  display:flex;transform:translateY(0);opacity:1;pointer-events:all;
+}
+.mob-search{padding:14px 18px;border-bottom:1px solid var(--border)}
+.mob-search input{
+  width:100%;background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);
+  color:var(--cream);padding:12px 16px;
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  outline:none;box-sizing:border-box;transition:var(--trans);
+}
+.mob-search input:focus{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2)}
+.mobile-nav .nav-tab{
+  width:100%;text-align:left;padding:16px 22px;border-radius:0;font-size:13px;
+  border-bottom:1px solid var(--border);border-left:3px solid transparent;
+  letter-spacing:1px;border-bottom-color:var(--border) !important;
+}
+.mobile-nav .nav-tab:hover{
+  background:rgba(255,255,255,0.05);border-left-color:var(--accent) !important;
+}
 
-/* ══ HERO MODERN ══ */
-.hero{min-height:52vh;align-items:flex-end;padding:40px 28px 36px}
-.hero h1{font-size:clamp(40px,7vw,80px);line-height:.95}
-.hero-rec{background:rgba(229,9,20,0.12);border:1px solid rgba(229,9,20,0.3);border-radius:3px;padding:4px 10px;font-size:9px;letter-spacing:3px;color:var(--accent)}
-.hero-rec::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:f1pulse 1.5s infinite;display:inline-block;margin-right:6px;vertical-align:middle}
-@keyframes f1pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.hero-sub{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.35);margin-bottom:22px}
-.btn-r{background:var(--accent);border-radius:var(--radius-sm);font-size:18px;letter-spacing:2px;padding:11px 24px}
-.btn-r:hover{background:var(--accent2);transform:translateY(-1px)}
-.btn-o,.btn-b,.btn-g{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);font-size:15px;padding:10px 18px}
-.btn-o:hover,.btn-b:hover,.btn-g:hover{background:rgba(255,255,255,0.13);transform:translateY(-1px)}
+/* ── HERO ── */
+.hero{
+  min-height:58vh;padding:48px 32px 44px;align-items:flex-end;
+}
+.hero h1{
+  font-size:clamp(44px,8vw,90px);line-height:.92;letter-spacing:2px;margin-bottom:16px;
+}
+.hero h1 em{color:var(--accent)}
+.hero-rec{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(229,9,20,0.12);border:1px solid rgba(229,9,20,0.3);
+  border-radius:4px;padding:5px 12px;
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:3px;color:var(--accent);margin-bottom:16px;
+}
+.hero-rec::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--accent);animation:f1pulse 1.5s infinite;flex-shrink:0;
+}
+@keyframes f1pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.hero-sub{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:2px;color:rgba(255,255,255,0.35);margin-bottom:24px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-r{
+  background:var(--accent);color:#fff;border:none;
+  padding:13px 28px;border-radius:var(--radius-sm);
+  font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;
+  cursor:pointer;transition:var(--trans);display:inline-flex;align-items:center;gap:9px;
+}
+.btn-r:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(229,9,20,0.35)}
+.btn-o,.btn-b,.btn-g{
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);
+  border:1px solid rgba(255,255,255,0.14);
+  padding:12px 22px;border-radius:var(--radius-sm);
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
+  cursor:pointer;transition:var(--trans);
+}
+.btn-o:hover,.btn-b:hover,.btn-g:hover{
+  background:rgba(255,255,255,0.13);color:#fff;
+  border-color:rgba(255,255,255,0.26);transform:translateY(-2px);
+}
 
-/* ══ VHS CARDS MODERN ══ */
-.vhs-wrap{width:140px;margin-right:10px}
-.vhs-box{width:140px;height:200px;border-radius:var(--radius);overflow:hidden;transition:transform .25s,box-shadow .25s}
-.vhs-wrap:hover .vhs-box{transform:scale(1.05) translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.65),0 0 0 1px rgba(229,9,20,0.3)}
-.vhs-front{width:140px;height:200px;border-radius:var(--radius)}
-.vhs-badge-corner{border-radius:3px;backdrop-filter:blur(4px)}
-.vhs-label{border-radius:0 0 var(--radius) var(--radius)}
-.vhs-label-title{font-size:12px;letter-spacing:.5px}
+/* ── SECTIONS ── */
+.section{padding:32px 24px 0}
+.sec-head{margin-bottom:16px}
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#fff;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-title::before{
+  content:'';display:inline-block;width:3px;height:20px;
+  background:var(--accent);border-radius:2px;flex-shrink:0;
+}
+.sec-more{
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;
+  background:none;border:none;color:var(--muted);cursor:pointer;transition:var(--trans);
+  padding:4px 8px;border-radius:4px;
+}
+.sec-more:hover{color:var(--cream);background:rgba(255,255,255,0.06)}
 
-/* ══ SECTION HEADERS ══ */
-.sec-title{font-size:16px;letter-spacing:2px}
-.sec-title::before{content:'';display:inline-block;width:3px;height:16px;background:var(--accent);border-radius:2px;margin-right:10px;vertical-align:middle;flex-shrink:0}
+/* ── VHS CARDS ── */
+.shelf,.shelf-row{padding-bottom:20px;gap:0;-webkit-overflow-scrolling:touch}
+.vhs-wrap{width:155px;margin-right:12px;flex-shrink:0}
+.vhs-box{
+  width:155px;height:222px;border-radius:var(--radius);overflow:hidden;
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94),box-shadow .3s;
+}
+.vhs-wrap:hover .vhs-box{
+  transform:scale(1.06) translateY(-6px);
+  box-shadow:0 24px 48px rgba(0,0,0,.7),0 0 0 1.5px rgba(229,9,20,0.4);
+}
+.vhs-front{
+  width:155px;height:222px;border-radius:var(--radius);
+  background:var(--bg3);position:relative;overflow:hidden;
+}
+.vhs-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.vhs-poster-ph{position:absolute;inset:0;background:linear-gradient(135deg,var(--bg3),var(--bg4));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.vhs-label{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(0deg,rgba(12,12,14,.97) 0%,transparent 100%);
+  padding:32px 10px 10px;border-radius:0 0 var(--radius) var(--radius);
+}
+.vhs-label-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.5px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vhs-badge-corner{
+  position:absolute;top:8px;right:8px;
+  background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);
+  color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px;
+  padding:3px 7px;border-radius:4px;letter-spacing:.5px;
+}
+.vhs-type-strip{
+  position:absolute;top:8px;left:8px;
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;
+  padding:3px 7px;border-radius:4px;text-transform:uppercase;
+}
 
-/* ══ SEARCH PAGE ══ */
-.search-hdr{padding:calc(var(--hh) + 16px) 20px 16px}
-.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
-.f-tab{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);
-  padding:6px 14px;border-radius:20px;font-family:'Share Tech Mono',monospace;font-size:10px;
-  letter-spacing:1px;cursor:pointer;transition:all .2s}
-.f-tab:hover{color:var(--cream);background:rgba(255,255,255,0.08)}
-.f-tab.active{background:rgba(229,9,20,0.12);border-color:rgba(229,9,20,0.4);color:var(--accent)}
+/* ── CONTINUE WATCHING ── */
+.cw-card{width:200px;border-radius:var(--radius);border:1px solid var(--border)}
+.cw-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.cw-thumb{aspect-ratio:16/9;border-radius:var(--radius) var(--radius) 0 0}
+.cw-info{padding:10px 12px 12px}
+.cw-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.5px}
+.cw-meta{font-family:'Share Tech Mono',monospace;font-size:10px;margin-top:4px}
+.cw-bar-wrap{height:3px;margin-top:8px;border-radius:2px;background:rgba(255,255,255,.08)}
+.cw-bar-fill{height:100%;background:var(--accent);border-radius:2px}
 
-/* ══ PLAYER BACK BTN ══ */
-.back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);
-  border:1px solid var(--border);color:rgba(255,255,255,0.6);padding:7px 14px;
-  border-radius:var(--radius-sm);font-family:'Share Tech Mono',monospace;font-size:10px;
-  letter-spacing:1px;cursor:pointer;transition:all .2s;margin-bottom:14px}
-.back-btn:hover{background:rgba(255,255,255,0.1);color:#fff}
+/* ── SEARCH PAGE ── */
+.search-hdr{padding:calc(var(--hh) + 20px) 24px 18px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap}
+.f-tab,.tv-cat-btn{
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);
+  color:var(--muted);padding:8px 18px;border-radius:24px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:1px;cursor:pointer;transition:var(--trans);
+}
+.f-tab:hover,.tv-cat-btn:hover{color:var(--cream);background:rgba(255,255,255,0.1)}
+.f-tab.active,.tv-cat-btn.active{
+  background:rgba(229,9,20,0.13);
+  border-color:rgba(229,9,20,0.45);color:var(--accent);
+}
+.results-grid{
+  padding:0 24px 28px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;
+}
 
-/* ══ SOURCE DROPDOWN ══ */
-.src-section{margin-bottom:14px}
-.src-lbl-txt{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;
-  color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+/* ── SPORT FILTERS ── */
+.sport-filters{display:flex;gap:8px;flex-wrap:wrap;padding:16px 24px 8px;overflow-x:auto;scrollbar-width:none}
+.sport-filters::-webkit-scrollbar{display:none}
+.sf-btn{
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);
+  color:var(--muted);padding:8px 18px;border-radius:24px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;
+  cursor:pointer;transition:var(--trans);white-space:nowrap;flex-shrink:0;
+}
+.sf-btn:hover{color:var(--cream);background:rgba(255,255,255,0.1)}
+.sf-btn.active{
+  background:rgba(34,197,94,0.13);
+  border-color:rgba(34,197,94,0.45);color:var(--green);
+}
+
+/* ── PLAYER ── */
+.player-body{padding:20px 24px}
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.07);border:1px solid var(--border);
+  color:rgba(255,255,255,0.65);padding:9px 18px;border-radius:var(--radius-sm);
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;
+  cursor:pointer;transition:var(--trans);margin-bottom:16px;
+}
+.back-btn:hover{background:rgba(255,255,255,0.12);color:#fff;transform:translateX(-2px)}
+.player-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(22px,3.5vw,36px);letter-spacing:1px;color:#fff;margin-bottom:12px;
+}
+.info-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pill{
+  background:rgba(255,255,255,0.07);border:1px solid var(--border);
+  color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:1px;padding:5px 12px;border-radius:20px;
+}
+.pill.rating{background:rgba(245,197,24,0.1);border-color:rgba(245,197,24,0.3);color:var(--gold)}
+.overview{font-size:14px;line-height:1.7;color:rgba(255,255,255,.5);margin-bottom:18px;max-width:640px}
+.ds-lbl,.poi-lbl{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--muted);letter-spacing:1px;margin-right:10px;
+}
+.tog-btn{
+  background:rgba(255,255,255,0.07);border:1px solid var(--border);
+  color:rgba(255,255,255,.55);padding:6px 14px;border-radius:4px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;transition:var(--trans);
+}
+.tog-btn.active,.tog-btn:hover{
+  background:rgba(229,9,20,0.15);border-color:rgba(229,9,20,0.45);color:#fff;
+}
+
+/* ── SOURCE DROPDOWN ── */
+.src-section{margin-bottom:16px}
+.src-lbl-txt{
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--muted);margin-bottom:8px;text-transform:uppercase;
+}
 .src-drop-wrap{position:relative}
-.src-drop-btn{display:flex;align-items:center;justify-content:space-between;width:100%;
-  background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--cream);
-  padding:9px 12px;border-radius:var(--radius-sm);font-family:'Share Tech Mono',monospace;
-  font-size:11px;cursor:pointer;transition:all .2s;letter-spacing:1px}
-.src-drop-btn:hover,.src-drop-btn.open{border-color:rgba(229,9,20,0.4);background:rgba(229,9,20,0.05)}
-.src-drop-arrow{transition:transform .2s;font-size:9px;opacity:.5}
+.src-drop-btn{
+  display:flex;align-items:center;justify-content:space-between;width:100%;
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--cream);
+  padding:11px 14px;border-radius:var(--radius-sm);
+  font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:1px;
+  cursor:pointer;transition:var(--trans);
+}
+.src-drop-btn:hover,.src-drop-btn.open{
+  border-color:rgba(229,9,20,0.45);background:rgba(229,9,20,0.06);
+}
+.src-drop-arrow{transition:transform .22s;font-size:10px;opacity:.5}
 .src-drop-btn.open .src-drop-arrow{transform:rotate(180deg)}
-.src-drop-menu{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:100;
-  background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);
-  box-shadow:0 8px 32px rgba(0,0,0,.6);max-height:220px;overflow-y:auto;scrollbar-width:thin}
+.src-drop-menu{
+  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:100;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);box-shadow:var(--shadow);
+  max-height:240px;overflow-y:auto;scrollbar-width:thin;
+  scrollbar-color:var(--dim) transparent;
+}
 .src-drop-menu.open{display:block}
-.src-drop-item{padding:10px 12px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;
-  color:var(--muted);transition:all .15s;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border)}
+.src-drop-item{
+  padding:12px 14px;cursor:pointer;
+  font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--muted);
+  transition:var(--trans);display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
 .src-drop-item:last-child{border-bottom:none}
-.src-drop-item:hover{background:rgba(255,255,255,0.04);color:var(--cream)}
-.src-drop-item.active{color:var(--accent);background:rgba(229,9,20,0.06)}
-.src-dot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0}
+.src-drop-item:hover{background:rgba(255,255,255,0.05);color:var(--cream)}
+.src-drop-item.active{color:var(--accent);background:rgba(229,9,20,0.07)}
+.src-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0}
 .src-drop-item.active .src-dot{background:var(--accent)}
+
+/* ── EPISODE GRID ── */
+.poi-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:8px;max-height:360px;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--dim) transparent;
+}
+.ep-cell{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);transition:var(--trans)}
+.ep-cell:hover,.ep-cell.active{border-color:rgba(229,9,20,0.5)}
+.ep-cell.active{box-shadow:0 0 0 2px rgba(229,9,20,0.35)}
+.ep-cell-num{font-family:'Share Tech Mono',monospace;font-size:11px;padding:2px 7px;border-radius:3px}
+
+/* ── SPORT CARDS ── */
+.sport-card,.sport-item{border-radius:var(--radius);transition:var(--trans)}
+.sport-card:hover,.sport-item:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+
+/* ── SEASON SELECT ── */
+.sel{
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--cream);padding:7px 12px;border-radius:var(--radius-sm);
+  font-family:'Share Tech Mono',monospace;font-size:12px;outline:none;cursor:pointer;
+  transition:var(--trans);
+}
+.sel:hover{border-color:rgba(229,9,20,0.4)}
+
+/* ── SPINNER + TOAST ── */
+.spinner{border-color:rgba(255,255,255,.12);border-top-color:var(--accent);border-radius:50%}
+.toast{border-radius:var(--radius-sm);font-size:13px;padding:12px 20px}
+
+/* ── SMOOTH PAGE TRANSITIONS ── */
+.page{animation:none}
+.page.active{animation:fadeUp .3s cubic-bezier(.4,0,.2,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:900px){
   .player-cols{flex-direction:column}
   .player-sidebar{width:100%!important}
-  #searchInput,.search-input{width:150px}
+  #searchInput,.search-input{width:160px}
+  #searchInput:focus,.search-input:focus{width:210px}
 }
 @media(max-width:640px){
-  :root{--hh:52px}
-  header{padding:0 12px;gap:6px}
+  :root{--hh:56px}
+  header{padding:0 14px;gap:8px}
   .vhs-pill{display:none}
   .nav-tabs{display:none}
   .search-wrap{display:none}
   .hamburger{display:flex}
-  .vhs-wrap{width:115px;margin-right:8px}
-  .vhs-box,.vhs-front{width:115px;height:165px}
-  .hero{padding:24px 16px 28px;min-height:44vh}
-  .hero h1{font-size:clamp(34px,9vw,54px)}
-  .hero-btns{gap:8px}
-  .section{padding:20px 14px 0}
-  .player-body{padding:12px 14px}
-  .poi-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-  .results-grid{padding:0 14px 20px;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
-  .sport-filters{padding:0 14px 8px}
+  .hero{padding:28px 18px 32px;min-height:46vh}
+  .hero h1{font-size:clamp(36px,10vw,56px)}
+  .hero-btns{gap:10px}
+  .btn-r{font-size:17px;padding:11px 20px}
+  .btn-o,.btn-b,.btn-g{font-size:15px;padding:10px 16px}
+  .section{padding:22px 16px 0}
+  .shelf,.shelf-row{padding-bottom:14px}
+  .vhs-wrap{width:128px;margin-right:10px}
+  .vhs-box,.vhs-front{width:128px;height:183px}
+  .player-body{padding:14px 16px}
+  .player-title{font-size:20px}
+  .poi-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+  .results-grid{padding:0 16px 22px;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+  .search-hdr{padding:calc(var(--hh) + 14px) 16px 14px}
+  .sport-filters{padding:12px 16px 6px}
 }
-@media(max-width:380px){
-  .vhs-wrap{width:100px;margin-right:6px}
-  .vhs-box,.vhs-front{width:100px;height:143px}
+@media(max-width:400px){
+  .vhs-wrap{width:112px;margin-right:8px}
+  .vhs-box,.vhs-front{width:112px;height:160px}
+  .hero h1{font-size:34px}
+  .btn-r{font-size:15px;padding:10px 16px}
+  .btn-o,.btn-b,.btn-g{display:none}
 }
 @media(hover:none){
   .vhs-wrap:hover .vhs-box{transform:none;box-shadow:none}
-  .vhs-wrap:active .vhs-box{transform:scale(1.03) translateY(-2px);transition:transform .1s}
+  .vhs-wrap:active .vhs-box{transform:scale(1.04) translateY(-3px);transition:transform .12s}
+  .btn-r:hover,.btn-o:hover,.btn-b:hover,.btn-g:hover{transform:none;box-shadow:none}
+  .btn-r:active{transform:scale(.97)}
 }
 @supports(padding:max(0px)){
-  header{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
-  .mobile-nav{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+  header{
+    padding-left:max(24px,env(safe-area-inset-left));
+    padding-right:max(24px,env(safe-area-inset-right));
+  }
+  .mobile-nav{
+    padding-left:env(safe-area-inset-left);
+    padding-right:env(safe-area-inset-right);
+  }
+  body{padding-bottom:env(safe-area-inset-bottom)}
+}
+
+/* ══════════════════════════════════════════════
+   F1 PAGE — SLEEK MODERN
+   ══════════════════════════════════════════════ */
+:root{--f1-red:#e10600;--f1-red2:#ff1e00}
+.nav-tab.f1-tab.active{color:var(--f1-red);border-bottom-color:var(--f1-red)}
+#f1-page{padding-top:var(--hh);background:#070708;min-height:100vh}
+
+.f1-hero{position:relative;overflow:hidden;background:#0a0000;padding:36px 28px 0}
+.f1-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 60% 50%,rgba(225,6,0,0.14) 0%,transparent 70%);pointer-events:none}
+.f1-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(225,6,0,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(225,6,0,0.05) 1px,transparent 1px);background-size:42px 42px;pointer-events:none}
+.f1-hero-wordmark{position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:240px;letter-spacing:-15px;color:rgba(225,6,0,0.06);line-height:1;pointer-events:none;user-select:none}
+.f1-hero-inner{position:relative;z-index:1;padding-bottom:26px}
+.f1-hero-eyebrow{display:inline-flex;align-items:center;gap:9px;background:rgba(225,6,0,0.13);border:1px solid rgba(225,6,0,0.3);border-radius:4px;padding:5px 14px;margin-bottom:16px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--f1-red);letter-spacing:3px}
+.f1-dot{width:7px;height:7px;border-radius:50%;background:var(--f1-red);animation:f1pulse 1.5s infinite;flex-shrink:0}
+.f1-hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,84px);letter-spacing:4px;color:#fff;line-height:.95;margin-bottom:14px}
+.f1-hero-title em{color:var(--f1-red);font-style:normal}
+.f1-hero-meta{display:flex;gap:28px;flex-wrap:wrap}
+.f1-hero-stat{display:flex;flex-direction:column}
+.f1-hero-stat-val{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;line-height:1}
+.f1-hero-stat-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:2px;margin-top:4px}
+
+.f1-tabs{display:flex;gap:0;background:#0d0d0d;border-bottom:1px solid rgba(255,255,255,0.07);overflow-x:auto;scrollbar-width:none;position:sticky;top:var(--hh);z-index:10}
+.f1-tabs::-webkit-scrollbar{display:none}
+.f1-tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.4);font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;padding:16px 22px;cursor:pointer;transition:var(--trans);white-space:nowrap;flex-shrink:0}
+.f1-tab-btn:hover{color:rgba(255,255,255,0.85)}
+.f1-tab-btn.active{color:#fff;border-bottom-color:var(--f1-red)}
+.f1-content{background:#070708}
+
+/* NEXT RACE */
+.f1-next-wrap{padding:24px 24px 0}
+.f1-race-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:24px;flex-wrap:wrap}
+.f1-race-round{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--f1-red);letter-spacing:3px;margin-bottom:8px}
+.f1-race-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4.5vw,48px);color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px}
+.f1-race-circuit{font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(255,255,255,0.4)}
+.f1-countdown-block{background:rgba(225,6,0,0.07);border:1px solid rgba(225,6,0,0.22);border-radius:6px;padding:18px 22px;display:flex;gap:0;flex-shrink:0}
+.f1-count-unit{text-align:center;padding:0 16px;position:relative}
+.f1-count-unit+.f1-count-unit::before{content:':';position:absolute;left:-3px;top:4px;font-family:'Bebas Neue',sans-serif;font-size:30px;color:rgba(225,6,0,0.45)}
+.f1-count-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,52px);color:var(--f1-red);line-height:1;display:block}
+.f1-count-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-top:3px}
+
+.f1-schedule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:24px}
+.f1-session-card{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:14px 16px;transition:var(--trans)}
+.f1-session-card.active-session{border-color:rgba(225,6,0,0.45);background:rgba(225,6,0,0.06)}
+.f1-session-card.past-session{opacity:.4}
+.f1-session-name{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--f1-red);letter-spacing:2px;margin-bottom:8px}
+.f1-session-date{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;line-height:1}
+.f1-session-time{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px}
+
+.f1-action-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.f1-btn-primary{background:var(--f1-red);color:#fff;border:none;padding:13px 26px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;transition:var(--trans);display:flex;align-items:center;gap:9px}
+.f1-btn-primary:hover{background:var(--f1-red2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(225,6,0,0.35)}
+.f1-btn-secondary{background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.16);padding:13px 26px;border-radius:6px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;transition:var(--trans)}
+.f1-btn-secondary:hover{border-color:rgba(255,255,255,0.4);color:#fff;transform:translateY(-2px)}
+
+.f1-results-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.f1-result-card{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:16px;flex:1;min-width:140px}
+.f1-result-pos{font-family:'Bebas Neue',sans-serif;font-size:40px;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:6px}
+.f1-result-pos.p1{color:rgba(255,215,0,0.5)}
+.f1-result-pos.p2{color:rgba(192,192,192,0.5)}
+.f1-result-pos.p3{color:rgba(205,127,50,0.5)}
+.f1-result-driver{font-family:'Bebas Neue',sans-serif;font-size:19px;color:#fff;letter-spacing:1px}
+.f1-result-team{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px;margin-top:3px}
+.f1-result-time{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--f1-red);margin-top:8px}
+
+/* CALENDAR */
+.f1-calendar-wrap{padding:20px 24px}
+.f1-cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:14px;flex-wrap:wrap}
+.f1-cal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:2px}
+.f1-cal-filter{display:flex;gap:6px}
+.f1-cal-filter-btn{background:none;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;padding:6px 14px;border-radius:20px;cursor:pointer;transition:var(--trans)}
+.f1-cal-filter-btn.active,.f1-cal-filter-btn:hover{border-color:var(--f1-red);color:var(--f1-red)}
+.f1-round{display:grid;grid-template-columns:54px 42px 1fr auto auto;align-items:center;gap:0;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:6px;margin-bottom:6px;overflow:hidden;cursor:pointer;transition:var(--trans)}
+.f1-round:hover{background:rgba(225,6,0,0.06);border-color:rgba(225,6,0,0.28);transform:translateX(2px)}
+.f1-round.past{opacity:.45}
+.f1-round.next-race{border-color:rgba(225,6,0,0.5);background:rgba(225,6,0,0.07)}
+.f1-round-num{text-align:center;padding:16px 0;font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(255,255,255,0.25);border-right:1px solid rgba(255,255,255,0.05)}
+.f1-round.next-race .f1-round-num{color:var(--f1-red)}
+.f1-round-flag{text-align:center;font-size:22px}
+.f1-round-info{padding:12px 14px}
+.f1-round-name{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:#fff}
+.f1-round-circuit{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.32);margin-top:3px}
+.f1-round-date{padding:0 16px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,0.38);white-space:nowrap}
+.f1-round-status{padding:4px 10px;margin-right:12px;border-radius:4px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;white-space:nowrap}
+.f1-status-live{background:var(--f1-red);color:#fff;animation:f1pulse 1s infinite}
+.f1-status-next{background:rgba(225,6,0,0.13);color:var(--f1-red);border:1px solid rgba(225,6,0,0.3)}
+.f1-status-done{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.22)}
+
+/* STANDINGS */
+.f1-standings-wrap{padding:20px 24px}
+.f1-standings-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:2px;margin-bottom:18px}
+.f1-driver-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.045)}
+.f1-driver-row:last-child{border-bottom:none}
+.f1-pos{font-family:'Bebas Neue',sans-serif;font-size:22px;color:rgba(255,255,255,0.2);min-width:32px;text-align:center;flex-shrink:0}
+.f1-pos.top3{color:var(--f1-red)}
+.f1-driver-flag{font-size:20px;flex-shrink:0}
+.f1-driver-name{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;color:#fff}
+.f1-team{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.38);display:block;margin-top:3px;letter-spacing:1px}
+.f1-pts{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--f1-red);min-width:64px;text-align:right;flex-shrink:0}
+.f1-pts-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.25);display:block}
+.f1-bar{height:3px;background:rgba(255,255,255,0.07);margin-top:6px;border-radius:2px;flex:1}
+.f1-bar-fill{height:100%;background:var(--f1-red);border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+/* WATCH */
+.f1-watch-wrap{padding:24px}
+.f1-watch-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:2px;margin-bottom:6px}
+.f1-watch-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,0.38);letter-spacing:2px;margin-bottom:20px}
+.f1-src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:24px}
+.f1-src-card{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:16px;cursor:pointer;transition:var(--trans);display:flex;flex-direction:column;gap:5px}
+.f1-src-card:hover{background:rgba(225,6,0,0.07);border-color:rgba(225,6,0,0.32);transform:translateY(-3px)}
+.f1-src-card-name{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;color:#fff}
+.f1-src-card-url{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.32);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f1-src-card-badge{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;background:rgba(225,6,0,0.16);color:var(--f1-red);padding:3px 8px;border-radius:4px;letter-spacing:1px;margin-top:5px;align-self:flex-start}
+.f1-iframe-wrap{display:none;border-radius:6px;overflow:hidden;border:1px solid rgba(225,6,0,0.3)}
+.f1-iframe-wrap iframe{width:100%;aspect-ratio:16/9;display:block;border:none}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .f1-hero{padding:20px 16px 0}
+  .f1-hero-title{font-size:clamp(32px,11vw,52px)}
+  .f1-hero-meta{gap:18px}
+  .f1-hero-stat-val{font-size:20px}
+  .f1-tab-btn{font-size:14px;padding:13px 16px}
+  .f1-next-wrap,.f1-calendar-wrap,.f1-standings-wrap,.f1-watch-wrap{padding:16px}
+  .f1-countdown-block{padding:14px 16px;width:100%}
+  .f1-count-unit{padding:0 10px}
+  .f1-round{grid-template-columns:42px 32px 1fr auto}
+  .f1-round-date{display:none}
+  .f1-action-row{flex-direction:column}
+  .f1-btn-primary,.f1-btn-secondary{width:100%;justify-content:center}
+}
+
+/* ══════════════════════════════════════════════
+   F1 IMAGES — drivers, teams, circuits, news
+   ══════════════════════════════════════════════ */
+.f1-driver-photo{
+  width:42px;height:42px;border-radius:50%;object-fit:cover;
+  flex-shrink:0;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.f1-driver-photo-ph{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.f1-team-logo{
+  width:34px;height:34px;border-radius:6px;object-fit:cover;
+  flex-shrink:0;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.f1-team-logo-ph{
+  width:34px;height:34px;border-radius:6px;flex-shrink:0;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+}
+
+/* Circuit banner on Next Race */
+.f1-circuit-banner{
+  position:relative;width:100%;height:200px;border-radius:6px;overflow:hidden;
+  margin-bottom:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+}
+.f1-circuit-banner img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:brightness(.55) saturate(1.1);transition:opacity .4s;opacity:0;
+}
+.f1-circuit-banner img.loaded{opacity:1}
+.f1-circuit-banner-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(7,7,8,.9) 0%,transparent 60%),
+             linear-gradient(135deg,rgba(225,6,0,.15),transparent 60%);
+}
+.f1-circuit-banner-label{
+  position:absolute;bottom:14px;left:18px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;
+  color:rgba(255,255,255,.7);
+}
+
+/* Podium driver photos */
+.f1-result-card{position:relative;overflow:hidden}
+.f1-result-photo{
+  position:absolute;top:0;right:0;width:64px;height:64px;
+  border-radius:50%;object-fit:cover;opacity:.9;
+  border:2px solid rgba(255,255,255,.08);
+  transform:translate(16px,-16px);
+}
+
+/* ══ NEWS ══ */
+.f1-news-wrap{padding:24px}
+.f1-news-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:2px;margin-bottom:6px}
+.f1-news-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,.38);letter-spacing:2px;margin-bottom:20px}
+.f1-news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.f1-news-card{
+  display:flex;flex-direction:column;
+  background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;
+  transition:var(--trans);cursor:pointer;
+}
+.f1-news-card:hover{border-color:rgba(225,6,0,0.35);transform:translateY(-3px);box-shadow:var(--shadow)}
+.f1-news-img{width:100%;aspect-ratio:16/9;object-fit:cover;background:rgba(255,255,255,0.04);display:block}
+.f1-news-body{padding:14px 16px}
+.f1-news-src{
+  font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;
+  color:var(--f1-red);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;
+}
+.f1-news-headline{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.5px;color:#fff;line-height:1.25;margin-bottom:6px}
+.f1-news-desc{font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,.4);line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+@media(max-width:640px){
+  .f1-news-wrap{padding:16px}
+  .f1-news-grid{grid-template-columns:1fr}
+  .f1-circuit-banner{height:140px}
 }
 </style>
 </head>
@@ -850,6 +1345,7 @@ header{background:rgba(12,12,14,0.97);border-bottom:1px solid var(--border);back
     <button class="nav-tab" data-tab="tv-shows" onclick="setTab('tv-shows',this)">TV SHOWS</button>
     <button class="nav-tab" data-tab="anime" onclick="setTab('anime',this)">ANIME</button>
     <button class="nav-tab sport-tab" data-tab="sports" onclick="setTab('sports',this)">⚽ SPORTS</button>
+    <button class="nav-tab f1-tab" data-tab="f1" onclick="setTab('f1',this)">🏎 F1</button>
   </nav>
   <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -872,6 +1368,7 @@ header{background:rgba(12,12,14,0.97);border-bottom:1px solid var(--border);back
   <button class="nav-tab" onclick="setTab('tv-shows',this);closeMobNav()">TV SHOWS</button>
   <button class="nav-tab" onclick="setTab('anime',this);closeMobNav()">ANIME</button>
   <button class="nav-tab" onclick="setTab('sports',this);closeMobNav()">⚽ SPORTS</button>
+  <button class="nav-tab" onclick="setTab('f1',this);closeMobNav()">🏎 F1</button>
 </div>
 
 <!-- HOME -->
@@ -923,6 +1420,87 @@ header{background:rgba(12,12,14,0.97);border-bottom:1px solid var(--border);back
   </div>
   <div id="sports-content" style="padding:12px 0">
     <div class="spinner-wrap"><div class="spinner" style="border-top-color:#22c55e"></div><span>TUNING IN...</span></div>
+  </div>
+</div>
+
+
+<!-- F1 -->
+<div id="f1-page" class="page">
+  <div class="f1-hero">
+    <div class="f1-hero-bg"></div>
+    <div class="f1-hero-grid"></div>
+    <div class="f1-hero-wordmark">F1</div>
+    <div class="f1-hero-inner">
+      <div class="f1-hero-eyebrow"><span class="f1-dot"></span><span>FORMULA 1 · <span id="f1-season-year">2025</span> SEASON</span></div>
+      <div class="f1-hero-title">GRAND <em>PRIX</em> HUB</div>
+      <div class="f1-hero-meta">
+        <div class="f1-hero-stat"><span class="f1-hero-stat-val" id="f1-hero-rounds">—</span><span class="f1-hero-stat-lbl">TOTAL ROUNDS</span></div>
+        <div class="f1-hero-stat"><span class="f1-hero-stat-val" id="f1-hero-leader">—</span><span class="f1-hero-stat-lbl">CHAMPIONSHIP LEADER</span></div>
+        <div class="f1-hero-stat"><span class="f1-hero-stat-val" id="f1-hero-next">—</span><span class="f1-hero-stat-lbl">NEXT ROUND</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="f1-tabs" id="f1-tabs">
+    <button class="f1-tab-btn active" onclick="switchF1Tab('next',this)">NEXT RACE</button>
+    <button class="f1-tab-btn" onclick="switchF1Tab('calendar',this)">CALENDAR</button>
+    <button class="f1-tab-btn" onclick="switchF1Tab('drivers',this)">DRIVERS</button>
+    <button class="f1-tab-btn" onclick="switchF1Tab('constructors',this)">CONSTRUCTORS</button>
+    <button class="f1-tab-btn" onclick="switchF1Tab('results',this)">LAST RACE</button>
+    <button class="f1-tab-btn" onclick="switchF1Tab('watch',this)">WATCH</button>
+    <button class="f1-tab-btn" onclick="switchF1Tab('news',this)">NEWS</button>
+  </div>
+  <div class="f1-content">
+    <div id="f1-next" class="f1-tab-content">
+      <div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div>
+    </div>
+    <div id="f1-calendar" class="f1-tab-content" style="display:none">
+      <div class="f1-calendar-wrap">
+        <div class="f1-cal-header">
+          <div class="f1-cal-title">RACE CALENDAR</div>
+          <div class="f1-cal-filter">
+            <button class="f1-cal-filter-btn active" onclick="filterF1Calendar('all',this)">ALL</button>
+            <button class="f1-cal-filter-btn" onclick="filterF1Calendar('upcoming',this)">UPCOMING</button>
+            <button class="f1-cal-filter-btn" onclick="filterF1Calendar('past',this)">PAST</button>
+          </div>
+        </div>
+        <div id="f1-calendar-list"><div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div></div>
+      </div>
+    </div>
+    <div id="f1-drivers" class="f1-tab-content" style="display:none">
+      <div class="f1-standings-wrap">
+        <div class="f1-standings-title">DRIVER STANDINGS</div>
+        <div id="f1-drivers-list"><div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div></div>
+      </div>
+    </div>
+    <div id="f1-constructors" class="f1-tab-content" style="display:none">
+      <div class="f1-standings-wrap">
+        <div class="f1-standings-title">CONSTRUCTOR STANDINGS</div>
+        <div id="f1-constructors-list"><div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div></div>
+      </div>
+    </div>
+    <div id="f1-results" class="f1-tab-content" style="display:none">
+      <div class="f1-standings-wrap">
+        <div class="f1-standings-title">LAST RACE RESULTS <span id="f1-last-race-name" style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:none"></span></div>
+        <div id="f1-results-list"><div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div></div>
+      </div>
+    </div>
+    <div id="f1-watch" class="f1-tab-content" style="display:none">
+      <div class="f1-watch-wrap">
+        <div class="f1-watch-title">STREAM F1</div>
+        <div class="f1-watch-sub">SELECT A SOURCE</div>
+        <div class="f1-src-grid" id="f1-src-grid"></div>
+        <div class="f1-iframe-wrap" id="f1-iframe-wrap"><iframe id="f1-iframe" allowfullscreen></iframe></div>
+      </div>
+    </div>
+    <div id="f1-news" class="f1-tab-content" style="display:none">
+      <div class="f1-news-wrap">
+        <div class="f1-news-title">HOT TOPICS</div>
+        <div class="f1-news-sub">LATEST FORMULA 1 HEADLINES</div>
+        <div id="f1-news-list" class="f1-news-grid">
+          <div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1140,6 +1718,12 @@ function onSrcChange(){}
 
 /* ─── PAGES ── */
 function showPage(id){
+  // Stop the embedded player (and its ad scripts/trackers) when leaving the player page
+  const leavingPlayer=document.getElementById('player-page')?.classList.contains('active');
+  if(leavingPlayer && id!=='player-page'){
+    const f=document.getElementById('pFrame');
+    if(f){f.src='about:blank';}
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1159,6 +1743,7 @@ function setTab(tab,el){
   syncTabs(tab);
   document.getElementById('searchInput').value='';closeSug();
   if(tab==='sports'){showPage('sports-page');loadSports('all');}
+  else if(tab==='f1'){showPage('f1-page');loadF1();}
   else{showPage('home-page');renderCW();
     if(tab==='home')initHome();
     else if(tab==='movies')loadMovies();
@@ -1529,245 +2114,6 @@ async function openSportItem(match){
   document.getElementById('pFrame').src=srcList[0].u;
 }
 
-/* ─── F1 ── */
-
-/* ── F1 DATA ── */
-/* Driver photos: official F1 headshots via f1.com CDN + WikiMedia fallback */
-const F1_DRIVERS = {
-  /* 2025 F1 grid — using Wikipedia confirmed-working thumbnail URLs */
-  'andrea_kimi_antonelli':{num:'12',team:'Mercedes',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2025_Bahrain_Grand_Prix%2C_Andrea_Kimi_Antonelli_%28cropped%29.jpg/200px-2025_Bahrain_Grand_Prix%2C_Andrea_Kimi_Antonelli_%28cropped%29.jpg'},
-  'lewis_hamilton':{num:'44',team:'Ferrari',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg/200px-Lewis_Hamilton_2016_Malaysia_2.jpg'},
-  'george_russell':{num:'63',team:'Mercedes',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/2022_Bahrain_Grand_Prix_%2852744929809%29.jpg/200px-2022_Bahrain_Grand_Prix_%2852744929809%29.jpg'},
-  'charles_leclerc':{num:'16',team:'Ferrari',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Charles_Leclerc_2019_Portrait.jpg/200px-Charles_Leclerc_2019_Portrait.jpg'},
-  'oscar_piastri':{num:'81',team:'McLaren',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Oscar_Piastri_2023_Bahrain.jpg/200px-Oscar_Piastri_2023_Bahrain.jpg'},
-  'lando_norris':{num:'4',team:'McLaren',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Lando_Norris_2023_Bahrain.jpg/200px-Lando_Norris_2023_Bahrain.jpg'},
-  'max_verstappen':{num:'1',team:'Red Bull Racing',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Max_Verstappen_2022_Bahrain_2.jpg/200px-Max_Verstappen_2022_Bahrain_2.jpg'},
-  'isack_hadjar':{num:'6',team:'Red Bull Racing',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Isack_Hadjar_2023_%28cropped%29.jpg/200px-Isack_Hadjar_2023_%28cropped%29.jpg'},
-  'liam_lawson':{num:'30',team:'RB',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Liam_Lawson_2023_Singapore.jpg/200px-Liam_Lawson_2023_Singapore.jpg'},
-  'yuki_tsunoda':{num:'22',team:'RB',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Yuki_Tsunoda_2023_Bahrain_%28cropped%29.jpg/200px-Yuki_Tsunoda_2023_Bahrain_%28cropped%29.jpg'},
-  'pierre_gasly':{num:'10',team:'Alpine',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2022_Bahrain_Grand_Prix_%2852744945228%29_%28cropped%29.jpg/200px-2022_Bahrain_Grand_Prix_%2852744945228%29_%28cropped%29.jpg'},
-  'jack_doohan':{num:'7',team:'Alpine',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Jack_Doohan_2023_%28cropped%29.jpg/200px-Jack_Doohan_2023_%28cropped%29.jpg'},
-  'franco_colapinto':{num:'43',team:'Alpine',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Franco_Colapinto_2024_Singapore_%28cropped%29.jpg/200px-Franco_Colapinto_2024_Singapore_%28cropped%29.jpg'},
-  'oliver_bearman':{num:'87',team:'Haas',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Oliver_Bearman_2023_%28cropped%29.jpg/200px-Oliver_Bearman_2023_%28cropped%29.jpg'},
-  'esteban_ocon':{num:'31',team:'Haas',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Esteban_Ocon_2022_Bahrain_%28cropped%29.jpg/200px-Esteban_Ocon_2022_Bahrain_%28cropped%29.jpg'},
-  'carlos_sainz':{num:'55',team:'Williams',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Carlos_Sainz_2019_Bahrain_3_%28cropped%29.jpg/200px-Carlos_Sainz_2019_Bahrain_3_%28cropped%29.jpg'},
-  'alexander_albon':{num:'23',team:'Williams',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Alexander_Albon_2022_%28cropped%29.jpg/200px-Alexander_Albon_2022_%28cropped%29.jpg'},
-  'gabriel_bortoleto':{num:'5',team:'Kick Sauber',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Gabriel_Bortoleto_2024_Macau_%28cropped%29.jpg/200px-Gabriel_Bortoleto_2024_Macau_%28cropped%29.jpg'},
-  'nico_hulkenberg':{num:'27',team:'Kick Sauber',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Nico_H%C3%BClkenberg_2023_Bahrain_%28cropped%29.jpg/200px-Nico_H%C3%BClkenberg_2023_Bahrain_%28cropped%29.jpg'},
-  'fernando_alonso':{num:'14',team:'Aston Martin',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Fernando_Alonso_2021_%28cropped%29.jpg/200px-Fernando_Alonso_2021_%28cropped%29.jpg'},
-  'lance_stroll':{num:'18',team:'Aston Martin',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Lance_Stroll_2022_Bahrain_%28cropped%29.jpg/200px-Lance_Stroll_2022_Bahrain_%28cropped%29.jpg'},
-  'valtteri_bottas':{num:'77',team:'Cadillac',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Valtteri_Bottas_2022_Bahrain.jpg/200px-Valtteri_Bottas_2022_Bahrain.jpg'},
-  'sergio_perez':{num:'11',team:'Cadillac',
-    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sergio_P%C3%A9rez_2022_Bahrain_%28cropped%29.jpg/200px-Sergio_P%C3%A9rez_2022_Bahrain_%28cropped%29.jpg'},
-};
-
-
-
-
-
-/* Constructor logos — Wikipedia/Wikimedia transparent PNGs */
-const F1_TEAMS = {
-  'red bull racing': {color:'#1E3A6E',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Red_Bull_Racing_logo.svg/200px-Red_Bull_Racing_logo.svg.png'},
-  'mclaren': {color:'#FF8000',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/McLaren_Racing_logo.svg/200px-McLaren_Racing_logo.svg.png'},
-  'ferrari': {color:'#E8002D',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Scuderia_Ferrari_Logo.svg/200px-Scuderia_Ferrari_Logo.svg.png'},
-  'mercedes': {color:'#27F4D2',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/3/31/Mercedes_AMG_Petronas_F1_logo.svg/200px-Mercedes_AMG_Petronas_F1_logo.svg.png'},
-  'aston martin': {color:'#229971',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/8/8e/Aston_Martin_F1_Team_logo.svg/200px-Aston_Martin_F1_Team_logo.svg.png'},
-  'alpine': {color:'#0093CC',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/e/ec/Alpine_F1_Team_2022_logo.svg/200px-Alpine_F1_Team_2022_logo.svg.png'},
-  'haas': {color:'#B6BABD',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/2/28/Haas_F1_Team_logo.svg/200px-Haas_F1_Team_logo.svg.png'},
-  'rb': {color:'#6692FF',
-    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Visa_Cash_App_RB_F1_Team_Logo.svg/200px-Visa_Cash_App_RB_F1_Team_Logo.svg.png'},
-  'racing bulls': {color:'#6692FF',
-    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Visa_Cash_App_RB_F1_Team_Logo.svg/200px-Visa_Cash_App_RB_F1_Team_Logo.svg.png'},
-  'williams': {color:'#005AFF',
-    logo:'https://upload.wikimedia.org/wikipedia/en/thumb/b/b8/Williams_Racing_2020_logo.svg/200px-Williams_Racing_2020_logo.svg.png'},
-  'kick sauber': {color:'#52E252',
-    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Kick_Sauber_F1_Team_2024_logo.svg/200px-Kick_Sauber_F1_Team_2024_logo.svg.png'},
-  'sauber': {color:'#52E252',
-    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Kick_Sauber_F1_Team_2024_logo.svg/200px-Kick_Sauber_F1_Team_2024_logo.svg.png'},
-  'cadillac': {color:'#D4AF37',
-    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Cadillac_logo.svg/200px-Cadillac_logo.svg.png'},
-};
-
-
-/* Circuit maps — SVG track outlines from Wikipedia */
-const F1_CIRCUITS = {
-  'bahrain':      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Bahrain_International_Circuit--Sakhir--2004.svg/300px-Bahrain_International_Circuit--Sakhir--2004.svg.png',
-  'sakhir':       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Bahrain_International_Circuit--Sakhir--2004.svg/300px-Bahrain_International_Circuit--Sakhir--2004.svg.png',
-  'jeddah':       'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Jeddah_Corniche_Circuit_2021.svg/300px-Jeddah_Corniche_Circuit_2021.svg.png',
-  'albert park':  'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Albert_Park_circuit_2020.svg/300px-Albert_Park_circuit_2020.svg.png',
-  'melbourne':    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Albert_Park_circuit_2020.svg/300px-Albert_Park_circuit_2020.svg.png',
-  'suzuka':       'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Suzuka_circuit_map.svg/300px-Suzuka_circuit_map.svg.png',
-  'shanghai':     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Shanghai_Circuit.svg/300px-Shanghai_Circuit.svg.png',
-  'miami':        'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Miami_International_Autodrome_2022.svg/300px-Miami_International_Autodrome_2022.svg.png',
-  'imola':        'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Autodromo_Enzo_e_Dino_Ferrari_2023.svg/300px-Autodromo_Enzo_e_Dino_Ferrari_2023.svg.png',
-  'monte':        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Monte-Carlo_Formula_1_track_map.svg/300px-Monte-Carlo_Formula_1_track_map.svg.png',
-  'monaco':       'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Monte-Carlo_Formula_1_track_map.svg/300px-Monte-Carlo_Formula_1_track_map.svg.png',
-  'barcelona':    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Circuit_de_Barcelona-Catalunya_2017.svg/300px-Circuit_de_Barcelona-Catalunya_2017.svg.png',
-  'catalunya':    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Circuit_de_Barcelona-Catalunya_2017.svg/300px-Circuit_de_Barcelona-Catalunya_2017.svg.png',
-  'gilles villeneuve':'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Circuit_Gilles_Villeneuve.svg/300px-Circuit_Gilles_Villeneuve.svg.png',
-  'montreal':     'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Circuit_Gilles_Villeneuve.svg/300px-Circuit_Gilles_Villeneuve.svg.png',
-  'red bull ring':'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Red_Bull_Ring_2016.svg/300px-Red_Bull_Ring_2016.svg.png',
-  'spielberg':    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Red_Bull_Ring_2016.svg/300px-Red_Bull_Ring_2016.svg.png',
-  'silverstone':  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Silverstone_Circuit_2011.svg/300px-Silverstone_Circuit_2011.svg.png',
-  'hungaroring':  'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Hungaroring.svg/300px-Hungaroring.svg.png',
-  'budapest':     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Hungaroring.svg/300px-Hungaroring.svg.png',
-  'spa':          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Spa-Francorchamps_2021.svg/300px-Spa-Francorchamps_2021.svg.png',
-  'zandvoort':    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Circuit_Zandvoort.svg/300px-Circuit_Zandvoort.svg.png',
-  'monza':        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Monza_track_map.svg/300px-Monza_track_map.svg.png',
-  'baku':         'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Baku_Formula_1_circuit_2016.svg/300px-Baku_Formula_1_circuit_2016.svg.png',
-  'singapore':    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Marina_Bay_Street_Circuit_2023.svg/300px-Marina_Bay_Street_Circuit_2023.svg.png',
-  'marina bay':   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Marina_Bay_Street_Circuit_2023.svg/300px-Marina_Bay_Street_Circuit_2023.svg.png',
-  'americas':     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Circuit_of_the_Americas.svg/300px-Circuit_of_the_Americas.svg.png',
-  'austin':       'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Circuit_of_the_Americas.svg/300px-Circuit_of_the_Americas.svg.png',
-  'mexico':       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez_2015.svg/300px-Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez_2015.svg.png',
-  'interlagos':   'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2012.svg/300px-Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2012.svg.png',
-  'sao paulo':    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2012.svg/300px-Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2012.svg.png',
-  'las vegas':    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Las_Vegas_Street_Circuit_2023.svg/300px-Las_Vegas_Street_Circuit_2023.svg.png',
-  'lusail':       'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Lusail_Circuit_2023.svg/300px-Lusail_Circuit_2023.svg.png',
-  'qatar':        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Lusail_Circuit_2023.svg/300px-Lusail_Circuit_2023.svg.png',
-  'yas marina':   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Yas_Marina_Circuit_2021.svg/300px-Yas_Marina_Circuit_2021.svg.png',
-  'abu dhabi':    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Yas_Marina_Circuit_2021.svg/300px-Yas_Marina_Circuit_2021.svg.png',
-};
-function circuitMap(circuitName, locality) {
-  const s = ((circuitName||'')+(locality||'')).toLowerCase();
-  for(const [k,v] of Object.entries(F1_CIRCUITS)) if(s.includes(k)) return v;
-  return '';
-}
-
-
-function f1Flag(name){for(const[k,v]of Object.entries(F1_FLAGS)){if(name.includes(k))return v;}return'🏎';}
-
-/* Always re-fetch fresh data — no caching */
-let f1Tab='next';
-function switchF1(tab, el){
-  f1Tab=tab;
-  document.querySelectorAll('.f1-tab-btn').forEach(b=>b.classList.remove('active'));
-  if(el)el.classList.add('active');
-  document.querySelectorAll('.f1-tc').forEach(d=>d.style.display='none');
-  const t=document.getElementById('f1-'+tab);if(t)t.style.display='';
-  /* Always fetch fresh — no f1Loaded gate */
-  if(tab==='next')loadF1Next();
-  else if(tab==='calendar')loadF1Calendar();
-  else if(tab==='drivers')loadF1Drivers();
-  else if(tab==='constructors')loadF1Constructors();
-}
-async function initF1(){loadF1Next();}
-
-/* Detect current season dynamically */
-async function f1Season(){
-  try{
-    const r=await fetch('https://api.jolpi.ca/ergast/f1/current/next.json');
-    const d=await r.json();
-    return d?.MRData?.RaceTable?.season||new Date().getFullYear();
-  }catch{return new Date().getFullYear();}
-}
-async function f1Fetch(path){
-  const yr=new Date().getFullYear();
-  const r=await fetch(`https://api.jolpi.ca/ergast/f1/${yr}/${path}.json?limit=100&t=${Date.now()}`);
-  return r.json();
-}
-
-/* Countdown ticker */
-let cdInterval=null;
-function startCountdown(targetMs){
-  if(cdInterval)clearInterval(cdInterval);
-  function update(){
-    const diff=targetMs-Date.now();
-    if(diff<=0){clearInterval(cdInterval);return;}
-    const dd=Math.floor(diff/86400000);
-    const hh=Math.floor((diff%86400000)/3600000);
-    const mm=Math.floor((diff%3600000)/60000);
-    const ss=Math.floor((diff%60000)/1000);
-    const days=document.getElementById('f1cd-d');
-    const hours=document.getElementById('f1cd-h');
-    const mins=document.getElementById('f1cd-m');
-    const secs=document.getElementById('f1cd-s');
-    if(days)days.textContent=dd;
-    if(hours)hours.textContent=String(hh).padStart(2,'0');
-    if(mins)mins.textContent=String(mm).padStart(2,'0');
-    if(secs)secs.textContent=String(ss).padStart(2,'0');
-  }
-  update();cdInterval=setInterval(update,1000);
-}
-
-async 
-
-async 
-
-async 
-
-async 
-
-const F1_SRCS={
-  'westream':async()=>{try{const r=await fetch(`${WS}/matches/live`);const d=await r.json();const m=(Array.isArray(d)?d:[]).find(x=>/formula|f1|grand prix|motorsport/i.test(x.title||x.category||''));if(m?.sources?.[0]){const s=m.sources[0];return`${WS}/embed/${s.source}/${s.id}/1`;}return null;}catch{return null;}},
-  'sportsrc':async()=>{try{const r=await fetch(`${SR}/?data=matches&category=motorsport`);const d=await r.json();const m=(Array.isArray(d)?d:[]).find(x=>/formula|f1/i.test(x.title||''));if(m?.embedUrl)return m.embedUrl;if(m?.id)return`${WS}/embed/alpha/${m.id}/1`;}catch{}return null;},
-  'sporticos':'https://sporticos.com/en-us/watch-formula1-live-stream',
-  'streameast':'https://www.streameast.app/f1',
-  'crackstreams':'https://crackstreams.app/motorsports',
-  'motorsport-tv':'https://www.motorsport.tv',
-  'pitwall':'https://pitwall.app',
-  'custom':null
-};
-function onF1SrcChange(){const v=document.getElementById('f1SrcSel').value;document.getElementById('f1-custom-row').style.display=v==='custom'?'block':'none';}
-function pickF1Src(key){document.getElementById('f1SrcSel').value=key;onF1SrcChange();loadF1Stream();}
-async function loadF1Stream(){
-  const key=document.getElementById('f1SrcSel').value;
-  if(key==='custom'){
-    const u=document.getElementById('f1-url-in').value.trim();
-    if(!u)return;openF1Embed(u,'CUSTOM');return;
-  }
-  const src=F1_SRCS[key];
-  if(!src)return;
-  if(typeof src==='string'){
-    if(src.startsWith('http'))openF1Embed(src,key);
-    return;
-  }
-  toast('📺 FETCHING STREAM...');
-  const url=await src();
-  if(url)openF1Embed(url,key);
-  else toast('⚠️ NO LIVE F1 STREAM FOUND — TRY ANOTHER SOURCE');
-}
-function openF1Embed(url,key){
-  const player=document.getElementById('f1-player');
-  const iframe=document.getElementById('f1-iframe');
-  const lbl=document.getElementById('f1-stream-lbl');
-  const cards=document.getElementById('f1-src-cards');
-  if(cards)cards.style.display='none';
-  if(player)player.style.display='block';
-  if(iframe)iframe.src=url;
-  if(lbl)lbl.textContent=`SOURCE: ${key.toUpperCase()} — If stream does not load, try another source`;
-  toast('📺 F1 STREAM LOADING...');
-}
-
 /* ─── CONTINUE WATCHING ── */
 const CW_KEY='dkfx_cw4';
 function getCW(){try{return JSON.parse(localStorage.getItem(CW_KEY)||'[]');}catch{return[];}}
@@ -1868,6 +2214,414 @@ document.addEventListener('click', e=>{
     menu.classList.remove('open'); btn.classList.remove('open');
   }
 });
+
+/* ═══════════════════════════════════════════════════════
+   F1 MODULE — Jolpi Ergast Mirror API
+   ═══════════════════════════════════════════════════════ */
+const F1_API='https://api.jolpi.ca/ergast/f1';
+const F1_FLAGS={'Bahrain':'🇧🇭','Saudi Arabia':'🇸🇦','Australia':'🇦🇺','Japan':'🇯🇵','China':'🇨🇳','Miami':'🇺🇸','Emilia Romagna':'🇮🇹','Monaco':'🇲🇨','Canada':'🇨🇦','Spain':'🇪🇸','Austria':'🇦🇹','Great Britain':'🇬🇧','Hungary':'🇭🇺','Belgium':'🇧🇪','Netherlands':'🇳🇱','Italy':'🇮🇹','Azerbaijan':'🇦🇿','Singapore':'🇸🇬','United States':'🇺🇸','Mexico':'🇲🇽','Brazil':'🇧🇷','Las Vegas':'🇺🇸','Qatar':'🇶🇦','Abu Dhabi':'🇦🇪'};
+const F1_TEAM_COLORS={'Red Bull':'#3671C6','Ferrari':'#E8002D','Mercedes':'#27F4D2','McLaren':'#FF8000','Aston Martin':'#229971','Alpine':'#FF87BC','Williams':'#64C4FF','RB':'#6692FF','Sauber':'#52E252','Haas':'#B6BABD'};
+function f1Flag(country){for(const k in F1_FLAGS)if(country&&country.includes(k))return F1_FLAGS[k];return'🏁';}
+function f1TeamColor(name){for(const k in F1_TEAM_COLORS)if(name&&name.includes(k))return F1_TEAM_COLORS[k];return'var(--f1-red)';}
+
+let f1Data={races:[],driverStandings:[],constructorStandings:[],lastResult:null,loaded:false};
+let f1ActiveTab='next';
+let f1CountdownTimer=null;
+let f1CalFilter='all';
+
+const F1_STREAMS=[
+  {n:'VidLink',        url:'https://vidlink.pro',           badge:'FREE',  desc:'vidlink.pro'},
+  {n:'Streamed.su',    url:'https://streamed.su/sport',     badge:'LIVE',  desc:'streamed.su'},
+  {n:'SportsBay',      url:'https://www.sportsbay.club',    badge:'LIVE',  desc:'sportsbay.club'},
+  {n:'CrackStreams',   url:'https://crackstreams.dev',      badge:'FREE',  desc:'crackstreams.dev'},
+  {n:'DaddyLiveHD',    url:'https://dlhd.sx/sports',        badge:'HD',    desc:'dlhd.sx'},
+  {n:'F1 TV Pro',      url:'https://f1tv.formula1.com',     badge:'SUB',   desc:'f1tv.formula1.com'},
+  {n:'Multiviewer',    url:'https://multiviewer.app',       badge:'APP',   desc:'multiviewer.app'},
+  {n:'Pitwall',        url:'https://pitwall.app',           badge:'TIMING',desc:'pitwall.app'},
+  {n:'YouTube F1',     url:'https://www.youtube.com/c/Formula1', badge:'FREE', desc:'youtube.com/Formula1'},
+  {n:'Reddit Streams', url:'https://www.reddit.com/r/motorsportsstreams', badge:'LINKS', desc:'r/motorsportsstreams'},
+];
+
+async function _f1j(path){
+  // cache-busted fetch against the live Ergast mirror
+  const r=await fetch(`${F1_API}${path}${path.includes('?')?'&':'?'}_=${Date.now()}`,{cache:'no-store'});
+  if(!r.ok)throw new Error('F1 API '+r.status);
+  return r.json();
+}
+async function loadF1(){
+  if(f1Data.loaded){_f1Hero();renderF1Tab(f1ActiveTab);return;}
+  try{
+    // Always resolve the ACTUAL current season by date, not a possibly-stale "current" alias
+    const now=new Date();
+    let year=now.getFullYear();
+    let sched=await _f1j(`/${year}.json?limit=40`);
+    let races=sched.MRData?.RaceTable?.Races||[];
+    // If this year's calendar isn't published yet, fall back to last season
+    if(!races.length){
+      year=year-1;
+      sched=await _f1j(`/${year}.json?limit=40`);
+      races=sched.MRData?.RaceTable?.Races||[];
+    }
+    f1Data.races=races;
+    f1Data.year=sched.MRData?.RaceTable?.season||year;
+
+    const[drv,con]=await Promise.all([
+      _f1j(`/${year}/driverStandings.json`),
+      _f1j(`/${year}/constructorStandings.json`),
+    ]);
+    f1Data.driverStandings=drv.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings||[];
+    f1Data.constructorStandings=con.MRData?.StandingsTable?.StandingsLists?.[0]?.ConstructorStandings||[];
+
+    try{
+      const lr=await _f1j(`/${year}/last/results.json`);
+      f1Data.lastResult=lr.MRData?.RaceTable?.Races?.[0]||null;
+    }catch(e){}
+
+    f1Data.loaded=true;
+    const yr=document.getElementById('f1-season-year');
+    if(yr)yr.textContent=f1Data.year;
+    _f1Hero();
+  }catch(e){console.warn('F1 API error:',e);}
+  renderF1Tab(f1ActiveTab);
+}
+
+function _f1Hero(){
+  const next=f1NextRace();
+  const r=document.getElementById('f1-hero-rounds');
+  const l=document.getElementById('f1-hero-leader');
+  const n=document.getElementById('f1-hero-next');
+  if(r)r.textContent=f1Data.races.length||'—';
+  if(l&&f1Data.driverStandings[0])l.textContent=f1Data.driverStandings[0].Driver.familyName.toUpperCase();
+  if(n&&next)n.textContent='RD '+next.round;
+}
+
+function switchF1Tab(tab,el){
+  f1ActiveTab=tab;
+  document.querySelectorAll('.f1-tab-btn').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.f1-tab-content').forEach(d=>d.style.display='none');
+  const t=document.getElementById('f1-'+tab);
+  if(t)t.style.display='';
+  renderF1Tab(tab);
+}
+
+function renderF1Tab(tab){
+  if(!f1Data.loaded&&tab!=='watch'){
+    const el=document.getElementById('f1-'+tab);
+    if(el)el.innerHTML='<div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div>';
+    return;
+  }
+  if(tab==='next')_f1Next();
+  else if(tab==='calendar')_f1Calendar();
+  else if(tab==='drivers')_f1Drivers();
+  else if(tab==='constructors')_f1Constructors();
+  else if(tab==='results')_f1Results();
+  else if(tab==='watch')_f1Watch();
+  else if(tab==='news')_f1News();
+}
+
+function f1NextRace(){
+  const now=Date.now();
+  return f1Data.races.find(r=>new Date(r.date+'T'+(r.time||'14:00:00Z')).getTime()>now);
+}
+
+function _f1Next(){
+  const el=document.getElementById('f1-next');if(!el)return;
+  const race=f1NextRace();
+  if(!race){el.innerHTML='<div class="spinner-wrap" style="color:rgba(255,255,255,.3)">SEASON COMPLETE 🏁</div>';return;}
+  const rDate=new Date(race.date+'T'+(race.time||'14:00:00Z'));
+  const flag=f1Flag(race.Circuit?.Location?.country||'');
+  const now=Date.now();
+  const sessions=[
+    {n:'PRACTICE 1',k:'FirstPractice'},{n:'PRACTICE 2',k:'SecondPractice'},{n:'PRACTICE 3',k:'ThirdPractice'},
+    {n:'SPRINT QUALI',k:'SprintQualifying'},{n:'SPRINT',k:'Sprint'},{n:'QUALIFYING',k:'Qualifying'},{n:'RACE',k:'race'}
+  ];
+  const sessionCards=sessions.map(s=>{
+    const o=s.k==='race'?race:race[s.k];
+    if(!o||!o.date)return'';
+    const d=new Date(o.date+'T'+(o.time||'12:00:00Z'));
+    const isPast=d<now;
+    return`<div class="f1-session-card${isPast?' past-session':''}">
+      <div class="f1-session-name">${s.n}</div>
+      <div class="f1-session-date">${d.toLocaleDateString('en',{weekday:'short',month:'short',day:'numeric'})}</div>
+      <div class="f1-session-time">${d.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})} LOCAL</div>
+    </div>`;
+  }).join('');
+  el.innerHTML=`<div class="f1-next-wrap">
+    <div class="f1-circuit-banner">
+      <img id="f1-circuit-img" alt="" onerror="this.style.display='none'">
+      <div class="f1-circuit-banner-overlay"></div>
+      <div class="f1-circuit-banner-label">📍 ${race.Circuit?.circuitName||'CIRCUIT'}</div>
+    </div>
+    <div class="f1-race-header">
+      <div>
+        <div class="f1-race-round">ROUND ${race.round} / ${f1Data.races.length} · ${f1Data.year}</div>
+        <div class="f1-race-name">${flag} ${race.raceName}</div>
+        <div class="f1-race-circuit">📍 ${race.Circuit?.circuitName||''}, ${race.Circuit?.Location?.locality||''}, ${race.Circuit?.Location?.country||''}</div>
+      </div>
+      <div class="f1-countdown-block" id="f1-countdown"></div>
+    </div>
+    <div class="f1-schedule-grid">${sessionCards}</div>
+    <div class="f1-action-row">
+      <button class="f1-btn-primary" onclick="switchF1Tab('watch',document.querySelectorAll('.f1-tab-btn')[5])">▶ WATCH LIVE</button>
+      <button class="f1-btn-secondary" onclick="openF1Stream('https://pitwall.app')">⏱ LIVE TIMING</button>
+      <button class="f1-btn-secondary" onclick="openF1Stream('https://multiviewer.app')">🖥 MULTIVIEWER</button>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.06);padding-top:18px">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);letter-spacing:2px;margin-bottom:10px">CIRCUIT LOCATION</div>
+      <iframe src="https://www.google.com/maps?q=${encodeURIComponent((race.Circuit?.circuitName||'')+', '+(race.Circuit?.Location?.locality||''))}&output=embed" style="width:100%;height:220px;border:1px solid rgba(255,255,255,.07);border-radius:6px" loading="lazy"></iframe>
+    </div>
+  </div>`;
+  _f1Countdown(rDate);
+  _f1LoadCircuitBanner(race.Circuit?.circuitName||'');
+}
+
+function _f1Countdown(target){
+  if(f1CountdownTimer)clearInterval(f1CountdownTimer);
+  function tick(){
+    const el=document.getElementById('f1-countdown');if(!el)return clearInterval(f1CountdownTimer);
+    const diff=target-Date.now();
+    if(diff<=0){el.innerHTML='<div style="font-family:Bebas Neue,sans-serif;font-size:22px;color:var(--f1-red);letter-spacing:3px;padding:10px">🏁 RACE LIVE!</div>';return;}
+    const parts=[['DAYS',Math.floor(diff/86400000)],['HRS',Math.floor((diff%86400000)/3600000)],['MIN',Math.floor((diff%3600000)/60000)],['SEC',Math.floor((diff%60000)/1000)]];
+    el.innerHTML=parts.map(([l,v])=>`<div class="f1-count-unit"><span class="f1-count-num">${String(v).padStart(2,'0')}</span><span class="f1-count-lbl">${l}</span></div>`).join('');
+  }
+  tick();f1CountdownTimer=setInterval(tick,1000);
+}
+
+function _f1Calendar(){
+  const el=document.getElementById('f1-calendar-list');if(!el)return;
+  const now=Date.now(),next=f1NextRace();
+  let races=f1Data.races;
+  if(f1CalFilter==='upcoming')races=races.filter(r=>new Date(r.date+'T14:00:00Z')>now);
+  else if(f1CalFilter==='past')races=races.filter(r=>new Date(r.date+'T14:00:00Z')<=now);
+  el.innerHTML=races.map(r=>{
+    const rDate=new Date(r.date+'T'+(r.time||'14:00:00Z'));
+    const isPast=rDate<now,isNext=next&&r.round===next.round;
+    const flag=f1Flag(r.Circuit?.Location?.country||'');
+    const st=isNext?'<span class="f1-round-status f1-status-next">NEXT</span>':isPast?'<span class="f1-round-status f1-status-done">DONE</span>':'';
+    return`<div class="f1-round${isPast?' past':''}${isNext?' next-race':''}" onclick="switchF1Tab('next',document.querySelectorAll('.f1-tab-btn')[0])">
+      <div class="f1-round-num">${r.round}</div>
+      <div class="f1-round-flag">${flag}</div>
+      <div class="f1-round-info"><div class="f1-round-name">${r.raceName}</div><div class="f1-round-circuit">${r.Circuit?.circuitName||''}</div></div>
+      ${st}
+      <div class="f1-round-date">${rDate.toLocaleDateString('en',{day:'numeric',month:'short'})}</div>
+    </div>`;
+  }).join('')||'<div style="padding:20px;color:rgba(255,255,255,.3)">No races</div>';
+}
+function filterF1Calendar(f,el){
+  f1CalFilter=f;
+  document.querySelectorAll('.f1-cal-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  _f1Calendar();
+}
+
+function _f1Drivers(){
+  const el=document.getElementById('f1-drivers-list');if(!el)return;
+  const max=parseFloat(f1Data.driverStandings[0]?.points||1);
+  el.innerHTML=f1Data.driverStandings.map((s,i)=>{
+    const pct=Math.round((parseFloat(s.points)/max)*100);
+    const tcolor=f1TeamColor(s.Constructors?.[0]?.name||'');
+    const flag=f1Flag((s.Driver?.nationality||'').replace('British','Great Britain').replace('American','United States'));
+    const fullName=`${s.Driver?.givenName||''} ${s.Driver?.familyName||''}`.trim();
+    const dKey='d'+i;
+    return`<div class="f1-driver-row" data-driver-name="${fullName}" data-driver-key="${dKey}">
+      <div class="f1-pos${i<3?' top3':''}">${s.position}</div>
+      <div class="f1-driver-photo-ph">${flag}</div>
+      <img class="f1-driver-photo" data-driver-img="${dKey}" alt="" style="display:none">
+      <div style="flex:1">
+        <div class="f1-driver-name">${fullName}</div>
+        <div class="f1-team" style="color:${tcolor}">${s.Constructors?.[0]?.name||''}</div>
+        <div class="f1-bar"><div class="f1-bar-fill" style="width:${pct}%;background:${tcolor}"></div></div>
+      </div>
+      <div class="f1-pts">${s.points}<span class="f1-pts-lbl">PTS</span></div>
+    </div>`;
+  }).join('');
+  _f1LoadDriverPhotos();
+}
+
+function _f1Constructors(){
+  const el=document.getElementById('f1-constructors-list');if(!el)return;
+  const max=parseFloat(f1Data.constructorStandings[0]?.points||1);
+  el.innerHTML=f1Data.constructorStandings.map((s,i)=>{
+    const pct=Math.round((parseFloat(s.points)/max)*100);
+    const tcolor=f1TeamColor(s.Constructor?.name||'');
+    const name=s.Constructor?.name||'';
+    const tKey='c'+i;
+    return`<div class="f1-driver-row" data-team-name="${name}" data-team-key="${tKey}">
+      <div class="f1-pos${i<3?' top3':''}">${s.position}</div>
+      <div class="f1-team-logo-ph">🏎</div>
+      <img class="f1-team-logo" data-team-img="${tKey}" alt="" style="display:none">
+      <div style="flex:1">
+        <div class="f1-driver-name">${name}</div>
+        <div class="f1-team">${s.Constructor?.nationality||''}</div>
+        <div class="f1-bar"><div class="f1-bar-fill" style="width:${pct}%;background:${tcolor}"></div></div>
+      </div>
+      <div class="f1-pts">${s.points}<span class="f1-pts-lbl">PTS</span></div>
+    </div>`;
+  }).join('');
+  _f1LoadTeamLogos();
+}
+
+function _f1Results(){
+  const el=document.getElementById('f1-results-list');if(!el)return;
+  const race=f1Data.lastResult;
+  if(!race){el.innerHTML='<div style="padding:20px;color:rgba(255,255,255,.3)">No results yet</div>';return;}
+  const nl=document.getElementById('f1-last-race-name');
+  if(nl)nl.textContent=race.raceName||'';
+  const results=race.Results||[];
+  const podium=results.slice(0,3).map((r,i)=>{
+    const fullName=`${r.Driver?.givenName||''} ${r.Driver?.familyName||''}`.trim();
+    const pKey='p'+i;
+    return`<div class="f1-result-card" data-driver-name="${fullName}" data-driver-key="${pKey}">
+    <img class="f1-result-photo" data-driver-img="${pKey}" alt="" style="display:none">
+    <div class="f1-result-pos ${['p1','p2','p3'][i]}">${['1ST','2ND','3RD'][i]}</div>
+    <div class="f1-result-driver">${fullName}</div>
+    <div class="f1-result-team">${r.Constructor?.name||''}</div>
+    <div class="f1-result-time">${r.Time?.time||r.status||''}</div>
+  </div>`;
+  }).join('');
+  const rows=results.map(r=>`<div class="f1-driver-row">
+    <div class="f1-pos${parseInt(r.position)<4?' top3':''}">${r.position}</div>
+    <div style="flex:1">
+      <div class="f1-driver-name">${r.Driver?.givenName} ${r.Driver?.familyName}</div>
+      <div class="f1-team" style="color:${f1TeamColor(r.Constructor?.name||'')}">${r.Constructor?.name||''}</div>
+    </div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);text-align:right">
+      <div>${r.Time?.time||r.status||''}</div>
+      <div style="color:var(--gold);margin-top:3px">${r.points>0?'+'+r.points+' pts':''}</div>
+    </div>
+  </div>`).join('');
+  el.innerHTML=`<div class="f1-results-row">${podium}</div><div style="margin-top:18px">${rows}</div>`;
+  _f1LoadDriverPhotos();
+}
+
+function _f1Watch(){
+  const el=document.getElementById('f1-src-grid');if(!el)return;
+  el.innerHTML=F1_STREAMS.map(s=>`<div class="f1-src-card" onclick="openF1Stream('${s.url}')">
+    <div class="f1-src-card-name">${s.n}</div>
+    <div class="f1-src-card-url">${s.desc}</div>
+    <span class="f1-src-card-badge">${s.badge}</span>
+  </div>`).join('');
+}
+
+function openF1Stream(url){
+  if(!url||!url.startsWith('http'))return;
+  const wrap=document.getElementById('f1-iframe-wrap');
+  const iframe=document.getElementById('f1-iframe');
+  if(wrap&&iframe){
+    switchF1Tab('watch',document.querySelectorAll('.f1-tab-btn')[5]);
+    iframe.src=url;wrap.style.display='';
+    setTimeout(()=>wrap.scrollIntoView({behavior:'smooth'}),100);
+  } else window.open(url,'_blank');
+}
+
+/* ── WIKIPEDIA IMAGE LOOKUP (drivers, teams, circuits) ── */
+const _wikiImgCache={};
+async function _wikiResolve(query){
+  // Resolve a fuzzy query to an actual Wikipedia page title (avoids 404s on summary endpoint)
+  try{
+    const r=await fetch(`https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=1&namespace=0&format=json&origin=*`,{cache:'no-store'});
+    if(!r.ok)return null;
+    const d=await r.json();
+    return d?.[1]?.[0]||null;
+  }catch(e){return null;}
+}
+async function wikiImg(title,altTitle){
+  const key=title;
+  if(_wikiImgCache[key]!==undefined)return _wikiImgCache[key];
+  const queries=[title,altTitle].filter(Boolean);
+  for(const q of queries){
+    try{
+      const resolved=await _wikiResolve(q);
+      if(!resolved)continue;
+      const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(resolved.replace(/ /g,'_'))}`,{cache:'no-store'});
+      if(!r.ok)continue;
+      const d=await r.json();
+      const img=d.thumbnail?.source||d.originalimage?.source||null;
+      if(img){_wikiImgCache[key]=img;return img;}
+    }catch(e){}
+  }
+  _wikiImgCache[key]=null;return null;
+}
+function _f1SetImg(selector,src,phClass){
+  if(!src)return;
+  document.querySelectorAll(selector).forEach(el=>{
+    const img=new Image();
+    img.onload=()=>{
+      el.src=src;el.classList.add('loaded');
+      const ph=el.parentElement?.querySelector('.'+phClass);
+      if(ph)ph.style.display='none';
+      el.style.display='';
+    };
+    img.src=src;
+  });
+}
+async function _f1LoadDriverPhotos(){
+  const rows=document.querySelectorAll('[data-driver-name]');
+  for(const row of rows){
+    const name=row.dataset.driverName;
+    const img=await wikiImg(name+' (racing driver)',name+' Formula One');
+    if(img)_f1SetImg(`img[data-driver-img="${row.dataset.driverKey}"]`,img,'f1-driver-photo-ph');
+  }
+}
+async function _f1LoadTeamLogos(){
+  const rows=document.querySelectorAll('[data-team-name]');
+  for(const row of rows){
+    const name=row.dataset.teamName;
+    const img=await wikiImg(name,name+' F1 team');
+    if(img)_f1SetImg(`img[data-team-img="${row.dataset.teamKey}"]`,img,'f1-team-logo-ph');
+  }
+}
+async function _f1LoadCircuitBanner(circuitName){
+  const img=await wikiImg(circuitName,circuitName+' circuit');
+  if(img)_f1SetImg('#f1-circuit-img',img,'f1-circuit-ph-none');
+}
+
+/* ── HOT TOPICS NEWS ── */
+const F1_NEWS_FEEDS=[
+  'https://www.autosport.com/rss/f1/news/',
+  'https://www.motorsport.com/rss/f1/news/',
+  'https://www.formula1.com/en/latest/all.xml',
+];
+let f1NewsLoaded=false;
+async function _f1News(){
+  const el=document.getElementById('f1-news-list');
+  if(!el)return;
+  if(f1NewsLoaded)return;
+  el.innerHTML='<div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div>';
+  let items=[];
+  for(const feed of F1_NEWS_FEEDS){
+    try{
+      const r=await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed)}&_=${Date.now()}`,{cache:'no-store'});
+      const d=await r.json();
+      if(d.status==='ok'&&Array.isArray(d.items)){
+        const src=(d.feed?.title||'').replace(/\.com.*$/i,'').trim()||new URL(feed).hostname.replace('www.','');
+        items=items.concat(d.items.map(it=>({...it,_source:src})));
+      }
+    }catch(e){}
+  }
+  if(!items.length){
+    el.innerHTML='<div class="spinner-wrap" style="color:rgba(255,255,255,.3)">Unable to load news right now.</div>';
+    return;
+  }
+  items.sort((a,b)=>new Date(b.pubDate)-new Date(a.pubDate));
+  items=items.slice(0,18);
+  f1NewsLoaded=true;
+  el.innerHTML=items.map(it=>{
+    const img=it.thumbnail||it.enclosure?.link||'';
+    const desc=(it.description||it.content||'').replace(/<[^>]+>/g,'').slice(0,160);
+    const date=new Date(it.pubDate);
+    const dateStr=isNaN(date)?'':date.toLocaleDateString('en',{month:'short',day:'numeric'});
+    return`<a class="f1-news-card" href="${it.link}" target="_blank" rel="noopener">
+      ${img?`<img class="f1-news-img" src="${img}" loading="lazy" onerror="this.remove()">`:''}
+      <div class="f1-news-body">
+        <div class="f1-news-src"><span>${it._source.toUpperCase()}</span><span>${dateStr}</span></div>
+        <div class="f1-news-headline">${it.title}</div>
+        <div class="f1-news-desc">${desc}</div>
+      </div>
+    </a>`;
+  }).join('');
+}
 </script>
 </body>
 </html>
