@@ -5,6 +5,10 @@
       "destination": "https://westream.su/:path*"
     },
     {
+      "source": "/proxy/sportsrc",
+      "destination": "https://api.sportsrc.org/"
+    },
+    {
       "source": "/proxy/sportsrc/:path*",
       "destination": "https://api.sportsrc.org/:path*"
     }
