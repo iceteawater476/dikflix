@@ -1666,21 +1666,39 @@ header{
 const TK='4e44d9029b1270a757cddc766a1bcb63',TB='https://api.themoviedb.org/3',P3='https://image.tmdb.org/t/p/w300',P5='https://image.tmdb.org/t/p/w500';
 async function tmdb(p,q=''){const r=await fetch(`${TB}${p}?api_key=${TK}&language=en-US&${q}`);return r.json();}
 /* ─── SPORTS APIs ── */
-const PROXY = 'https://api.allorigins.win/raw?url='; 
 const WS = 'https://westream.su';
 const SR = 'https://api.sportsrc.org';
+
+// A list of free CORS proxies to cycle through
+const PROXIES = [
+  'https://corsproxy.io/?',
+  'https://api.codetabs.com/v1/proxy?quest='
+];
+
+// Helper function to try multiple proxies until one works
+async function fetchWithProxy(targetUrl) {
+  for (const proxy of PROXIES) {
+    try {
+      // Try fetching through the current proxy
+      const res = await fetch(proxy + encodeURIComponent(targetUrl));
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {
+      console.warn(`Proxy failed: ${proxy}. Trying next...`);
+    }
+  }
+  throw new Error("All public proxies are currently blocked or down.");
+}
 
 async function fetchMatches(cat='all'){
   try{
     const targetUrl = cat==='all' ? `${WS}/matches/live` : `${WS}/matches/${cat}`;
-    const r = await fetch(PROXY + encodeURIComponent(targetUrl));
-    if(!r.ok)throw 0;
-    return await r.json();
+    return await fetchWithProxy(targetUrl);
   }catch{
     try{
       const fallbackUrl = `${SR}/?data=matches&category=${cat}`;
-      const r = await fetch(PROXY + encodeURIComponent(fallbackUrl));
-      const d = await r.json();
+      const d = await fetchWithProxy(fallbackUrl);
       return Array.isArray(d) ? d : [];
     }
     catch{return[];}
@@ -1690,9 +1708,7 @@ async function fetchMatches(cat='all'){
 async function fetchStreams(src,id){
   try{
     const targetUrl = `${WS}/stream/${src}/${id}`;
-    const r = await fetch(PROXY + encodeURIComponent(targetUrl));
-    if(!r.ok)throw 0;
-    return await r.json();
+    return await fetchWithProxy(targetUrl);
   }catch{return[];}
 }
 /* ─── STATE ── */
