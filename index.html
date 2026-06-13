@@ -1666,23 +1666,22 @@ header{
 const TK='4e44d9029b1270a757cddc766a1bcb63',TB='https://api.themoviedb.org/3',P3='https://image.tmdb.org/t/p/w300',P5='https://image.tmdb.org/t/p/w500';
 async function tmdb(p,q=''){const r=await fetch(`${TB}${p}?api_key=${TK}&language=en-US&${q}`);return r.json();}
 /* ─── SPORTS APIs ── */
-// Using corsproxy.io to bypass both CORS and Vercel's datacenter IPs
-const PROXY = 'https://corsproxy.io/?'; 
+const PROXY = 'https://api.allorigins.win/raw?url='; 
 const WS = 'https://westream.su';
 const SR = 'https://api.sportsrc.org';
 
 async function fetchMatches(cat='all'){
   try{
-    const targetUrl = cat==='all' ? `${WS}/matches/live` : `${WS}/matches/${encodeURIComponent(cat)}`;
-    const r=await fetch(PROXY + encodeURIComponent(targetUrl));
+    const targetUrl = cat==='all' ? `${WS}/matches/live` : `${WS}/matches/${cat}`;
+    const r = await fetch(PROXY + encodeURIComponent(targetUrl));
     if(!r.ok)throw 0;
     return await r.json();
   }catch{
     try{
       const fallbackUrl = `${SR}/?data=matches&category=${cat}`;
-      const r=await fetch(PROXY + encodeURIComponent(fallbackUrl));
-      const d=await r.json();
-      return Array.isArray(d)?d:[];
+      const r = await fetch(PROXY + encodeURIComponent(fallbackUrl));
+      const d = await r.json();
+      return Array.isArray(d) ? d : [];
     }
     catch{return[];}
   }
@@ -1691,11 +1690,12 @@ async function fetchMatches(cat='all'){
 async function fetchStreams(src,id){
   try{
     const targetUrl = `${WS}/stream/${src}/${id}`;
-    const r=await fetch(PROXY + encodeURIComponent(targetUrl));
+    const r = await fetch(PROXY + encodeURIComponent(targetUrl));
     if(!r.ok)throw 0;
     return await r.json();
   }catch{return[];}
-}/* ─── STATE ── */
+}
+/* ─── STATE ── */
 let curItem=null,curType=null,isAnime=false,dubMode=false,malId=null;
 let tvSeasons=[],allResults=[],prevPage='home-page';
 let sugTO=null,sugRes=[],sugIdx=-1;
