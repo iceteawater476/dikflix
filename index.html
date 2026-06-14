@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -249,6 +250,12 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);
 /* ── PLAYER PAGE ── */
 #player-page{padding-top:var(--hh)}
 .player-shell{position:relative;width:100%;background:#000}
+.player-shell:-webkit-full-screen{width:100%;height:100%}
+.player-shell:-moz-full-screen{width:100%;height:100%}
+.player-shell:fullscreen{width:100%;height:100%}
+.player-shell iframe:-webkit-full-screen{width:100%!important;height:100%!important}
+.player-shell iframe:fullscreen{width:100%!important;height:100%!important}
+#pFrame{position:absolute;inset:0;width:100%;height:100%;border:none}
 .player-shell::before{content:'';display:block;padding-top:56.25%}
 .player-shell iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 .player-body{padding:13px 20px}
@@ -1472,6 +1479,111 @@ header{
   .nav-tab.tv-tab.active{border-bottom-color:var(--green)}
 }
 .nav-tab.tv-tab.active{border-bottom-color:var(--green)}
+
+/* ══ LTV PLAYER UPGRADE ══ */
+.ltv-player-wrap{
+  background:#000;border-bottom:1px solid rgba(34,197,94,0.15);
+  position:sticky;top:var(--hh);z-index:50;
+}
+.ltv-player-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:rgba(0,0,0,0.95);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  gap:12px;flex-wrap:wrap;
+}
+.ltv-player-channel-info{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.ltv-live-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);
+  border-radius:4px;padding:3px 8px;flex-shrink:0;
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--green);
+}
+.ltv-player-title{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;
+  letter-spacing:1px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ltv-player-group{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  color:var(--muted);letter-spacing:2px;flex-shrink:0;
+}
+.ltv-player-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ltv-action-btn{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  color:var(--muted);padding:6px 10px;border-radius:4px;
+  font-size:14px;cursor:pointer;transition:var(--trans);
+}
+.ltv-action-btn:hover{background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.25)}
+.ltv-close-btn{
+  background:rgba(229,9,20,0.1);border:1px solid rgba(229,9,20,0.3);
+  color:rgba(229,9,20,0.8);padding:6px 14px;border-radius:4px;
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;
+  cursor:pointer;transition:var(--trans);
+}
+.ltv-close-btn:hover{background:rgba(229,9,20,0.2);color:#fff;border-color:var(--accent)}
+.ltv-player-shell{
+  position:relative;width:100%;background:#000;
+  aspect-ratio:16/9;max-height:72vh;
+}
+.ltv-player-shell video{
+  position:absolute;inset:0;width:100%;height:100%;
+  display:block;background:#000;
+  /* NO forced fullscreen — user controls play/pause/volume/fullscreen themselves */
+}
+.ltv-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.7);z-index:2;transition:opacity .4s;
+}
+.ltv-overlay.hidden{opacity:0;pointer-events:none}
+.ltv-spinner-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.ltv-tuning{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--green);letter-spacing:3px}
+.ltv-err-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  background:rgba(0,0,0,0.9);z-index:3;padding:20px;text-align:center;
+}
+.ltv-err-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:#fff;margin-top:6px}
+.ltv-err-sub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+.ltv-err-url{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(34,197,94,0.6);word-break:break-all;max-width:400px;margin-top:4px}
+
+/* ══ LIGHTS OFF MODE ══ */
+body.lights-off .ltv-controls,
+body.lights-off .ltv-grid,
+body.lights-off .ltv-hero,
+body.lights-off header,
+body.lights-off .mobile-nav{
+  display:none!important;
+}
+body.lights-off #livetv-page{background:#000}
+body.lights-off .ltv-player-wrap{
+  position:fixed;inset:0;z-index:9999;border:none;
+  display:flex!important;flex-direction:column;
+}
+body.lights-off .ltv-player-shell{
+  flex:1;max-height:none;aspect-ratio:unset;
+}
+body.lights-off .ltv-player-header{
+  background:rgba(0,0,0,0.9);
+}
+body.lights-off #ltv-lights-btn{
+  background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:var(--green);
+}
+body.lights-off .page{padding-top:0}
+
+/* ══ MAIN PLAYER: REMOVE forced fullscreen iframe attrs display ══ */
+/* allowfullscreen stays as attr but we don't force it programmatically */
+
+@media(max-width:640px){
+  .ltv-player-header{padding:8px 12px}
+  .ltv-player-title{font-size:15px}
+  .ltv-player-group{display:none}
+}
+
+/* Fullscreen passthrough — must not clip iframe fullscreen requests */
+.player-cols{overflow:visible!important}
+.player-body{overflow:visible!important}
+#player-page{overflow:visible!important}
+iframe:-webkit-full-screen{border:none!important}
+iframe:fullscreen{border:none!important}
 </style>
 </head>
 <body>
@@ -1597,11 +1709,30 @@ header{
   <!-- PLAYER -->
   <div class="ltv-player-wrap" id="ltv-player-wrap" style="display:none">
     <div class="ltv-player-header">
-      <div class="ltv-player-title" id="ltv-player-title">—</div>
-      <button class="ltv-close-btn" onclick="closeLTVPlayer()">✕ CLOSE</button>
+      <div class="ltv-player-channel-info">
+        <span class="ltv-live-pill"><span class="ltv-dot"></span>LIVE</span>
+        <div class="ltv-player-title" id="ltv-player-title">—</div>
+        <div class="ltv-player-group" id="ltv-player-group"></div>
+      </div>
+      <div class="ltv-player-actions">
+        <button class="ltv-action-btn" id="ltv-lights-btn" onclick="toggleLTVLights()" title="Lights Off">💡</button>
+        <button class="ltv-action-btn" onclick="ltvCopyUrl()" title="Copy stream URL">🔗</button>
+        <button class="ltv-close-btn" onclick="closeLTVPlayer()">✕ CLOSE</button>
+      </div>
     </div>
-    <div class="ltv-player-shell">
-      <video id="ltv-video" controls playsinline autoplay></video>
+    <div class="ltv-player-shell" id="ltv-player-shell">
+      <video id="ltv-video" controls playsinline webkit-playsinline
+        controlslist="nodownload" disablepictureinpicture></video>
+      <div class="ltv-overlay" id="ltv-overlay">
+        <div class="ltv-spinner-wrap"><div class="spinner" style="border-top-color:#22c55e;width:36px;height:36px;border-width:3px"></div><span class="ltv-tuning">TUNING IN…</span></div>
+      </div>
+      <div class="ltv-err-overlay" id="ltv-err-overlay" style="display:none">
+        <div style="font-size:32px">📡</div>
+        <div class="ltv-err-title">STREAM UNAVAILABLE</div>
+        <div class="ltv-err-sub">This channel may be offline or geo-restricted.</div>
+        <div class="ltv-err-url" id="ltv-err-url"></div>
+        <button class="ltv-action-btn" onclick="ltvCopyUrl()" style="margin-top:12px;padding:8px 16px;font-size:11px">🔗 COPY URL FOR VLC</button>
+      </div>
     </div>
   </div>
   <!-- SEARCH + FILTERS -->
@@ -1731,8 +1862,12 @@ header{
     <button class="back-btn" onclick="goBack()">◀ BACK</button>
   </div>
   <div class="player-shell">
-    <iframe id="pFrame" allowfullscreen webkitallowfullscreen mozallowfullscreen
-      allow="fullscreen;autoplay;encrypted-media;picture-in-picture"
+    <iframe id="pFrame"
+      allowfullscreen
+      webkitallowfullscreen
+      mozallowfullscreen
+      allow="fullscreen *; autoplay *; encrypted-media *; picture-in-picture *"
+      referrerpolicy="no-referrer-when-downgrade"
       playsinline webkit-playsinline></iframe>
   </div>
   <div style="height:0" id="ad-player-below"></div>
@@ -3204,40 +3339,70 @@ function filterLTVCat(cat,el){
 function ltvPlay(ch){
   const wrap=document.getElementById('ltv-player-wrap');
   const titleEl=document.getElementById('ltv-player-title');
+  const groupEl=document.getElementById('ltv-player-group');
   const video=document.getElementById('ltv-video');
+  const overlay=document.getElementById('ltv-overlay');
+  const errOverlay=document.getElementById('ltv-err-overlay');
+  const errUrl=document.getElementById('ltv-err-url');
   if(!wrap||!video)return;
+
+  // Store current url for copy/fallback
+  ltvCurrentUrl=ch.url;
+  ltvCurrentCh=ch;
+
   wrap.style.display='';
-  if(titleEl)titleEl.textContent=ch.name.toUpperCase();
-  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+  if(titleEl)titleEl.textContent=ch.name;
+  if(groupEl)groupEl.textContent=ch.group||'';
+
+  // Show loading overlay, hide error
+  if(overlay)overlay.classList.remove('hidden');
+  if(errOverlay)errOverlay.style.display='none';
+
+  // Scroll player into view (unless lights-off which takes over full screen)
+  if(!document.body.classList.contains('lights-off'))
+    wrap.scrollIntoView({behavior:'smooth',block:'start'});
 
   // Destroy previous HLS instance
   if(ltvHls){ltvHls.destroy();ltvHls=null;}
   video.src='';
 
-  const url=ch.url; // always HTTPS after our upgrade
+  const url=ch.url;
+  const onReady=()=>{
+    if(overlay)overlay.classList.add('hidden');
+    ltvState[url]='live';
+    _updateLTVCard(url);
+    updateLTVStats();
+  };
+  const onFatal=()=>{
+    if(overlay)overlay.classList.add('hidden');
+    if(errOverlay)errOverlay.style.display='flex';
+    if(errUrl)errUrl.textContent=url;
+    ltvState[url]='offline';
+    _updateLTVCard(url);
+    updateLTVStats();
+    ltvHls?.destroy();ltvHls=null;
+  };
+
   if(typeof Hls==='undefined'||!Hls.isSupported()){
-    // Native HLS (Safari/iOS)
-    video.src=url;video.play().catch(()=>{});
+    // Native HLS (Safari/iOS) — set src directly
+    video.src=url;
+    video.oncanplay=onReady;
+    video.onerror=onFatal;
+    video.play().catch(()=>{});
   }else{
-    ltvHls=new Hls({enableWorker:true,lowLatencyMode:true});
-    ltvHls.on(Hls.Events.ERROR,(ev,data)=>{
-      if(data.fatal){
-        ltvState[url]='offline';
-        _updateLTVCard(url);
-        updateLTVStats();
-        ltvHls?.destroy();ltvHls=null;
-        // Show error in player
-        if(titleEl)titleEl.textContent=ch.name.toUpperCase()+' — STREAM UNAVAILABLE';
-      }
+    ltvHls=new Hls({
+      enableWorker:true,
+      lowLatencyMode:true,
+      maxBufferLength:30,
+      startLevel:-1, // auto quality
+    });
+    ltvHls.on(Hls.Events.ERROR,(ev,data)=>{if(data.fatal)onFatal();});
+    ltvHls.on(Hls.Events.MANIFEST_PARSED,()=>{
+      video.play().catch(()=>{});
+      onReady();
     });
     ltvHls.loadSource(url);
     ltvHls.attachMedia(video);
-    ltvHls.on(Hls.Events.MANIFEST_PARSED,()=>{
-      video.play().catch(()=>{});
-      ltvState[url]='live';
-      _updateLTVCard(url);
-      updateLTVStats();
-    });
   }
 }
 
@@ -3247,8 +3412,40 @@ function closeLTVPlayer(){
   if(ltvHls){ltvHls.destroy();ltvHls=null;}
   if(video){video.pause();video.src='';}
   if(wrap)wrap.style.display='none';
+  // Exit lights-off when closing
+  document.body.classList.remove('lights-off');
 }
+let ltvCurrentUrl='';
+let ltvCurrentCh=null;
+
+function toggleLTVLights(){
+  const on=document.body.classList.toggle('lights-off');
+  const btn=document.getElementById('ltv-lights-btn');
+  if(btn){btn.textContent=on?'💡':'💡';btn.title=on?'Lights On':'Lights Off';}
+  // On mobile, also prevent page scroll when lights-off
+  document.body.style.overflow=on?'hidden':'';
+  // Scroll to top so fullscreen overlay looks right
+  if(on) window.scrollTo(0,0);
+}
+
+function ltvCopyUrl(){
+  if(!ltvCurrentUrl)return;
+  navigator.clipboard?.writeText(ltvCurrentUrl).then(()=>{
+    toast('🔗 Stream URL copied — paste into VLC or MPV');
+  }).catch(()=>{
+    // Fallback: show in prompt
+    prompt('Copy this URL for VLC/MPV:',ltvCurrentUrl);
+  });
+}
+
+// Keyboard: Escape exits lights-off
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&document.body.classList.contains('lights-off')){
+    document.body.classList.remove('lights-off');
+    document.body.style.overflow='';
+  }
+});
+
 </script>
 </body>
 </html>
-
