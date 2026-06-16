@@ -555,8 +555,16 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);padding:
 .ltv-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .ltv-status-dot.live{background:var(--green);animation:f1pulse 1.5s infinite}
 .ltv-status-dot.offline{background:rgba(255,255,255,0.2)}
+.ltv-status-dot.checking{background:var(--gold);animation:f1pulse .9s infinite}
 .ltv-status-lbl{color:var(--muted)}
 .ltv-status.live .ltv-status-lbl{color:var(--green)}
+.ltv-status.checking .ltv-status-lbl{color:var(--gold)}
+.ltv-refresh-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:20px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:1px;cursor:pointer;transition:var(--trans);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.ltv-refresh-btn:hover{color:var(--cream);background:rgba(255,255,255,0.08)}
+.ltv-refresh-btn:disabled{opacity:.5;cursor:default}
+.ltv-refresh-btn .spin{display:inline-block}
+.ltv-refresh-btn.checking .spin{animation:ltvspin .8s linear infinite}
+@keyframes ltvspin{to{transform:rotate(360deg)}}
 .ltv-empty{padding:40px;text-align:center;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;grid-column:1/-1}
 
 body.lights-off .ltv-controls,body.lights-off .ltv-grid,body.lights-off .ltv-hero,body.lights-off header,body.lights-off .mobile-nav{display:none!important}
@@ -928,6 +936,7 @@ body.lights-off .page{padding-top:0}
       <button class="ltv-filter-btn" onclick="filterLTVCat('SPORTS',this)">⚽ SPORTS</button>
       <button class="ltv-filter-btn" onclick="filterLTVCat('NEWS',this)">📰 NEWS</button>
       <button class="ltv-filter-btn" onclick="filterLTVCat('ENTERTAINMENT',this)">📺 ENTERTAINMENT</button>
+      <button class="ltv-refresh-btn" id="ltv-refresh-btn" onclick="checkAllChannels(true)" title="Re-check which channels are online"><span class="spin">🔄</span><span id="ltv-refresh-lbl">RECHECK STATUS</span></button>
     </div>
   </div>
   <div class="ltv-grid" id="ltv-grid">
@@ -1001,7 +1010,7 @@ body.lights-off .page{padding-top:0}
             <div class="f1-player-ph-icon">▶</div>
             <div class="f1-player-ph-text">SELECT A SOURCE BELOW TO START WATCHING</div>
           </div>
-          <iframe id="f1-iframe" allow="fullscreen; autoplay" style="display:none"></iframe>
+          <iframe id="f1-iframe" allow="fullscreen; autoplay" referrerpolicy="no-referrer" style="display:none"></iframe>
         </div>
         <div class="f1-watch-sub" style="margin-top:22px" id="f1-src-heading">LIVE F1 STREAMS</div>
         <div id="f1-src-grid"></div>
@@ -1569,33 +1578,35 @@ let ltvInited=false;
 let ltvHls=null;
 let ltvCurrentUrl='';
 let ltvCurrentCh=null;
+let ltvChecking=false;
 
 function initLiveTV(){
   if(ltvInited)return;
   ltvInited=true;
   updateLTVStats();
   renderLTVGrid();
+  checkAllChannels();
 }
 
 function updateLTVStats(){
   const total=LIVETV_CHANNELS.length;
-  const offlineCount=Object.values(ltvState).filter(s=>s==='offline').length;
+  const liveCount=Object.values(ltvState).filter(s=>s==='live').length;
+  const checkedCount=Object.keys(ltvState).length;
   const tEl=document.getElementById('ltv-total');
   const lEl=document.getElementById('ltv-live');
   if(tEl) tEl.textContent=total;
-  if(lEl) lEl.textContent=total - offlineCount;
+  if(lEl) lEl.textContent=checkedCount?liveCount:'—';
 }
 
 function _updateLTVCard(url){
   const card=document.querySelector(`.ltv-card[data-url="${CSS.escape(url)}"]`);
   if(!card)return;
-  const s=ltvState[url]||'live';
+  const s=ltvState[url]||'checking';
   card.className='ltv-card '+s;
   const dot=card.querySelector('.ltv-status-dot');
   const lbl=card.querySelector('.ltv-status-lbl');
   if(dot)dot.className='ltv-status-dot '+s;
-  if(lbl)lbl.textContent=s==='live'?'LIVE':'OFFLINE';
-  if(s==='live')card.classList.add('live');
+  if(lbl)lbl.textContent=s==='live'?'LIVE':s==='checking'?'…':'OFFLINE';
 }
 
 function renderLTVGrid(){
@@ -1610,9 +1621,9 @@ function renderLTVGrid(){
   if(q)chs=chs.filter(ch=>ch.name.toLowerCase().includes(q));
   if(!chs.length){el.innerHTML='<div class="ltv-empty">NO CHANNELS FOUND</div>';return;}
   el.innerHTML=chs.map(ch=>{
-    const s=ltvState[ch.url]||'live';
+    const s=ltvState[ch.url]||'checking';
     return`<div class="ltv-card ${s}" data-url="${ch.url.replace(/"/g,'&quot;')}" onclick="ltvPlay(${JSON.stringify(ch).replace(/"/g,'&quot;')})">
-      <div class="ltv-status"><span class="ltv-status-dot ${s}"></span><span class="ltv-status-lbl">${s==='live'?'LIVE':'OFFLINE'}</span></div>
+      <div class="ltv-status ${s}"><span class="ltv-status-dot ${s}"></span><span class="ltv-status-lbl">${s==='live'?'LIVE':s==='checking'?'…':'OFFLINE'}</span></div>
       <div class="ltv-card-icon">${ch.icon || '📺'}</div>
       <div class="ltv-card-name">${ch.name}</div>
       <div class="ltv-card-group">${ch.group || ''}</div>
@@ -1628,6 +1639,54 @@ function filterLTVCat(cat,el){
   ltvCatFilter=cat;
   document.querySelectorAll('.ltv-filter-btn').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
+  renderLTVGrid();
+}
+
+/* ── ONLINE STREAM CHECKER ──
+   Probes each channel's m3u8 URL directly (same way HLS.js would load it)
+   with a short timeout, so the LIVE/OFFLINE badges reflect real status
+   rather than an assumed default. Runs with limited concurrency so it
+   doesn't fire 300+ requests at once. */
+async function checkChannel(ch,timeoutMs=7000){
+  try{
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),timeoutMs);
+    const res=await fetch(ch.url,{method:'GET',cache:'no-store',redirect:'follow',signal:controller.signal});
+    clearTimeout(timer);
+    return (res&&res.ok)?'live':'offline';
+  }catch(e){
+    return 'offline';
+  }
+}
+
+async function checkAllChannels(force){
+  if(ltvChecking)return;
+  ltvChecking=true;
+  const btn=document.getElementById('ltv-refresh-btn');
+  const lbl=document.getElementById('ltv-refresh-lbl');
+  if(btn){btn.classList.add('checking');btn.disabled=true;}
+  const list=force?LIVETV_CHANNELS:LIVETV_CHANNELS.filter(ch=>!ltvState[ch.url]);
+  const total=list.length;
+  let done=0;
+  const CONCURRENCY=10;
+  let idx=0;
+  async function worker(){
+    while(idx<list.length){
+      const ch=list[idx++];
+      ltvState[ch.url]=ltvState[ch.url]||'checking';
+      _updateLTVCard(ch.url);
+      const status=await checkChannel(ch);
+      ltvState[ch.url]=status;
+      _updateLTVCard(ch.url);
+      updateLTVStats();
+      done++;
+      if(lbl)lbl.textContent=`CHECKING ${done}/${total}…`;
+    }
+  }
+  await Promise.all(Array.from({length:Math.min(CONCURRENCY,list.length)},worker));
+  ltvChecking=false;
+  if(btn){btn.classList.remove('checking');btn.disabled=false;}
+  if(lbl)lbl.textContent='RECHECK STATUS';
   renderLTVGrid();
 }
 
