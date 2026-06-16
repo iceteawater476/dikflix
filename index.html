@@ -1910,18 +1910,40 @@ const SICONS={football:'⚽',soccer:'⚽',basketball:'🏀','american-football':
 const CAT_ALIASES={soccer:'football','football-soccer':'football',fight:'mma','combat-sports':'mma','motor-sports':'motorsport',motorsports:'motorsport','motor-sport':'motorsport',f1:'motorsport','formula-1':'motorsport',formula1:'motorsport',motogp:'motorsport',nascar:'motorsport',indycar:'motorsport',wec:'motorsport',rally:'motorsport',wrc:'motorsport','formula-e':'motorsport'};
 function normCat(c){const k=(c||'').toLowerCase().replace(/\s+/g,'-');return CAT_ALIASES[k]||k;}
 function sportIcon(c){return SICONS[c?.toLowerCase().replace(/\s+/g,'-')]||SICONS.default;}
+
+/* Roughly how long a match in each category can realistically still be "live"
+   after its scheduled start time, used to tell LIVE apart from UPCOMING/FINISHED
+   since the API doesn't reliably report match status itself. */
+const SPORT_LIVE_WINDOW_MS={football:3*3600000,basketball:3*3600000,'american-football':4*3600000,hockey:3.5*3600000,baseball:4.5*3600000,tennis:5*3600000,mma:6*3600000,motorsport:8*3600000,cricket:10*3600000,rugby:2.5*3600000,golf:7*3600000,default:4*3600000};
+function getMatchStatus(m){
+  if(!m.date)return m.popular?'live':'upcoming';
+  const start=new Date(m.date).getTime();
+  if(isNaN(start))return m.popular?'live':'upcoming';
+  const now=Date.now();
+  if(now<start)return 'upcoming';
+  const win=SPORT_LIVE_WINDOW_MS[normCat(m.category)]||SPORT_LIVE_WINDOW_MS.default;
+  return (now-start)<=win?'live':'finished';
+}
 function fmtTime(ts){if(!ts)return'';const d=new Date(typeof ts==='string'?ts:ts);if(isNaN(d))return'';return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+' · '+d.toLocaleDateString([],{month:'short',day:'numeric'});}
 function sportCardHTML(m){
-  const ncat=normCat(m.category);const icon=sportIcon(ncat);const home=m.teams?.home?.name||'',away=m.teams?.away?.name||'';const homeBadge=m.teams?.home?.badge?spBadgeUrl(m.teams.home.badge):null;const awayBadge=m.teams?.away?.badge?spBadgeUrl(m.teams.away.badge):null;const title=m.title||(home&&away?`${home} vs ${away}`:'Live Match');const isLive=m.popular||m.isLive||(m.date&&Math.abs(Date.now()-new Date(m.date))<4*3600000);const posterUrl=spPosterUrl(m);
+  const ncat=normCat(m.category);const icon=sportIcon(ncat);const home=m.teams?.home?.name||'',away=m.teams?.away?.name||'';const homeBadge=m.teams?.home?.badge?spBadgeUrl(m.teams.home.badge):null;const awayBadge=m.teams?.away?.badge?spBadgeUrl(m.teams.away.badge):null;const title=m.title||(home&&away?`${home} vs ${away}`:'Live Match');const status=getMatchStatus(m);const posterUrl=spPosterUrl(m);
   let thumbHTML='';
   if(posterUrl){thumbHTML=`<img class="sport-thumb" src="${posterUrl}" alt="" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.removeProperty('display')"><div class="sport-thumb-ph" style="display:none">${icon?`<span style="font-size:32px">${icon}</span>`:''}<span style="font-family:'VT323',monospace;font-size:11px;color:var(--muted)">${(ncat||'SPORT').toUpperCase()}</span></div>`;}else if(homeBadge&&awayBadge){thumbHTML=`<div class="sport-thumb-ph" style="flex-direction:row;gap:8px;background:linear-gradient(135deg,rgba(34,197,94,.04),transparent)"><img src="${homeBadge}" alt="${home}" style="height:44px;width:44px;object-fit:contain" onerror="this.style.display='none'"><span style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--vhs-red)">VS</span><img src="${awayBadge}" alt="${away}" style="height:44px;width:44px;object-fit:contain" onerror="this.style.display='none'"></div>`;}else{thumbHTML=`<div class="sport-thumb-ph">${icon?`<span style="font-size:32px">${icon}</span>`:''}<span style="font-family:'VT323',monospace;font-size:11px;color:var(--muted)">${(ncat||'SPORT').toUpperCase()}</span></div>`;}
-  return `<div class="sport-card" data-m='${JSON.stringify({id:m.id,title,category:ncat,sources:m.sources,date:m.date,teams:m.teams,poster:m.poster}).replace(/'/g,"&#39;")}' style="position:relative">${thumbHTML}${isLive?`<div class="slive"><span class="sldot"></span>LIVE</div>`:''}<div class="sport-info"><div class="sport-ttl">${title.toUpperCase()}</div>${fmtTime(m.date)?`<div class="sport-time">🕐 ${fmtTime(m.date)}</div>`:''}${home&&away?`<div class="sport-teams"><div class="sport-team">${homeBadge?`<img src="${homeBadge}" style="height:22px;object-fit:contain;margin-bottom:2px" onerror="this.style.display='none'">`:''}<div class="sport-team-n">${home}</div></div><div class="sport-vs">VS</div><div class="sport-team">${awayBadge?`<img src="${awayBadge}" style="height:22px;object-fit:contain;margin-bottom:2px" onerror="this.style.display='none'">`:''}<div class="sport-team-n">${away}</div></div></div>`:''}</div></div>`;
+  const badgeHTML=status==='live'?`<div class="slive"><span class="sldot"></span>LIVE</div>`:status==='upcoming'?`<div class="supcoming">🕐 UPCOMING</div>`:'';
+  return `<div class="sport-card" data-m='${JSON.stringify({id:m.id,title,category:ncat,sources:m.sources,date:m.date,teams:m.teams,poster:m.poster}).replace(/'/g,"&#39;")}' style="position:relative">${thumbHTML}${badgeHTML}<div class="sport-info"><div class="sport-ttl">${title.toUpperCase()}</div>${fmtTime(m.date)?`<div class="sport-time">${status==='upcoming'?'▶ STARTS':'🕐'} ${fmtTime(m.date)}</div>`:''}${home&&away?`<div class="sport-teams"><div class="sport-team">${homeBadge?`<img src="${homeBadge}" style="height:22px;object-fit:contain;margin-bottom:2px" onerror="this.style.display='none'">`:''}<div class="sport-team-n">${home}</div></div><div class="sport-vs">VS</div><div class="sport-team">${awayBadge?`<img src="${awayBadge}" style="height:22px;object-fit:contain;margin-bottom:2px" onerror="this.style.display='none'">`:''}<div class="sport-team-n">${away}</div></div></div>`:''}</div></div>`;
 }
 function renderSports(matches){
   const el=document.getElementById('sports-content');const lc=document.getElementById('live-count');
   if(!matches.length){el.innerHTML='<div class="empty-state"><div class="ei">📡</div><p>NO LIVE MATCHES RIGHT NOW</p></div>';if(lc)lc.textContent='';return;}
-  const liveN=matches.filter(m=>m.popular||m.isLive).length;if(lc)lc.textContent=liveN>0?`${liveN} LIVE NOW`:`${matches.length} MATCHES`;
+  matches=matches.filter(m=>getMatchStatus(m)!=='finished');
+  if(!matches.length){el.innerHTML='<div class="empty-state"><div class="ei">📡</div><p>NO LIVE OR UPCOMING MATCHES RIGHT NOW</p></div>';if(lc)lc.textContent='';return;}
+  const liveN=matches.filter(m=>getMatchStatus(m)==='live').length;if(lc)lc.textContent=liveN>0?`${liveN} LIVE NOW`:`${matches.length} UPCOMING`;
   const groups={};matches.forEach(m=>{const c=normCat(m.category)||'other';if(!groups[c])groups[c]=[];groups[c].push(m);});
+  Object.values(groups).forEach(ms=>ms.sort((a,b)=>{
+    const sa=getMatchStatus(a),sb=getMatchStatus(b);
+    if(sa!==sb)return sa==='live'?-1:sb==='live'?1:0;
+    return (a.date?new Date(a.date).getTime():0)-(b.date?new Date(b.date).getTime():0);
+  }));
   el.innerHTML=Object.entries(groups).map(([cat,ms])=>`<div class="section" style="padding-bottom:4px"><div class="sec-head"><div class="sec-title gt">${sportIcon(cat)} ${cat.toUpperCase()}</div><span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted)">${ms.length} MATCH${ms.length!==1?'ES':''}</span></div><div class="shelf" style="border:none;box-shadow:none;align-items:stretch;padding-top:0">${ms.map(sportCardHTML).join('')}</div></div>`).join('');
   el.querySelectorAll('.sport-card').forEach(card=>{card.addEventListener('click',()=>{try{openSportItem(JSON.parse(card.dataset.m.replace(/&#39;/g,"'")));}catch{}});});
 }
