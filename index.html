@@ -361,6 +361,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);padding:
 .sport-thumb-ph{width:100%;height:115px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:linear-gradient(135deg,rgba(34,197,94,.06),transparent)}
 .slive{position:absolute;top:7px;left:7px;background:rgba(204,17,34,.9);color:white;font-family:'VT323',monospace;font-size:13px;letter-spacing:1px;padding:2px 7px;display:flex;align-items:center;gap:4px;border-radius:4px}
 .sldot{width:5px;height:5px;border-radius:50%;background:white;animation:pls 1.2s infinite}
+.supcoming{position:absolute;top:7px;left:7px;background:rgba(59,130,246,.9);color:white;font-family:'VT323',monospace;font-size:13px;letter-spacing:1px;padding:2px 7px;border-radius:4px}
 @keyframes pls{0%,100%{opacity:1}50%{opacity:.2}}
 .sport-info{padding:9px 10px 11px}
 .sport-ttl{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1.5px;color:var(--cream);margin-bottom:3px;line-height:1.2}
@@ -476,6 +477,14 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);padding:
 .f1-src-card-badge{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;background:rgba(225,6,0,0.16);color:var(--f1-red);padding:3px 8px;border-radius:4px;letter-spacing:1px;margin-top:5px;align-self:flex-start}
 .f1-player-shell{position:relative;width:100%;border-radius:6px;overflow:hidden;border:1px solid rgba(225,6,0,0.3);background:#000;aspect-ratio:16/9}
 .f1-player-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+.hl-player-shell{position:relative;width:100%;max-width:980px;margin:0 auto;border-radius:6px;overflow:hidden;border:1px solid rgba(245,197,24,0.25);background:#000;aspect-ratio:16/9}
+.hl-player-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+.hl-src-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:18px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:var(--trans);white-space:nowrap}
+.hl-src-btn:hover{color:var(--cream);border-color:rgba(245,197,24,0.3)}
+.hl-src-btn.active{background:rgba(245,197,24,0.12);border-color:var(--gold);color:var(--gold)}
+.hl-note{max-width:980px;margin:14px auto 0;font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.6;color:var(--muted);letter-spacing:.3px;text-align:center}
+.nav-tab.hl-tab.active{color:var(--gold)}
+.mob-btn.hl-m.active{color:var(--gold)}
 .f1-player-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at center,rgba(225,6,0,0.07) 0%,#070708 75%)}
 .f1-player-ph-icon{width:64px;height:64px;border-radius:50%;background:rgba(225,6,0,0.12);border:1px solid rgba(225,6,0,0.35);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--f1-red)}
 .f1-player-ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.35);text-align:center;padding:0 20px}
@@ -794,6 +803,7 @@ body.lights-off .page{padding-top:0}
     <button class="nav-tab sport-tab" data-tab="sports" onclick="setTab('sports',this)">⚽ SPORTS</button>
     <button class="nav-tab f1-tab" data-tab="f1" onclick="setTab('f1',this)">🏎 F1</button>
     <button class="nav-tab tv-tab" data-tab="livetv" onclick="setTab('livetv',this)">📡 LIVE TV</button>
+    <button class="nav-tab hl-tab" data-tab="highlights" onclick="setTab('highlights',this)">🎬 HIGHLIGHTS</button>
   </nav>
   <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1026,6 +1036,28 @@ body.lights-off .page{padding-top:0}
   </div>
 </div>
 
+<div id="highlights-page" class="page">
+  <div style="padding-top:var(--hh)"></div>
+  <div class="section" style="padding-bottom:10px">
+    <div class="sec-head">
+      <div class="sec-title gt">🎬 MATCH HIGHLIGHTS</div>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1px">OFFICIAL CHANNELS · UPDATED CONTINUOUSLY</span>
+    </div>
+  </div>
+  <div class="sport-filters" id="hl-cat-filters">
+    <button class="sf-btn active" onclick="filterHlCat('football',this)">⚽ FOOTBALL</button>
+    <button class="sf-btn" onclick="filterHlCat('motorsport',this)">🏁 MOTORSPORT</button>
+    <button class="sf-btn" onclick="filterHlCat('cricket',this)">🏏 CRICKET</button>
+  </div>
+  <div class="sport-subfilters" id="hl-src-filters" style="display:flex"></div>
+  <div class="section" style="padding-top:8px">
+    <div class="hl-player-shell" id="hl-player-shell">
+      <iframe id="hl-iframe" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen frameborder="0" referrerpolicy="no-referrer" loading="lazy"></iframe>
+    </div>
+    <div class="hl-note">Streaming the latest uploads straight from <span id="hl-note-name">the official channel</span> on YouTube — covers everything posted this week and before. Use the playlist controls inside the player to browse other recent highlights from the same channel.</div>
+  </div>
+</div>
+
 <div id="search-page" class="page">
   <div style="padding-top:calc(var(--hh) + 10px)"></div>
   <div class="search-hdr">
@@ -1199,6 +1231,7 @@ function showPage(id){
   const leavingPlayer=document.getElementById('player-page')?.classList.contains('active');
   if(leavingPlayer&&id!=='player-page'){const f=document.getElementById('pFrame');if(f)f.src='about:blank';}
   if(id!=='livetv-page'&&typeof closeLTVPlayer==='function')closeLTVPlayer();
+  if(id!=='highlights-page'){const hf=document.getElementById('hl-iframe');if(hf&&hf.src)hf.src='';}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});closeSug();
 }
@@ -1214,6 +1247,7 @@ function setTab(tab,el){
   if(tab==='sports'){showPage('sports-page');loadSports('all');}
   else if(tab==='f1'){showPage('f1-page');loadF1();}
   else if(tab==='livetv'){showPage('livetv-page');initLiveTV();}
+  else if(tab==='highlights'){showPage('highlights-page');initHighlights();}
   else{showPage('home-page');renderCW();
     if(tab==='home')initHome();else if(tab==='movies')loadMovies();else if(tab==='tv-shows')loadTV();else if(tab==='anime')loadAnime();
   }
@@ -1688,6 +1722,65 @@ async function checkAllChannels(force){
   if(btn){btn.classList.remove('checking');btn.disabled=false;}
   if(lbl)lbl.textContent='RECHECK STATUS';
   renderLTVGrid();
+}
+
+/* ── SPORTS HIGHLIGHTS ──
+   Embeds each league/series' official YouTube "uploads" playlist (no API
+   key needed: a channel's uploads playlist ID is just its channel ID with
+   the UC prefix swapped for UU). This is the only reliable, keyless way to
+   surface real, current highlight clips client-side — YouTube's normal
+   search/listing endpoints don't allow cross-origin fetch from a page like
+   this one, but embedding a known public playlist always works. */
+const HL_SOURCES={
+  football:[
+    {name:'Premier League',channel:'UCG5qGWdu8nIRZqJ_GgDwQ-w'},
+    {name:'UEFA Champions League',channel:'UCyGa1YEx9ST66rYrJTGIKOw'},
+    {name:'FIFA',channel:'UCpcTrCXblq78GZrTUTLWeBw'}
+  ],
+  motorsport:[
+    {name:'Formula 1',channel:'UCB_qr75-ydFVKSF9Dmo6izg'},
+    {name:'MotoGP',channel:'UC8pYaQzbBBXg9GIOHRvTmDQ'}
+  ],
+  cricket:[
+    {name:'ICC',channel:'UCt2JXOLNxqry7B_4rRZME3Q'}
+  ]
+};
+let hlCat='football';
+let hlSrcIdx=0;
+function filterHlCat(cat,el){
+  hlCat=cat;hlSrcIdx=0;
+  document.querySelectorAll('#hl-cat-filters .sf-btn').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderHlSources();
+  loadHighlights();
+}
+function renderHlSources(){
+  const wrap=document.getElementById('hl-src-filters');
+  const srcs=HL_SOURCES[hlCat]||[];
+  if(srcs.length<2){wrap.innerHTML='';wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  wrap.innerHTML=`<span class="sub-lbl">SOURCE:</span>`+srcs.map((s,i)=>`<button class="hl-src-btn${i===hlSrcIdx?' active':''}" onclick="setHlSrc(${i},this)">${s.name.toUpperCase()}</button>`).join('');
+}
+function setHlSrc(i,el){
+  hlSrcIdx=i;
+  document.querySelectorAll('#hl-src-filters .hl-src-btn').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  loadHighlights();
+}
+function loadHighlights(){
+  const src=(HL_SOURCES[hlCat]||[])[hlSrcIdx]||HL_SOURCES.football[0];
+  const playlistId='UU'+src.channel.slice(2);
+  const frame=document.getElementById('hl-iframe');
+  if(frame)frame.src=`https://www.youtube.com/embed/videoseries?list=${playlistId}&rel=0`;
+  const nameEl=document.getElementById('hl-note-name');
+  if(nameEl)nameEl.textContent=`${src.name}'s`;
+}
+let hlInited=false;
+function initHighlights(){
+  if(hlInited){loadHighlights();return;}
+  hlInited=true;
+  renderHlSources();
+  loadHighlights();
 }
 
 function ltvPlay(ch){
