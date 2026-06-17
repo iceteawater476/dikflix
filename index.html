@@ -483,8 +483,11 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);padding:
 .hl-src-btn:hover{color:var(--cream);border-color:rgba(245,197,24,0.3)}
 .hl-src-btn.active{background:rgba(245,197,24,0.12);border-color:var(--gold);color:var(--gold)}
 .hl-note{max-width:980px;margin:14px auto 0;font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.6;color:var(--muted);letter-spacing:.3px;text-align:center}
-.nav-tab.hl-tab.active{color:var(--gold)}
-.mob-btn.hl-m.active{color:var(--gold)}
+.sports-mode-tabs{display:flex;gap:10px;padding:0 20px 16px}
+.sm-tab{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:20px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;transition:var(--trans)}
+.sm-tab:hover{color:var(--cream);border-color:rgba(255,255,255,0.18)}
+.sm-tab.active{background:rgba(34,197,94,0.12);border-color:var(--green);color:var(--green)}
+.sm-tab.active#smTabHl{background:rgba(245,197,24,0.12);border-color:var(--gold);color:var(--gold)}
 .f1-player-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at center,rgba(225,6,0,0.07) 0%,#070708 75%)}
 .f1-player-ph-icon{width:64px;height:64px;border-radius:50%;background:rgba(225,6,0,0.12);border:1px solid rgba(225,6,0,0.35);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--f1-red)}
 .f1-player-ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.35);text-align:center;padding:0 20px}
@@ -803,7 +806,6 @@ body.lights-off .page{padding-top:0}
     <button class="nav-tab sport-tab" data-tab="sports" onclick="setTab('sports',this)">⚽ SPORTS</button>
     <button class="nav-tab f1-tab" data-tab="f1" onclick="setTab('f1',this)">🏎 F1</button>
     <button class="nav-tab tv-tab" data-tab="livetv" onclick="setTab('livetv',this)">📡 LIVE TV</button>
-    <button class="nav-tab hl-tab" data-tab="highlights" onclick="setTab('highlights',this)">🎬 HIGHLIGHTS</button>
   </nav>
   <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -865,6 +867,11 @@ body.lights-off .page{padding-top:0}
       <span id="live-count" style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green);letter-spacing:1px"></span>
     </div>
   </div>
+  <div class="sports-mode-tabs">
+    <button class="sm-tab active" id="smTabLive" onclick="setSportsMode('live')">🔴 LIVE &amp; UPCOMING</button>
+    <button class="sm-tab" id="smTabHl" onclick="setSportsMode('highlights')">🎬 HIGHLIGHTS</button>
+  </div>
+  <div id="sports-live-view">
   <div class="sport-filters">
     <button class="sf-btn active" onclick="filterSport('all',this)">ALL SPORTS</button>
     <button class="sf-btn" onclick="filterSport('football',this)">⚽ FOOTBALL</button>
@@ -892,6 +899,21 @@ body.lights-off .page{padding-top:0}
   </div>
   <div id="sports-content" style="padding:12px 0">
     <div class="spinner-wrap"><div class="spinner" style="border-top-color:#22c55e"></div><span>TUNING IN...</span></div>
+  </div>
+  </div>
+  <div id="sports-hl-view" style="display:none">
+    <div class="sport-filters" id="hl-cat-filters">
+      <button class="sf-btn active" onclick="filterHlCat('football',this)">⚽ FOOTBALL</button>
+      <button class="sf-btn" onclick="filterHlCat('motorsport',this)">🏁 MOTORSPORT</button>
+      <button class="sf-btn" onclick="filterHlCat('cricket',this)">🏏 CRICKET</button>
+    </div>
+    <div class="sport-subfilters" id="hl-src-filters" style="display:flex"></div>
+    <div class="section" style="padding-top:8px">
+      <div class="hl-player-shell" id="hl-player-shell">
+        <iframe id="hl-iframe" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen frameborder="0" referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+      </div>
+      <div class="hl-note">Streaming the latest uploads straight from <span id="hl-note-name">the official channel</span> on YouTube — covers everything posted this week and before. Tap the playlist icon in the top-left corner of the player to browse and pick any other recent highlight from the same channel.</div>
+    </div>
   </div>
 </div>
 
@@ -1033,28 +1055,6 @@ body.lights-off .page{padding-top:0}
         <div id="f1-news-list" class="f1-news-grid"><div class="spinner-wrap"><div class="spinner" style="border-top-color:var(--f1-red)"></div></div></div>
       </div>
     </div>
-  </div>
-</div>
-
-<div id="highlights-page" class="page">
-  <div style="padding-top:var(--hh)"></div>
-  <div class="section" style="padding-bottom:10px">
-    <div class="sec-head">
-      <div class="sec-title gt">🎬 MATCH HIGHLIGHTS</div>
-      <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1px">OFFICIAL CHANNELS · UPDATED CONTINUOUSLY</span>
-    </div>
-  </div>
-  <div class="sport-filters" id="hl-cat-filters">
-    <button class="sf-btn active" onclick="filterHlCat('football',this)">⚽ FOOTBALL</button>
-    <button class="sf-btn" onclick="filterHlCat('motorsport',this)">🏁 MOTORSPORT</button>
-    <button class="sf-btn" onclick="filterHlCat('cricket',this)">🏏 CRICKET</button>
-  </div>
-  <div class="sport-subfilters" id="hl-src-filters" style="display:flex"></div>
-  <div class="section" style="padding-top:8px">
-    <div class="hl-player-shell" id="hl-player-shell">
-      <iframe id="hl-iframe" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen frameborder="0" referrerpolicy="no-referrer" loading="lazy"></iframe>
-    </div>
-    <div class="hl-note">Streaming the latest uploads straight from <span id="hl-note-name">the official channel</span> on YouTube — covers everything posted this week and before. Use the playlist controls inside the player to browse other recent highlights from the same channel.</div>
   </div>
 </div>
 
@@ -1231,7 +1231,7 @@ function showPage(id){
   const leavingPlayer=document.getElementById('player-page')?.classList.contains('active');
   if(leavingPlayer&&id!=='player-page'){const f=document.getElementById('pFrame');if(f)f.src='about:blank';}
   if(id!=='livetv-page'&&typeof closeLTVPlayer==='function')closeLTVPlayer();
-  if(id!=='highlights-page'){const hf=document.getElementById('hl-iframe');if(hf&&hf.src)hf.src='';}
+  if(id!=='sports-page'){const hf=document.getElementById('hl-iframe');if(hf&&hf.src)hf.src='';}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});closeSug();
 }
@@ -1244,10 +1244,9 @@ function syncTabs(tab){
 }
 function setTab(tab,el){
   syncTabs(tab);document.getElementById('searchInput').value='';closeSug();
-  if(tab==='sports'){showPage('sports-page');loadSports('all');}
+  if(tab==='sports'){showPage('sports-page');setSportsMode('live');loadSports('all');}
   else if(tab==='f1'){showPage('f1-page');loadF1();}
   else if(tab==='livetv'){showPage('livetv-page');initLiveTV();}
-  else if(tab==='highlights'){showPage('highlights-page');initHighlights();}
   else{showPage('home-page');renderCW();
     if(tab==='home')initHome();else if(tab==='movies')loadMovies();else if(tab==='tv-shows')loadTV();else if(tab==='anime')loadAnime();
   }
@@ -1745,6 +1744,17 @@ const HL_SOURCES={
     {name:'ICC',channel:'UCt2JXOLNxqry7B_4rRZME3Q'}
   ]
 };
+let sportsMode='live';
+function setSportsMode(mode){
+  if(sportsMode===mode)return;
+  sportsMode=mode;
+  document.getElementById('smTabLive').classList.toggle('active',mode==='live');
+  document.getElementById('smTabHl').classList.toggle('active',mode==='highlights');
+  document.getElementById('sports-live-view').style.display=mode==='live'?'':'none';
+  document.getElementById('sports-hl-view').style.display=mode==='highlights'?'':'none';
+  if(mode==='highlights'){initHighlights();}
+  else{const hf=document.getElementById('hl-iframe');if(hf&&hf.src)hf.src='';}
+}
 let hlCat='football';
 let hlSrcIdx=0;
 function filterHlCat(cat,el){
