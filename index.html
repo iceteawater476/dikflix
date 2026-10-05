@@ -1007,7 +1007,10 @@ header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);padding:
 
 <script>
 const P3='https://image.tmdb.org/t/p/w300',P5='https://image.tmdb.org/t/p/w500';
-async function tmdb(p,q=''){const r=await fetch(`/api/tmdb?p=${encodeURIComponent(p)}&${q}`);if(!r.ok)throw new Error('TMDB '+r.status);return r.json();}
+/* Movies/TV data needs TMDB. Default: the /api/tmdb proxy (key stays server-side).
+   No proxy deployed? Paste a TMDB key here to call TMDB directly (key becomes public). */
+const TMDB_KEY='';
+async function tmdb(p,q=''){const r=await fetch(TMDB_KEY?`https://api.themoviedb.org/3${p}?api_key=${TMDB_KEY}&language=en-US&${q}`:`/api/tmdb?p=${encodeURIComponent(p)}&${q}`);if(!r.ok)throw new Error('TMDB '+r.status);return r.json();}
 
 const SP='https://streamed.pk';
 async function spFetch(path){const r=await fetch(`${SP}${path}`);if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}
@@ -1137,7 +1140,7 @@ async function initHome(){
 }
 function runHome(tab){
   const p=({home:initHome,movies:loadMovies,'tv-shows':loadTV,anime:loadAnime}[tab]||initHome)();const t=homeTok;
-  p.catch(()=>{if(t===homeTok)document.getElementById('home-content').innerHTML=`<div class="empty-state"><div class="ei">📡</div><p>COULDN'T LOAD</p><button class="btn-o" onclick="setTab('${tab}',qTab('${tab}'))">RETRY</button></div>`;});
+  p.catch(()=>{if(t===homeTok)document.getElementById('home-content').innerHTML=`<div class="empty-state"><div class="ei">📡</div><p>COULDN'T LOAD</p><p style="font-size:11px;opacity:.6;max-width:420px;margin:6px auto">Movie/TV data comes from /api/tmdb. Deploy api/tmdb.js with a TMDB_KEY env var, or set TMDB_KEY in this file.</p><button class="btn-o" onclick="setTab('${tab}',qTab('${tab}'))">RETRY</button></div>`;});
 }
 function spin(){return '<div class="spinner-wrap"><div class="spinner"></div><span>LOADING...</span></div>';}
 function renderSec(container,title,items,type,anime){
